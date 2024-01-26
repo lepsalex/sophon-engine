@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-namespace Core {
+namespace Sophon {
 
 	void PrintHelloWorld()
 	{

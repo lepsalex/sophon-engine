@@ -3,7 +3,7 @@
 An exercise in what's possible.  
 
 ## Project Goals
-- [ ] Entry-point - what happens when we launch the Engine
+- [x] Entry-point - launch the engine from a client
 - [ ] Application Layer - app life-cycle, time, etc
 - [ ] Window Layer - input, events
 - [ ] Renderer

@@ -1,6 +1,18 @@
-#include "Core/Core.h"
+#include <Sophon.h>
 
-int main()
+class App : public Sophon::Application
 {
-	Core::PrintHelloWorld();
+public:
+	App() {
+
+	}
+
+	~App() {
+
+	}
+};
+
+Sophon::Application* Sophon::CreateApplication()
+{
+	return new App();
 }
