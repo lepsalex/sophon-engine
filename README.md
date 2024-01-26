@@ -8,7 +8,9 @@ An exercise in what's possible.
 - [ ] Window Layer - input, events
 - [ ] Renderer
 - [ ] Render API Abstraction
-- [ ] Debugging Support - logging system, etc
+- [ ] Debugging Support
+	- [x] logging
+	- [ ] ???
 - [ ] Scripting Language - C#, Lua, ???
 - [ ] Memory - allocator, tracking, etc
 - [ ] Entity Component System (ECS)
