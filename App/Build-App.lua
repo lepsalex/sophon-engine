@@ -9,6 +9,10 @@ project "App"
 
    includedirs
    {
+      -- Vendor
+      "%{wks.location}/Core/Vendor/spdlog/include",
+
+      -- App
       "Source",
 
 	  -- Include Core
@@ -25,7 +29,7 @@ project "App"
 
    filter "system:windows"
        systemversion "latest"
-       defines { "WINDOWS" }
+       defines { "SFN_PLATFORM_WINDOWS" }
 
    filter "configurations:Debug"
        defines { "DEBUG" }

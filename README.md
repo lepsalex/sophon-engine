@@ -17,3 +17,4 @@ An exercise in what's possible.
 - [ ] Physics
 - [ ] File I/O / VFS
 - [ ] Build System / Custom File Format
+	- [x] PreMake

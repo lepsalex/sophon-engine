@@ -10,7 +10,7 @@ workspace "Sophon Engine"
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
-group "Core"
+group "Engine"
 	include "Core/Build-Core.lua"
 group ""
 

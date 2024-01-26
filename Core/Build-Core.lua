@@ -9,7 +9,8 @@ project "Core"
 
    includedirs
    {
-      "Source"
+      "Source",
+      "Vendor/spdlog/include"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
@@ -17,7 +18,7 @@ project "Core"
 
    filter "system:windows"
        systemversion "latest"
-       defines { }
+       defines { "SFN_PLATFORM_WINDOWS" }
 
    filter "configurations:Debug"
        defines { "DEBUG" }
