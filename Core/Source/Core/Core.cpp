@@ -1,6 +1,5 @@
+#include "sfnpch.h"
 #include "Core.h"
-
-#include <iostream>
 
 namespace Sophon {
 

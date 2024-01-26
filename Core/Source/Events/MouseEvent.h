@@ -2,8 +2,6 @@
 
 #include "Events/Event.h"
 
-#include <sstream>
-
 namespace Sophon {
 
 	class MouseMovedEvent : public Event

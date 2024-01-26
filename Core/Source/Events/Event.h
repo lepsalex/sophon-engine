@@ -2,9 +2,6 @@
 
 #include "Core/Core.h"
 
-#include <string>
-#include <functional>
-
 namespace Sophon {
 
 	// Event in Sophon are blocking (for now).
