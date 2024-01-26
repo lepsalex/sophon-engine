@@ -5,7 +5,14 @@ An exercise in what's possible.
 ## Project Goals
 - [x] Entry-point - launch the engine from a client
 - [ ] Application Layer - app life-cycle, time, etc
-- [ ] Window Layer - input, events
+	- [ ] Create window
+	- [ ] Subscribe to window event
+- [ ] Window Layer - input, events, etc
+	- [ ] Publish input/events
+- [ ] Event System
+	- [ ] Propagate through layers
+	- [ ] Basic synchronous event system (starting out)
+	- [ ] Buffered event system (non-blocking)
 - [ ] Renderer
 - [ ] Render API Abstraction
 - [ ] Debugging Support
