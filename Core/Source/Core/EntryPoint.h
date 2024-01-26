@@ -4,8 +4,7 @@
 
 extern Sophon::Application* Sophon::CreateApplication();
 
-int main()
-{
+int main() {
 	// todo: temp will be moved
 	Sophon::Log::Init();
 	SFN_CORE_WARN("Init Log!");

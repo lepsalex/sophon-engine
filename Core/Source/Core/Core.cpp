@@ -4,10 +4,9 @@
 
 namespace Sophon {
 
-	void PrintHelloWorld()
-	{
+	void PrintHelloWorld() {
 		std::cout << "Hello World!\n";
 		std::cin.get();
 	}
 
-}
+}  // namespace Sophon

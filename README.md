@@ -10,9 +10,9 @@ An exercise in what's possible.
 - [ ] Window Layer - input, events, etc
 	- [ ] Publish input/events
 - [ ] Event System
-	- [ ] Propagate through layers
-	- [ ] Basic synchronous event system (starting out)
+	- [x] Basic synchronous event system (starting out)
 	- [ ] Buffered event system (non-blocking)
+	- [ ] Propagate through layers
 - [ ] Renderer
 - [ ] Render API Abstraction
 - [ ] Debugging Support

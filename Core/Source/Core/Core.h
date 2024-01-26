@@ -1,7 +1,3 @@
 #pragma once
 
-namespace Sophon {
-
-	void PrintHelloWorld();
-
-}
+#define BIT(x) (1 << x)
