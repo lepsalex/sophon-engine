@@ -5,14 +5,21 @@
 #include "Events/ApplicationEvent.h"
 
 namespace Sophon {
-Application::Application() { }
+Application::Application()
+{
+    m_Window = Window::Create();
+}
 
 Application::~Application() { }
 void Application::Run()
 {
+    // Event Temp
     WindowResizeEvent e(100, 100);
     SFN_CORE_ERROR(e);
 
-    while (true) { };
+    // Window Temp
+    while (m_Running) {
+        m_Window->OnUpdate();
+    }
 }
 }

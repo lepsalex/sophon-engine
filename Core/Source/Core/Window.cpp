@@ -7,10 +7,10 @@
 #endif
 
 namespace Sophon {
-Window* Window::Create(const WindowProps& props)
+Scope<Window> Window::Create(const WindowProps& props)
 {
 #ifdef SFN_PLATFORM_WINDOWS
-    return new WindowsWindow(props);
+    return CreateScope<WindowsWindow>(props);
 #else
     SFN_CORE_ASSERT(false, "Unknown platform!");
     return nullptr;
