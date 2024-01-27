@@ -10,7 +10,8 @@ project "Core"
    includedirs
    {
       "Source",
-      "Vendor/spdlog/include"
+      "%{IncludeDir.SPDLOG}",
+      "%{IncludeDir.GLFW}"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
@@ -24,7 +25,7 @@ project "Core"
        defines { "SFN_PLATFORM_WINDOWS" }
 
    filter "configurations:Debug"
-       defines { "DEBUG" }
+       defines { "SFN_DEBUG" }
        runtime "Debug"
        symbols "On"
 

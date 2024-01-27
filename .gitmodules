@@ -1,3 +1,6 @@
 [submodule "Core/Vendor/spdlog"]
 	path = Core/Vendor/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "Core/Vendor/glfw"]
+	path = Core/Vendor/glfw
+	url = https://github.com/Project-Sophon/glfw

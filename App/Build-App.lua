@@ -10,7 +10,7 @@ project "App"
    includedirs
    {
       -- Vendor
-      "%{wks.location}/Core/Vendor/spdlog/include",
+      "%{IncludeDir.SPDLOG}",
 
       -- App
       "Source",
@@ -21,7 +21,8 @@ project "App"
 
    links
    {
-      "Core"
+      "Core",
+      "GLFW"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

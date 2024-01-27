@@ -1,4 +1,5 @@
--- premake5.lua
+include "Dependencies.lua"
+
 workspace "Sophon Engine"
    architecture "x64"
    configurations { "Debug", "Release", "Dist" }
@@ -9,6 +10,10 @@ workspace "Sophon Engine"
       buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
+
+group "Dependencies"
+  include "Core/Vendor/GLFW"
+group ""
 
 group "Engine"
 	include "Core/Build-Core.lua"
