@@ -13,6 +13,6 @@ void Application::Run()
     WindowResizeEvent e(100, 100);
     SFN_CORE_ERROR(e);
 
-    while (true);
+    while (true) { };
 }
 }
