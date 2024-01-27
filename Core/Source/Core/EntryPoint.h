@@ -1,18 +1,21 @@
 #pragma once
 
+#include "Base.h"
+
 #ifdef SFN_PLATFORM_WINDOWS
 
 extern Sophon::Application* Sophon::CreateApplication();
 
-int main() {
-	// todo: temp will be moved
-	Sophon::Log::Init();
-	SFN_CORE_WARN("Init Log!");
-	SFN_CLIENT_INFO("Other Log!");
+int main()
+{
+    // todo: temp will be moved
+    Sophon::Log::Init();
+    SFN_CORE_WARN("Init Log!");
+    SFN_CLIENT_INFO("Other Log!");
 
-	auto app = Sophon::CreateApplication();
-	app->Run();
-	delete app;
+    auto app = Sophon::CreateApplication();
+    app->Run();
+    delete app;
 }
 
 #else
