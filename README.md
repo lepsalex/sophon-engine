@@ -5,8 +5,10 @@ An exercise in what's possible.
 ## Project Goals
 - [x] Entry-point - launch the engine from a client
 - [ ] Application Layer - app life-cycle, time, etc
-	- [ ] Create window
-	- [ ] Subscribe to window event
+	- [x] Create window
+	- [ ] Subscribe to window eve
+		- [x] Close
+		- [ ] Resize
 - [ ] Window Layer - input, events, etc
 	- [ ] Publish input/events
 - [ ] Event System
