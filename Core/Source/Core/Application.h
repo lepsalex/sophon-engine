@@ -2,8 +2,9 @@
 
 #include "Base.h"
 
+#include "LayerStack.h"
+
 #include "Events/ApplicationEvent.h"
-#include "Events/Event.h"
 #include "Window.h"
 
 namespace Sophon {
@@ -14,6 +15,9 @@ public:
 
     void OnEvent(Event& e);
 
+    void PushLayer(Layer* layer);
+    void PushOverlay(Layer* layer);
+
     void Run();
 
 private:
@@ -22,6 +26,7 @@ private:
 private:
     Scope<Window> m_Window;
     bool m_Running = true;
+    LayerStack m_LayerStack;
 };
 
 // To be defined in CLIENT

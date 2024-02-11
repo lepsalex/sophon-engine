@@ -11,14 +11,29 @@ Application::Application()
 
 Application::~Application() { }
 
+void Application::PushLayer(Layer* layer)
+{
+    m_LayerStack.PushLayer(layer);
+    layer->OnAttach();
+}
+
+void Application::PushOverlay(Layer* layer)
+{
+    m_LayerStack.PushOverlay(layer);
+    layer->OnAttach();
+}
+
 void Application::Run()
 {
     // Event Temp
     WindowResizeEvent e(100, 100);
     SFN_CORE_ERROR(e);
 
-    // Window Temp
     while (m_Running) {
+        // call update on every layer (from bottom to top)
+        for (Layer* layer : m_LayerStack)
+            layer->OnUpdate();
+
         m_Window->OnUpdate();
     }
 }
@@ -29,8 +44,13 @@ void Application::OnEvent(Event& e)
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(SFN_BIND_EVENT_FN(Application::OnWindowClose));
 
-    // Trace log the event
-    SFN_CORE_TRACE("{0}", e);
+    // Propogate event "down" through layers until it is handled
+    // (from top to bottom, ex: Overlay -> UI -> Debug -> Scene)
+    for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it) {
+        if (e.Handled)
+            break;
+        (*it)->OnEvent(e);
+    }
 }
 
 bool Application::OnWindowClose(WindowCloseEvent& e)

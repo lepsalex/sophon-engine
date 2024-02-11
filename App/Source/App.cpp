@@ -1,18 +1,36 @@
 #include <Sophon.h>
 
-class App : public Sophon::Application
-{
+class ExampleLayer : public Sophon::Layer {
 public:
-	App() {
+    ExampleLayer()
+        : Layer("Example")
+    {
+    }
 
-	}
+    void OnUpdate() override
+    {
+        SFN_CLIENT_INFO("ExampleLayer::Update");
+    }
 
-	~App() {
+    void OnEvent(Sophon::Event& event) override
+    {
+        SFN_CLIENT_TRACE("{0}", event);
+    }
+};
 
-	}
+class App : public Sophon::Application {
+public:
+    App()
+    {
+        PushLayer(new ExampleLayer());
+    }
+
+    ~App()
+    {
+    }
 };
 
 Sophon::Application* Sophon::CreateApplication()
 {
-	return new App();
+    return new App();
 }

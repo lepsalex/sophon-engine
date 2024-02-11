@@ -9,8 +9,11 @@ An exercise in what's possible.
 	- [ ] Subscribe to window eve
 		- [x] Close
 		- [ ] Resize
-- [ ] Window Layer - input, events, etc
-	- [ ] Publish input/events
+- [ ] Window Layers
+  - [x] Basic layer and layer-stack classes
+	- [x] Update layers bottom-up
+	- [x] Propagate input/events top-down through layers
+	- [ ] Refactor/Review
 - [ ] Event System
 	- [x] Basic synchronous event system (starting out)
 	- [ ] Buffered event system (non-blocking)
