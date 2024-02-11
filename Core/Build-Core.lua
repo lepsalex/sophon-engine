@@ -11,7 +11,14 @@ project "Core"
    {
       "Source",
       "%{IncludeDir.SPDLOG}",
-      "%{IncludeDir.GLFW}"
+      "%{IncludeDir.GLFW}",
+      "%{IncludeDir.Glad}"
+   }
+
+    links
+   {
+      "GLFW",
+      "Glad"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
