@@ -21,9 +21,7 @@ project "App"
 
    links
    {
-      "Core",
-      "GLFW",
-      "Glad"
+      "Core"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")

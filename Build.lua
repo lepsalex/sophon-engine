@@ -14,6 +14,7 @@ OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 group "Dependencies"
   include "Core/Vendor/GLFW"
   include "Core/Vendor/Glad"
+  include "Core/Vendor/ImGui"
 group ""
 
 group "Engine"
