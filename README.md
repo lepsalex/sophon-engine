@@ -1,6 +1,14 @@
 # Sophon Engine
 
-An exercise in what's possible.  
+An exercise in what's possible.
+
+## Development Quick Start
+***Note: Only the Windows platform is really supported ATM but Linux supportshouldn't be to much of an issue if/when that need arises***
+1. Clone the repo
+2. Init/Update the submodules
+3. Run the Premake script for your platform (/Scripts/Setup-#PLATFORM#.ext]
+4. Open the VisualStudio Project
+5. Profit (or just build/run)
 
 ## Project Goals
 - [x] Entry-point - launch the engine from a client
