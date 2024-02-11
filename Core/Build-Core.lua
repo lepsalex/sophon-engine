@@ -7,6 +7,10 @@ project "Core"
 
    files { "Source/**.h", "Source/**.cpp" }
 
+   defines {
+      "GLFW_INCLUDE_NONE"
+   }
+
    includedirs
    {
       "Source",
