@@ -1,8 +1,11 @@
-# Directories
-.vs/
+# Binaries
 Binaries/
+**/bin/
+bin-int/
+Intermediates/
 
-# Files
+# Project Files
+.vs/
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
