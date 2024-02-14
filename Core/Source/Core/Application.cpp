@@ -3,10 +3,19 @@
 #include "Application.h"
 
 namespace Sophon {
+
+Application* Application::s_Instance = nullptr;
+
 Application::Application()
 {
+    SFN_CORE_ASSERT(!s_Instance, "Application already exists!");
+    s_Instance = this;
+
     m_Window = Window::Create();
     m_Window->SetEventCallback(SFN_BIND_EVENT_FN(Application::OnEvent));
+
+    m_ImGuiLayer = new ImGuiLayer();
+    PushOverlay(m_ImGuiLayer);
 }
 
 Application::~Application() { }
@@ -30,12 +39,26 @@ void Application::Run()
     SFN_CORE_ERROR(e);
 
     while (m_Running) {
-        // call update on every layer (from bottom to top)
-        for (Layer* layer : m_LayerStack)
-            layer->OnUpdate();
+        if (!m_Minimized) {
+            // call update on every layer (from bottom to top)
+            for (Layer* layer : m_LayerStack)
+                layer->OnUpdate();
+
+            m_ImGuiLayer->Begin();
+
+            for (Layer* layer : m_LayerStack)
+                layer->OnImGuiRender();
+
+            m_ImGuiLayer->End();
+        }
 
         m_Window->OnUpdate();
     }
+}
+
+void Application::Close()
+{
+    m_Running = false;
 }
 
 void Application::OnEvent(Event& e)
@@ -57,5 +80,16 @@ bool Application::OnWindowClose(WindowCloseEvent& e)
 {
     m_Running = false;
     return true;
+}
+bool Application::OnWindowResize(WindowResizeEvent& e)
+{
+    if (e.GetWidth() == 0 || e.GetHeight() == 0) {
+        m_Minimized = true;
+        return false;
+    }
+
+    m_Minimized = false;
+
+    return false;
 }
 }
