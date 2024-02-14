@@ -12,11 +12,8 @@ project "App"
       -- Vendor
       "%{IncludeDir.SPDLOG}",
 
-      -- App
-      "Source",
-
-	  -- Include Core
-	  "../Core/Source"
+	  -- Core
+      "%{wks.location}/Core/Source",
    }
 
    links
