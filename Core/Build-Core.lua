@@ -5,7 +5,12 @@ project "Core"
    targetdir "Binaries/%{cfg.buildcfg}"
    staticruntime "off"
 
-   files { "Source/**.h", "Source/**.cpp" }
+   files { 
+    "Source/**.h",
+    "Source/**.cpp",
+    "Vendor/glm/glm/**.hpp",
+	"Vendor/glm/glm/**.inl",
+ }
 
    defines {
       "GLFW_INCLUDE_NONE"
@@ -17,7 +22,8 @@ project "Core"
       "%{IncludeDir.SPDLOG}",
       "%{IncludeDir.GLFW}",
       "%{IncludeDir.Glad}",
-      "%{IncludeDir.ImGui}"
+      "%{IncludeDir.ImGui}",
+      "%{IncludeDir.glm}"
    }
 
     links

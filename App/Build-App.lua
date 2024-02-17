@@ -11,6 +11,7 @@ project "App"
    {
       -- Vendor
       "%{IncludeDir.SPDLOG}",
+      "%{IncludeDir.glm}",
 
 	  -- Core
       "%{wks.location}/Core/Source",
