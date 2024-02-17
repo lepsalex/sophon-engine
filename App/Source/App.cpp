@@ -9,12 +9,14 @@ public:
 
     void OnUpdate() override
     {
-        SFN_CLIENT_INFO("ExampleLayer::Update");
+        // SFN_CLIENT_INFO("ExampleLayer::Update");
+        auto [xpos, ypos] = Sophon::Input().GetMousePosition();
+        SFN_CLIENT_INFO("MouseX: {0}, MouseY: {1}", xpos, ypos);
     }
 
     void OnEvent(Sophon::Event& event) override
     {
-        SFN_CLIENT_TRACE("{0}", event);
+        // SFN_CLIENT_TRACE("{0}", event);
     }
 };
 

@@ -14,7 +14,7 @@ An exercise in what's possible.
 - [x] Entry-point - launch the engine from a client
 - [ ] Application Layer - app life-cycle, time, etc
 	- [x] Create window
-	- [ ] Subscribe to window eve
+	- [ ] Subscribe to window events
 		- [x] Close
 		- [ ] Resize
 - [ ] Window Layers
@@ -22,6 +22,8 @@ An exercise in what's possible.
 	- [x] Update layers bottom-up
 	- [x] Propagate input/events top-down through layers
 	- [ ] Refactor/Review
+- [ ] Input
+  - [x] Poll user input
 - [ ] Event System
 	- [x] Basic synchronous event system (starting out)
 	- [ ] Buffered event system (non-blocking)
@@ -30,6 +32,8 @@ An exercise in what's possible.
 - [ ] Render API Abstraction
 - [ ] Debugging Support
 	- [x] logging
+	- [x] basic ImGui
+	- [ ] useful ImGui
 	- [ ] ???
 - [ ] Scripting Language - C#, Lua, ???
 - [ ] Memory - allocator, tracking, etc
