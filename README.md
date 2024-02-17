@@ -35,9 +35,9 @@ An exercise in what's possible.
 - [ ] Render API Abstraction
 - [ ] Debugging Support
 	- [x] logging
-	- [x] basic ImGui
+	- [x] basic ImGui (glfw)
 	- [ ] useful ImGui
-	- [ ] ???
+	- [ ] other ImGui platforms?
 - [ ] Scripting Language - C#, Lua, ???
 - [ ] Memory - allocator, tracking, etc
 - [ ] Entity Component System (ECS)
