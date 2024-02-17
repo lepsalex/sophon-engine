@@ -1,13 +1,22 @@
 include "Dependencies.lua"
 
 workspace "Sophon Engine"
-   architecture "x64"
-   configurations { "Debug", "Release", "Dist" }
-   startproject "App"
+  architecture "x64"
+  startproject "App"
 
-   -- Workspace-wide build options for MSVC
-   filter "system:windows"
-      buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }
+  configurations {
+    "Debug",
+    "Release",
+    "Dist"
+  }
+
+	flags {
+		"MultiProcessorCompile"
+	}
+
+  -- Workspace-wide build options for MSVC
+  filter "system:windows"
+    buildoptions {"/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus"}
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
@@ -18,7 +27,7 @@ group "Dependencies"
 group ""
 
 group "Engine"
-	include "Core/Build-Core.lua"
+  include "Core/Build-Core.lua"
 group ""
 
 include "App/Build-App.lua"

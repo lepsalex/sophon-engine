@@ -1,47 +1,52 @@
 project "App"
-   kind "ConsoleApp"
-   language "C++"
-   cppdialect "C++20"
-   targetdir "Binaries/%{cfg.buildcfg}"
-   staticruntime "off"
+    kind "ConsoleApp"
+    language "C++"
+    cppdialect "C++20"
+    targetdir "Binaries/%{cfg.buildcfg}"
+    staticruntime "off"
 
-   files { "Source/**.h", "Source/**.cpp" }
+    files {
+        "Source/**.h",
+        "Source/**.cpp"
+    }
 
-   includedirs
-   {
-      -- Vendor
-      "%{IncludeDir.SPDLOG}",
-      "%{IncludeDir.glm}",
+    defines {
+        "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
+    }
 
-	  -- Core
-      "%{wks.location}/Core/Source",
-   }
+    includedirs {
+        -- Vendor
+        "%{IncludeDir.SPDLOG}",
+        "%{IncludeDir.glm}",
+        
+        -- Core
+        "%{wks.location}/Core/Source"
+    }
 
-   links
-   {
-      "Core"
-   }
+    links {
+        "Core"
+    }
 
-   targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+    targetdir("../Binaries/" .. OutputDir .. "/%{prj.name}")
+    objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
-   filter "system:windows"
-       systemversion "latest"
-       defines { "SFN_PLATFORM_WINDOWS" }
+    filter "system:windows"
+        systemversion "latest"
+        defines {"SFN_PLATFORM_WINDOWS"}
 
-   filter "configurations:Debug"
-       defines { "DEBUG" }
-       runtime "Debug"
-       symbols "On"
+    filter "configurations:Debug"
+        defines {"DEBUG"}
+        runtime "Debug"
+        symbols "On"
 
-   filter "configurations:Release"
-       defines { "RELEASE" }
-       runtime "Release"
-       optimize "On"
-       symbols "On"
+    filter "configurations:Release"
+        defines {"RELEASE"}
+        runtime "Release"
+        optimize "On"
+        symbols "On"
 
-   filter "configurations:Dist"
-       defines { "DIST" }
-       runtime "Release"
-       optimize "On"
-       symbols "Off"
+    filter "configurations:Dist"
+        defines {"DIST"}
+        runtime "Release"
+        optimize "On"
+        symbols "Off"
