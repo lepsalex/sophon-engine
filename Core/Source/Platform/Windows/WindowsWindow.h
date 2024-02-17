@@ -1,8 +1,9 @@
 #pragma once
 
-#include <GLFW/glfw3.h>
-
 #include "Core/Window.h"
+#include "Renderer/GraphicsContext.h"
+
+#include <GLFW/glfw3.h>
 
 namespace Sophon {
 class WindowsWindow : public Window {
@@ -31,6 +32,7 @@ private:
 
 private:
     GLFWwindow* m_Window;
+    Scope<GraphicsContext> m_Context;
 
     struct WindowData {
         std::string Title;

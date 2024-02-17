@@ -6,12 +6,11 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
-// TODO: This should probably be in a graphics context class
-#include <glad/glad.h>
+#include "Platform/OpenGL/OpenGLContext.h"
 
 namespace Sophon {
 
-static unsigned int s_GLFWWindowCount = 0;
+static uint8_t s_GLFWWindowCount = 0;
 
 static void GLFWErrorCallback(int error, const char* description)
 {
@@ -34,8 +33,7 @@ void WindowsWindow::Init(const WindowProps& props)
     m_Data.Width = props.Width;
     m_Data.Height = props.Height;
 
-    SFN_CORE_INFO("Creating window: {0} ({1}, {2})", props.Title, props.Width,
-        props.Height);
+    SFN_CORE_INFO("Creating window: {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
     // Ensure we only init and register the error callback GLFW once
     if (s_GLFWWindowCount == 0) {
@@ -49,9 +47,8 @@ void WindowsWindow::Init(const WindowProps& props)
     ++s_GLFWWindowCount;
 
     // Create the graphics context
-    glfwMakeContextCurrent(m_Window);
-    int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-    SFN_CORE_ASSERT(status, "Failed to initialize Glad!");
+    m_Context = GraphicsContext::Create(m_Window);
+    m_Context->Init();
 
     // Window Setup
     glfwSetWindowUserPointer(m_Window, &m_Data);
@@ -151,7 +148,7 @@ void WindowsWindow::Shutdown()
 void WindowsWindow::OnUpdate()
 {
     glfwPollEvents();
-    glfwSwapBuffers(m_Window);
+    m_Context->SwapBuffers();
 }
 
 void WindowsWindow::SetVSync(bool enabled)
