@@ -7,3 +7,6 @@
 [submodule "Core/Vendor/imgui"]
 	path = Core/Vendor/imgui
 	url = https://github.com/Project-Sophon/imgui
+[submodule "Core/Vendor/glm"]
+	path = Core/Vendor/glm
+	url = https://github.com/g-truc/glm.git
