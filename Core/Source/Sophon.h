@@ -8,6 +8,8 @@
 #include "Core/Assert.h"
 
 #include "Core/Input.h"
+#include "Core/KeyCodes.h"
+#include "Core/MouseCodes.h"
 
 #include "ImGui/ImGuiLayer.h"
 

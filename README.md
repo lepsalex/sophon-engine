@@ -24,6 +24,9 @@ An exercise in what's possible.
 	- [ ] Refactor/Review
 - [ ] Input
   - [x] Poll user input
+  - [x] Key codes
+  - [x] Mouse codes
+  - [ ] Decouple key/mouse codes from GLFW?
 - [ ] Event System
 	- [x] Basic synchronous event system (starting out)
 	- [ ] Buffered event system (non-blocking)

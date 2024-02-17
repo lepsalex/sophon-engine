@@ -2,6 +2,8 @@
 
 #include "Events/Event.h"
 
+#include "Core/MouseCodes.h"
+
 namespace Sophon {
 
 class MouseMovedEvent : public Event {
@@ -54,21 +56,21 @@ private:
 
 class MouseButtonEvent : public Event {
 public:
-    int GetMouseButton() const { return m_Button; }
+    MouseCode GetMouseButton() const { return m_Button; }
 
     EVENT_CLASS_CATEGORY(EventCategoryMouse | EventCategoryInput | EventCategoryMouseButton)
 protected:
-    MouseButtonEvent(const int button)
+    MouseButtonEvent(const MouseCode button)
         : m_Button(button)
     {
     }
 
-    int m_Button;
+    MouseCode m_Button;
 };
 
 class MouseButtonPressedEvent : public MouseButtonEvent {
 public:
-    MouseButtonPressedEvent(const int button)
+    MouseButtonPressedEvent(const MouseCode button)
         : MouseButtonEvent(button)
     {
     }
@@ -85,7 +87,7 @@ public:
 
 class MouseButtonReleasedEvent : public MouseButtonEvent {
 public:
-    MouseButtonReleasedEvent(const int button)
+    MouseButtonReleasedEvent(const MouseCode button)
         : MouseButtonEvent(button)
     {
     }

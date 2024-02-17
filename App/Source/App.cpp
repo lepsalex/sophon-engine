@@ -10,8 +10,8 @@ public:
     void OnUpdate() override
     {
         // SFN_CLIENT_INFO("ExampleLayer::Update");
-        auto [xpos, ypos] = Sophon::Input().GetMousePosition();
-        SFN_CLIENT_INFO("MouseX: {0}, MouseY: {1}", xpos, ypos);
+        if (Sophon::Input::IsKeyPressed(Sophon::Key::Space))
+            SFN_CLIENT_TRACE("Space is being pressed!");
     }
 
     void OnEvent(Sophon::Event& event) override
