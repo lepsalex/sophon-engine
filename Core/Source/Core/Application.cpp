@@ -2,6 +2,9 @@
 
 #include "Application.h"
 
+// TODO: Temp, remove after renderer
+#include <glad/glad.h>
+
 namespace Sophon {
 
 Application* Application::s_Instance = nullptr;
@@ -40,6 +43,11 @@ void Application::Run()
 
     while (m_Running) {
         if (!m_Minimized) {
+
+            // TODO: Temp, move to renderer
+            glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+
             // call update on every layer (from bottom to top)
             for (Layer* layer : m_LayerStack)
                 layer->OnUpdate();
@@ -67,7 +75,7 @@ void Application::OnEvent(Event& e)
     EventDispatcher dispatcher(e);
     dispatcher.Dispatch<WindowCloseEvent>(SFN_BIND_EVENT_FN(Application::OnWindowClose));
 
-    // Propogate event "down" through layers until it is handled
+    // Propagate event "down" through layers until it is handled
     // (from top to bottom, ex: Overlay -> UI -> Debug -> Scene)
     for (auto it = m_LayerStack.rbegin(); it != m_LayerStack.rend(); ++it) {
         if (e.Handled)

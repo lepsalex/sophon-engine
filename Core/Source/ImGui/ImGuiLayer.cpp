@@ -12,7 +12,6 @@
 
 // TODO: TEMPORARY
 #include <GLFW/glfw3.h>
-#include <glad/glad.h>
 
 namespace Sophon {
 ImGuiLayer::ImGuiLayer()
@@ -94,17 +93,6 @@ void ImGuiLayer::End()
 
     // Rendering
     ImGui::Render();
-
-    // TODO: TEMP TO REMOVE (once we have a real renderer)
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    GLFWwindow* window = static_cast<GLFWwindow*>(app.GetWindow().GetNativeWindow());
-    int display_w, display_h;
-    glfwGetFramebufferSize(window, &display_w, &display_h);
-    glViewport(0, 0, display_w, display_h);
-    glClearColor(clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w);
-    glClear(GL_COLOR_BUFFER_BIT);
-    // END TO REMOVRE
-
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
     // Update and Render additional Platform Windows
