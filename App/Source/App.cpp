@@ -9,6 +9,10 @@ public:
 
     void OnUpdate() override
     {
+        // Render
+        Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.2f, 1.0f });
+        Sophon::RenderCommand::Clear();
+
         // SFN_CLIENT_INFO("ExampleLayer::Update");
         if (Sophon::Input::IsKeyPressed(Sophon::Key::Space))
             SFN_CLIENT_TRACE("Space is being pressed!");

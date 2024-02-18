@@ -33,6 +33,9 @@ An exercise in what's possible.
 	- [ ] Propagate through layers
 - [ ] Renderer
 - [ ] Render API Abstraction
+  - [x] SetViewport 
+  - [x] SetClearColor
+	- [x] Clear
 - [ ] Debugging Support
 	- [x] logging
 	- [x] basic ImGui (glfw)
