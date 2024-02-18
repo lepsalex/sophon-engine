@@ -13,6 +13,11 @@
 
 #include "ImGui/ImGuiLayer.h"
 
+// ---Renderer-----------------------
+#include "Renderer/Renderer.h"
+#include "Renderer/RenderCommand.h"
+// ----------------------------------
+
 // ---Entry Point--------------------
 #include "Core/EntryPoint.h"
 // ----------------------------------
