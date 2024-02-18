@@ -37,8 +37,13 @@ An exercise in what's possible.
 	- [ ] Buffered event system (non-blocking)
 	- [ ] Propagate through layers
 - [ ] Renderer
+  - [ ] Generic Abstractions
+    - [x] VertexBuffer
+    - [x] VertexBufferLayout
+    - [x] IndexBuffer
   - [ ] OpenGL Renderer
     - [x] VertexBuffer (basic)
+    - [x] VertexBufferLayout
     - [x] IndexBuffer (basic)
     - [x] Shader (basic)
 - [ ] Render API Abstraction
