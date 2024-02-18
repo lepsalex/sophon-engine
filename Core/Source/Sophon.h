@@ -18,6 +18,8 @@
 #include "Renderer/RenderCommand.h"
 
 #include "Renderer/Buffer.h"
+#include "Renderer/Shader.h"
+#include "Renderer/VertexArray.h"
 // ----------------------------------
 
 // ---Entry Point--------------------

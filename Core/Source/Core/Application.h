@@ -8,13 +8,6 @@
 #include "Window.h"
 #include <ImGui/ImGuiLayer.h>
 
-// TODO: TEMP RENDERING TEST START
-#include "Renderer/VertexArray.h"
-#include "Renderer/Buffer.h"
-#include "Renderer/Shader.h"
-#include "Platform/OpenGL/OpenGLShader.h"
-// TODO: TEMP RENDERING TEST END
-
 namespace Sophon {
     class Application {
     public:
@@ -46,13 +39,6 @@ namespace Sophon {
         bool m_Running = true;
         bool m_Minimized = false;
         LayerStack m_LayerStack;
-
-        // TODO: TEMP RENDERING TEST START
-        Ref<VertexArray> m_TriangleVertexArray;
-        Ref<VertexArray> m_SquareVertexArray;
-        Ref<Shader> m_Shader;
-        Ref<Shader> m_SimpleColorShader;
-        // TODO: TEMP RENDERING TEST END
 
     private:
         static Application* s_Instance;
