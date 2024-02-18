@@ -16,6 +16,8 @@
 // ---Renderer-----------------------
 #include "Renderer/Renderer.h"
 #include "Renderer/RenderCommand.h"
+
+#include "Renderer/Buffer.h"
 // ----------------------------------
 
 // ---Entry Point--------------------
