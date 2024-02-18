@@ -1,10 +1,10 @@
 ---
-BasedOnStyle:         WebKit
-TabWidth:             4
-IndentWidth:          4
+BasedOnStyle:                                   WebKit
+TabWidth:                                       4
+IndentWidth:                                    4
 ---
-Language:             Cpp
-Standard:             c++20
-SortIncludes:         false
-NamespaceIndentation: All
+Language:                                       Cpp
+Standard:                                       c++20
+SortIncludes:                                   false
+NamespaceIndentation:                           All
 ---

@@ -6,38 +6,6 @@
 
 namespace Sophon {
 
-    // TODO: Move to OpenGL Platorm
-    static GLenum ShaderDataTypeToOpenGLBaseType(ShaderDataType type)
-    {
-        switch (type) {
-        case ShaderDataType::Float:
-            return GL_FLOAT;
-        case ShaderDataType::Float2:
-            return GL_FLOAT;
-        case ShaderDataType::Float3:
-            return GL_FLOAT;
-        case ShaderDataType::Float4:
-            return GL_FLOAT;
-        case ShaderDataType::Mat3:
-            return GL_FLOAT;
-        case ShaderDataType::Mat4:
-            return GL_FLOAT;
-        case ShaderDataType::Int:
-            return GL_INT;
-        case ShaderDataType::Int2:
-            return GL_INT;
-        case ShaderDataType::Int3:
-            return GL_INT;
-        case ShaderDataType::Int4:
-            return GL_INT;
-        case ShaderDataType::Bool:
-            return GL_BOOL;
-        }
-
-        SFN_CORE_ASSERT(false, "Unknown ShaderDataType!");
-        return 0;
-    }
-
     Application* Application::s_Instance = nullptr;
 
     Application::Application()
@@ -52,45 +20,33 @@ namespace Sophon {
         PushOverlay(m_ImGuiLayer);
 
         // TODO: TEMP RENDERING TEST START
-        glGenVertexArrays(1, &m_VertexArray);
-        glBindVertexArray(m_VertexArray);
-
-        float vertices[3 * 7] = {
+        m_TriangleVertexArray = VertexArray::Create();
+        float triangle_vertices[3 * 7] = {
             -0.5f, -0.5f, 0.0f, 0.9f, 0.4f, 0.4f, 1.0f,
             0.5f, -0.5f, 0.0f, 0.4f, 0.9f, 0.4f, 1.0f,
-            0.0f, 0.5f, 0.0f,  0.4f, 0.4f, 0.9f, 1.0f,
+            0.0f, 0.5f, 0.0f, 0.4f, 0.4f, 0.9f, 1.0f, // clang-format-ignore
         };
+        auto triangleVertexBuffer = VertexBuffer::Create(triangle_vertices, sizeof(triangle_vertices));
+        triangleVertexBuffer->SetLayout(BufferLayout {
+            { BufferElement(ShaderDataType::Float3, "a_Position") },
+            { BufferElement(ShaderDataType::Float4, "a_Color") } });
+        m_TriangleVertexArray->AddVertexBuffer(triangleVertexBuffer);
+        uint32_t triangleIndices[3] = { 0, 1, 2 };
+        m_TriangleVertexArray->SetIndexBuffer(IndexBuffer::Create(triangleIndices, sizeof(triangleIndices) / sizeof(uint32_t)));
 
-        m_VertexBuffer = VertexBuffer::Create(vertices, sizeof(vertices));
-
-        {
-            // In scope to check ownership
-            auto layout = BufferLayout {
-                { BufferElement(ShaderDataType::Float3, "a_Position") },
-                { BufferElement(ShaderDataType::Float4, "a_Color") }
-            };
-
-            m_VertexBuffer->SetLayout(layout);
-        }
-
-        const auto& layout = m_VertexBuffer->GetLayout();
-        uint32_t index = 0;
-        for (const auto& elem : layout) {
-            glEnableVertexAttribArray(index);
-
-            glVertexAttribPointer(
-                index,
-                elem.GetComponentCount(),
-                ShaderDataTypeToOpenGLBaseType(elem.Type),
-                elem.Normalized ? GL_TRUE : GL_FALSE,
-                layout.GetStride(),
-                (const void*)elem.Offset);
-
-            index++;
-        }
-
-        uint32_t indices[3] = { 0, 1, 2 };
-        m_IndexBuffer = IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t));
+        m_SquareVertexArray = VertexArray::Create();
+        float square_vertices[3 * 4] = {
+            -0.75f, -0.75f, 0.0f,
+            0.75f, -0.75f, 0.0f,
+            0.75f, 0.75f, 0.0f,
+            -0.75f, 0.75f, 0.0f, // clang-format-ignore
+        };
+        auto squareVertexBuffer = VertexBuffer::Create(square_vertices, sizeof(square_vertices));
+        squareVertexBuffer->SetLayout(BufferLayout {
+            { BufferElement(ShaderDataType::Float3, "a_Position") } });
+        m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
+        uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+        m_SquareVertexArray->SetIndexBuffer(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 
         std::string vertexSrc = R"(
 			    #version 330 core
@@ -123,7 +79,36 @@ namespace Sophon {
 			    }
 		    )";
 
-        m_Shader = CreateRef<OpenGLShader>("ApplicationTest", vertexSrc, fragmentSrc);
+        m_Shader = CreateRef<OpenGLShader>("Shader", vertexSrc, fragmentSrc);
+
+        std::string simpleColorVertexSrc = R"(
+			    #version 330 core
+			
+			    layout(location = 0) in vec3 a_Position;
+			    
+                out vec3 v_Position;
+			    
+                void main()
+			    {
+				    v_Position = a_Position;
+				    gl_Position = vec4(a_Position, 1.0);	
+			    }
+		    )";
+
+        std::string simpleColorFragmentSrc = R"(
+			    #version 330 core
+			
+                layout(location = 0) out vec4 color;
+
+			    in vec3 v_Position;
+
+			    void main()
+			    {
+				    color = vec4(0.2, 0.3, 0.8, 1.0);
+			    }
+		    )";
+
+        m_SimpleColorShader = CreateRef<OpenGLShader>("SimpleColorShader", simpleColorVertexSrc, simpleColorFragmentSrc);
         // TODO: TEMP RENDERING TEST END
     }
 
@@ -149,12 +134,14 @@ namespace Sophon {
                 // TODO: TEMP RENDERING TEST START
                 glClearColor(0.1f, 0.1f, 0.1f, 1);
                 glClear(GL_COLOR_BUFFER_BIT);
-                m_Shader->Bind();
-                glBindVertexArray(m_VertexArray);
-                glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 
-                /*
-                 glDrawElements(GL_TRIANGLES, m_IndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);*/
+                m_SimpleColorShader->Bind();
+                m_SquareVertexArray->Bind();
+                glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+
+                m_Shader->Bind();
+                m_TriangleVertexArray->Bind();
+                glDrawElements(GL_TRIANGLES, m_TriangleVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
                 // TODO: TEMP RENDERING TEST END
 
                 // call update on every layer (from bottom to top)

@@ -9,6 +9,7 @@
 #include <ImGui/ImGuiLayer.h>
 
 // TODO: TEMP RENDERING TEST START
+#include "Renderer/VertexArray.h"
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
 #include "Platform/OpenGL/OpenGLShader.h"
@@ -47,10 +48,10 @@ namespace Sophon {
         LayerStack m_LayerStack;
 
         // TODO: TEMP RENDERING TEST START
-        unsigned int m_VertexArray;
+        Ref<VertexArray> m_TriangleVertexArray;
+        Ref<VertexArray> m_SquareVertexArray;
         Ref<Shader> m_Shader;
-        Ref<VertexBuffer> m_VertexBuffer;
-        Ref<IndexBuffer> m_IndexBuffer;
+        Ref<Shader> m_SimpleColorShader;
         // TODO: TEMP RENDERING TEST END
 
     private:

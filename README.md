@@ -4,7 +4,7 @@ An exercise in what's possible.
 
 ## Renderer Status
 
-![RendererScreenshot](Docs/Img/Screenshot%202024-02-18%20004525.png)
+![RendererScreenshot](Docs/Img/screenshot.png)
 *Rendered in Engine =)*
 
 ## Development Quick Start
@@ -41,10 +41,12 @@ An exercise in what's possible.
     - [x] VertexBuffer
     - [x] VertexBufferLayout
     - [x] IndexBuffer
+    - [x] VertexArray
   - [ ] OpenGL Renderer
-    - [x] VertexBuffer (basic)
+    - [x] VertexBuffer
     - [x] VertexBufferLayout
-    - [x] IndexBuffer (basic)
+    - [x] IndexBuffer
+    - [x] VertexArray
     - [x] Shader (basic)
 - [ ] Render API Abstraction
   - [ ] Ability to swap Renderer API
@@ -52,6 +54,8 @@ An exercise in what's possible.
     - [x] SetViewport 
     - [x] SetClearColor
     - [x] Clear
+    - [ ] DrawCall
+    - [ ] Renderer Submission
 - [ ] Debugging Support
 	- [x] logging
 	- [x] basic ImGui (glfw)
