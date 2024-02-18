@@ -37,24 +37,39 @@ An exercise in what's possible.
 	- [ ] Buffered event system (non-blocking)
 	- [ ] Propagate through layers
 - [ ] Renderer
+  - [ ] High-level API
+    - [x] Init
+    - [ ] Shutdown
+    - [x] OnWindowResize
+    - [ ] BeginScene
+    - [ ] EndScene
+    - [x] Submit
+    - [x] GetAPI (RendererAPI)
   - [ ] Generic Abstractions
     - [x] VertexBuffer
     - [x] VertexBufferLayout
     - [x] IndexBuffer
     - [x] VertexArray
+    - [x] Shader
   - [ ] OpenGL Renderer
     - [x] VertexBuffer
     - [x] VertexBufferLayout
     - [x] IndexBuffer
     - [x] VertexArray
     - [x] Shader (basic)
-- [ ] Render API Abstraction
-  - [ ] Ability to swap Renderer API
-  - [ ] OpenGL Renderer API
+- [ ] RendererAPI Abstraction
+  - [ ] Ability to swap RendererAPI
+  - [ ] Generic RendererAPI
     - [x] SetViewport 
     - [x] SetClearColor
     - [x] Clear
-    - [ ] DrawCall
+    - [x] DrawCall
+    - [ ] Renderer Submission
+  - [ ] OpenGL RendererAPI
+    - [x] SetViewport 
+    - [x] SetClearColor
+    - [x] Clear
+    - [x] DrawCall (DrawIndexed)
     - [ ] Renderer Submission
 - [ ] Debugging Support
 	- [x] logging
