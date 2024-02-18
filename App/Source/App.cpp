@@ -4,6 +4,7 @@ class ExampleLayer : public Sophon::Layer {
 public:
     ExampleLayer()
         : Layer("Example")
+        , m_Camera(2.0f, -2.0f, -2.0f, 2.0f)
     {
         // TODO: TEMP RENDERING TEST START
         m_TriangleVertexArray = Sophon::VertexArray::Create();
@@ -39,6 +40,8 @@ public:
 			
 			    layout(location = 0) in vec3 a_Position;
                 layout(location = 1) in vec4 a_Color;
+
+                uniform mat4 u_ViewProjection;
 			    
                 out vec3 v_Position;
                 out vec4 v_Color;
@@ -47,7 +50,7 @@ public:
 			    {
 				    v_Position = a_Position;
                     v_Color = a_Color;
-				    gl_Position = vec4(a_Position, 1.0);	
+				    gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
 			    }
 		    )";
 
@@ -72,12 +75,14 @@ public:
 			
 			    layout(location = 0) in vec3 a_Position;
 			    
+                uniform mat4 u_ViewProjection;
+
                 out vec3 v_Position;
 			    
                 void main()
 			    {
 				    v_Position = a_Position;
-				    gl_Position = vec4(a_Position, 1.0);	
+				    gl_Position = u_ViewProjection * vec4(a_Position, 1.0);	
 			    }
 		    )";
 
@@ -104,13 +109,18 @@ public:
         Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         Sophon::RenderCommand::Clear();
 
+        Sophon::Renderer::BeginScene(m_Camera);
         Sophon::Renderer::Submit(m_SimpleColorShader, m_SquareVertexArray);
         Sophon::Renderer::Submit(m_Shader, m_TriangleVertexArray);
+        Sophon::Renderer::EndScene();
         // TODO: TEMP RENDERING TEST END
     }
 
     void OnEvent(Sophon::Event& event) override
     {
+        // CAMERA MOVE TEST
+
+
         // SFN_CLIENT_TRACE("{0}", event);
     }
 
@@ -120,6 +130,7 @@ private:
     Sophon::Ref<Sophon::VertexArray> m_SquareVertexArray;
     Sophon::Ref<Sophon::Shader> m_Shader;
     Sophon::Ref<Sophon::Shader> m_SimpleColorShader;
+    Sophon::OrthographicCamera m_Camera;
     // TODO: TEMP RENDERING TEST END
 };
 

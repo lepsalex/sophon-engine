@@ -2,6 +2,8 @@
 #include "Renderer/Renderer.h"
 
 namespace Sophon {
+    Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
+
     void Renderer::Init()
     {
         RenderCommand::Init();
@@ -16,8 +18,9 @@ namespace Sophon {
         RenderCommand::SetViewport(0, 0, width, height);
     }
 
-    void Renderer::BeginScene()
+    void Renderer::BeginScene(const OrthographicCamera& camera)
     {
+        s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
     }
 
     void Renderer::EndScene()
@@ -27,6 +30,8 @@ namespace Sophon {
     void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray)
     {
         shader->Bind();
+        shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
+
         vertexArray->Bind();
         RenderCommand::DrawIndexed(vertexArray);
     }

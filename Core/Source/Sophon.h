@@ -20,6 +20,8 @@
 #include "Renderer/Buffer.h"
 #include "Renderer/Shader.h"
 #include "Renderer/VertexArray.h"
+
+#include "Renderer/OrthographicCamera.h"
 // ----------------------------------
 
 // ---Entry Point--------------------

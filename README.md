@@ -56,7 +56,11 @@ An exercise in what's possible.
     - [x] VertexBufferLayout
     - [x] IndexBuffer
     - [x] VertexArray
-    - [x] Shader (basic)
+    - [x] Shader
+  - [ ] Camera
+    - [x] 2D Orthographic
+    - [ ] 3D Orthographic
+    - [ ] 3D Perspective
 - [ ] RendererAPI Abstraction
   - [ ] Ability to swap RendererAPI
   - [ ] Generic RendererAPI
@@ -73,7 +77,7 @@ An exercise in what's possible.
     - [ ] Renderer Submission
 - [ ] Debugging Support
 	- [x] logging
-	- [x] basic ImGui (glfw)
+	- [x] basic ImGui
 	- [ ] useful ImGui
 	- [ ] other ImGui platforms?
 - [ ] Scripting Language - C#, Lua, ???
