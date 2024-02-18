@@ -2,6 +2,11 @@
 
 An exercise in what's possible.
 
+## Renderer Status
+
+![RendererScreenshot](Docs/Img/Screenshot%202024-02-18%20004525.png)
+*Rendered in Engine =)*
+
 ## Development Quick Start
 ***Note: Only the Windows platform is really supported ATM but Linux supportshouldn't be to much of an issue if/when that need arises***
 1. Clone the repo
@@ -32,10 +37,16 @@ An exercise in what's possible.
 	- [ ] Buffered event system (non-blocking)
 	- [ ] Propagate through layers
 - [ ] Renderer
+  - [ ] OpenGL Renderer
+    - [x] VertexBuffer (basic)
+    - [x] IndexBuffer (basic)
+    - [x] Shader (basic)
 - [ ] Render API Abstraction
-  - [x] SetViewport 
-  - [x] SetClearColor
-	- [x] Clear
+  - [ ] Ability to swap Renderer API
+  - [ ] OpenGL Renderer API
+    - [x] SetViewport 
+    - [x] SetClearColor
+    - [x] Clear
 - [ ] Debugging Support
 	- [x] logging
 	- [x] basic ImGui (glfw)
