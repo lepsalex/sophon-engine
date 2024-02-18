@@ -2,7 +2,7 @@
 #include "Application.h"
 
 // TODO: TEMP RENDERING TEST
-#include <glad/glad.h>
+#include "Renderer/Renderer.h"
 
 namespace Sophon {
 
@@ -132,16 +132,11 @@ namespace Sophon {
             if (!m_Minimized) {
 
                 // TODO: TEMP RENDERING TEST START
-                glClearColor(0.1f, 0.1f, 0.1f, 1);
-                glClear(GL_COLOR_BUFFER_BIT);
+                RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+                RenderCommand::Clear();
 
-                m_SimpleColorShader->Bind();
-                m_SquareVertexArray->Bind();
-                glDrawElements(GL_TRIANGLES, m_SquareVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
-
-                m_Shader->Bind();
-                m_TriangleVertexArray->Bind();
-                glDrawElements(GL_TRIANGLES, m_TriangleVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
+                Renderer::Submit(m_SimpleColorShader, m_SquareVertexArray);
+                Renderer::Submit(m_Shader, m_TriangleVertexArray);
                 // TODO: TEMP RENDERING TEST END
 
                 // call update on every layer (from bottom to top)
