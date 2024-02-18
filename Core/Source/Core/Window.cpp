@@ -1,5 +1,4 @@
 #include "sfnpch.h"
-
 #include "Window.h"
 
 #ifdef SFN_PLATFORM_WINDOWS
@@ -7,13 +6,13 @@
 #endif
 
 namespace Sophon {
-Scope<Window> Window::Create(const WindowProps& props)
-{
+    Scope<Window> Window::Create(const WindowProps& props)
+    {
 #ifdef SFN_PLATFORM_WINDOWS
-    return CreateScope<WindowsWindow>(props);
+        return CreateScope<WindowsWindow>(props);
 #else
-    SFN_CORE_ASSERT(false, "Unknown platform!");
-    return nullptr;
+        SFN_CORE_ASSERT(false, "Unknown platform!");
+        return nullptr;
 #endif
-}
+    }
 }
