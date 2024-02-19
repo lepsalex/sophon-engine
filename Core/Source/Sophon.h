@@ -11,6 +11,9 @@
 #include "Core/KeyCodes.h"
 #include "Core/MouseCodes.h"
 
+#include "Events/KeyEvent.h"
+#include "Events/MouseEvent.h"
+
 #include "ImGui/ImGuiLayer.h"
 
 // ---Renderer-----------------------

@@ -5,6 +5,8 @@ public:
     ExampleLayer()
         : Layer("Example")
         , m_Camera(2.0f, -2.0f, -2.0f, 2.0f)
+        , m_CameraPosition(0.0f, 0.0f, 0.0f)
+        , m_CameraSpeed(0.01f)
     {
         // TODO: TEMP RENDERING TEST START
         m_TriangleVertexArray = Sophon::VertexArray::Create();
@@ -105,9 +107,24 @@ public:
 
     void OnUpdate() override
     {
+        // CAMERA MOVE TEST
+        if (Sophon::Input::IsKeyPressed(Sophon::Key::Left))
+            m_CameraPosition.x -= m_CameraSpeed;
+
+        if (Sophon::Input::IsKeyPressed(Sophon::Key::Right))
+            m_CameraPosition.x += m_CameraSpeed;
+
+        if (Sophon::Input::IsKeyPressed(Sophon::Key::Up))
+            m_CameraPosition.y += m_CameraSpeed;
+
+        if (Sophon::Input::IsKeyPressed(Sophon::Key::Down))
+            m_CameraPosition.y -= m_CameraSpeed;
+
         // TODO: TEMP RENDERING TEST START
         Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         Sophon::RenderCommand::Clear();
+
+        m_Camera.SetPosition(m_CameraPosition);
 
         Sophon::Renderer::BeginScene(m_Camera);
         Sophon::Renderer::Submit(m_SimpleColorShader, m_SquareVertexArray);
@@ -118,10 +135,6 @@ public:
 
     void OnEvent(Sophon::Event& event) override
     {
-        // CAMERA MOVE TEST
-
-
-        // SFN_CLIENT_TRACE("{0}", event);
     }
 
 private:
@@ -131,6 +144,8 @@ private:
     Sophon::Ref<Sophon::Shader> m_Shader;
     Sophon::Ref<Sophon::Shader> m_SimpleColorShader;
     Sophon::OrthographicCamera m_Camera;
+    glm::vec3 m_CameraPosition;
+    float m_CameraSpeed;
     // TODO: TEMP RENDERING TEST END
 };
 
