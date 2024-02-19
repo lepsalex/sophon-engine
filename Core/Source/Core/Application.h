@@ -1,11 +1,12 @@
 #pragma once
 
-#include "Base.h"
+#include "Core/Base.h"
 
-#include "LayerStack.h"
-
+#include "Core/Window.h"
+#include "Core/LayerStack.h"
+#include "Core/Timestep.h"
 #include "Events/ApplicationEvent.h"
-#include "Window.h"
+
 #include <ImGui/ImGuiLayer.h>
 
 namespace Sophon {
@@ -39,6 +40,7 @@ namespace Sophon {
         bool m_Running = true;
         bool m_Minimized = false;
         LayerStack m_LayerStack;
+        float m_LastFrameTime = 0.0f;
 
     private:
         static Application* s_Instance;

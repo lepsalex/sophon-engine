@@ -6,7 +6,7 @@ public:
         : Layer("Example")
         , m_Camera(2.0f, -2.0f, -2.0f, 2.0f)
         , m_CameraPosition(0.0f, 0.0f, 0.0f)
-        , m_CameraSpeed(0.01f)
+        , m_CameraSpeed(2.0f)
     {
         // TODO: TEMP RENDERING TEST START
         m_TriangleVertexArray = Sophon::VertexArray::Create();
@@ -105,20 +105,20 @@ public:
         // TODO: TEMP RENDERING TEST END
     }
 
-    void OnUpdate() override
+    void OnUpdate(Sophon::Timestep ts) override
     {
         // CAMERA MOVE TEST
         if (Sophon::Input::IsKeyPressed(Sophon::Key::Left))
-            m_CameraPosition.x -= m_CameraSpeed;
+            m_CameraPosition.x -= m_CameraSpeed * ts;
 
         if (Sophon::Input::IsKeyPressed(Sophon::Key::Right))
-            m_CameraPosition.x += m_CameraSpeed;
+            m_CameraPosition.x += m_CameraSpeed * ts;
 
         if (Sophon::Input::IsKeyPressed(Sophon::Key::Up))
-            m_CameraPosition.y += m_CameraSpeed;
+            m_CameraPosition.y += m_CameraSpeed * ts;
 
         if (Sophon::Input::IsKeyPressed(Sophon::Key::Down))
-            m_CameraPosition.y -= m_CameraSpeed;
+            m_CameraPosition.y -= m_CameraSpeed * ts;
 
         // TODO: TEMP RENDERING TEST START
         Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });

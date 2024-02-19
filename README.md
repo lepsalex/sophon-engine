@@ -22,6 +22,7 @@ An exercise in what's possible.
 	- [ ] Subscribe to window events
 		- [x] Close
 		- [ ] Resize
+  - [x] Timestep/Deltatime
 - [ ] Window Layers
   - [x] Basic layer and layer-stack classes
 	- [x] Update layers bottom-up

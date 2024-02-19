@@ -1,8 +1,8 @@
 #include "sfnpch.h"
-#include "Application.h"
 
-// TODO: TEMP RENDERING TEST
+#include "Core/Application.h"
 #include "Renderer/Renderer.h"
+#include "Utils/PlatformUtils.h"
 
 namespace Sophon {
 
@@ -37,10 +37,15 @@ namespace Sophon {
     void Application::Run()
     {
         while (m_Running) {
+
+            float time = Time::GetTime();
+            Timestep ts = time - m_LastFrameTime;
+            m_LastFrameTime = time;
+
             if (!m_Minimized) {
                 // call update on every layer (from bottom to top)
                 for (Layer* layer : m_LayerStack)
-                    layer->OnUpdate();
+                    layer->OnUpdate(ts);
 
                 m_ImGuiLayer->Begin();
 
