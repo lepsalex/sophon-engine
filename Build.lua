@@ -1,8 +1,16 @@
+include "SolutionItems.lua"
 include "Dependencies.lua"
 
 workspace "Sophon Engine"
   architecture "x64"
   startproject "App"
+
+  solutionitems {
+    "README.md",
+		".editorconfig",
+    ".gitignore",
+    ".clang-format"
+  }
 
   configurations {
     "Debug",
