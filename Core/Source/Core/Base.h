@@ -16,10 +16,8 @@
 #define SFN_DEBUGBREAK()
 #endif
 
-// TODO: Bitshifting ... nuff said
 #define BIT(x) (1 << x)
 
-// TODO: Need to understand these better, looks like recursive macros, pretty cool!
 #define SFN_EXPAND_MACRO(x) x
 #define SFN_STRINGIFY_MACRO(x) #x
 
