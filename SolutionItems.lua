@@ -1,3 +1,4 @@
+-- REF: https://github.com/premake/premake-core/issues/1061#issuecomment-1472057890
 require("vstudio")
 premake.api.register {
 	name = "solutionitems",

@@ -9,7 +9,13 @@ workspace "Sophon Engine"
     "README.md",
 		".editorconfig",
     ".gitignore",
-    ".clang-format"
+    ".clang-format",
+    ["Premake"] = {
+      "./Build.lua",
+      "./Dependencies.lua",
+      "./Core/Build-Core.lua",
+      "./App/Build-App.lua",
+    }
   }
 
   configurations {
