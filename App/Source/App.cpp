@@ -24,21 +24,23 @@ public:
         m_TriangleVertexArray->SetIndexBuffer(Sophon::IndexBuffer::Create(triangleIndices, sizeof(triangleIndices) / sizeof(uint32_t)));
 
         m_SquareVertexArray = Sophon::VertexArray::Create();
-        float square_vertices[3 * 4] = {
-            -0.5f, -0.5f, 0.0f,
-            0.5f, -0.5f, 0.0f,
-            0.5f, 0.5f, 0.0f,
-            -0.5f, 0.5f, 0.0f // clang-format-ignore
+        float square_vertices[5 * 4] = {
+            -0.5f, -0.5f, 0.0f, 0.0f, 0.0f,
+            0.5f, -0.5f, 0.0f, 1.0f, 0.0f,
+            0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
+            -0.5f, 0.5f, 0.0f, 0.0f, 1.0f // clang-format-ignore
         };
         auto squareVertexBuffer = Sophon::VertexBuffer::Create(square_vertices, sizeof(square_vertices));
         squareVertexBuffer->SetLayout(Sophon::BufferLayout {
-            { Sophon::BufferElement(Sophon::ShaderDataType::Float3, "a_Position") } });
+            { Sophon::BufferElement(Sophon::ShaderDataType::Float3, "a_Position") },
+            { Sophon::BufferElement(Sophon::ShaderDataType::Float2, "a_TexCoord") }
+        });
         m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
         uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
         m_SquareVertexArray->SetIndexBuffer(Sophon::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 
         std::string vertexSrc = R"(
-			    #version 330 core
+			    #version 460 core
 			
 			    layout(location = 0) in vec3 a_Position;
                 layout(location = 1) in vec4 a_Color;
@@ -58,7 +60,7 @@ public:
 		    )";
 
         std::string fragmentSrc = R"(
-			    #version 330 core
+			    #version 460 core
 			
                 layout(location = 0) out vec4 color;
 
@@ -74,7 +76,7 @@ public:
         m_Shader = Sophon::Shader::Create("Shader", vertexSrc, fragmentSrc);
 
         std::string simpleColorVertexSrc = R"(
-			    #version 330 core
+			    #version 460 core
 			
 			    layout(location = 0) in vec3 a_Position;
 			    
@@ -91,7 +93,7 @@ public:
 		    )";
 
         std::string simpleColorFragmentSrc = R"(
-			    #version 330 core
+			    #version 460 core
 			
                 layout(location = 0) out vec4 color;
 
@@ -104,6 +106,44 @@ public:
 		    )";
 
         m_SimpleColorShader = Sophon::Shader::Create("SimpleColorShader", simpleColorVertexSrc, simpleColorFragmentSrc);
+
+        std::string textureVertexSrc = R"(
+			    #version 460 core
+			
+			    layout(location = 0) in vec3 a_Position;
+                layout(location = 1) in vec2 a_TexCoord;
+			    
+                uniform mat4 u_ViewProjection;
+                uniform mat4 u_Transform;
+
+                out vec2 v_TexCoord;
+			    
+                void main()
+			    {
+				    v_TexCoord = a_TexCoord;
+				    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
+			    }
+		    )";
+
+        std::string textureFragmentSrc = R"(
+			    #version 460 core
+			
+                layout(location = 0) out vec4 color;
+
+			    in vec2 v_TexCoord;
+
+                uniform sampler2D u_Texture;
+
+			    void main()
+			    {
+				    color = texture(u_Texture, v_TexCoord);
+			    }
+		    )";
+
+        m_TextureShader = Sophon::Shader::Create("TextureShader", textureVertexSrc, textureFragmentSrc);
+        m_Texture = Sophon::Texture2D::Create("Assets/Textures/Checkerboard.png");
+        m_TextureShader->Bind();
+        m_TextureShader->SetInt("u_Texture", 0);
         // TODO: TEMP RENDERING TEST END
     }
 
@@ -130,19 +170,10 @@ public:
 
         Sophon::Renderer::BeginScene(m_Camera);
 
-        auto squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.1f));
-
-        // Draw 16 small squares
-        for (int y = -8; y < 8; y++) {
-            for (int x = -8; x < 8; x++) {
-                // Setup transform
-                glm::vec3 pos(x * 0.11f, y * 0.11f, 0.0f);
-                auto transform = glm::translate(glm::mat4(1.0f), pos) * squareScale;
-
-                // Draw
-                Sophon::Renderer::Submit(m_SimpleColorShader, m_SquareVertexArray, transform);
-            }
-        }
+        m_Texture->Bind();
+        auto squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
+        glm::vec3 squarePos(0.0f, 0.0f, 0.0f);
+        Sophon::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), squarePos) * squareScale);
 
         // Draw the triangle on top
         Sophon::Renderer::Submit(m_Shader, m_TriangleVertexArray);
@@ -161,6 +192,8 @@ private:
     Sophon::Ref<Sophon::VertexArray> m_SquareVertexArray;
     Sophon::Ref<Sophon::Shader> m_Shader;
     Sophon::Ref<Sophon::Shader> m_SimpleColorShader;
+    Sophon::Ref<Sophon::Shader> m_TextureShader;
+    Sophon::Ref<Sophon::Texture2D> m_Texture;
     Sophon::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;
     float m_CameraSpeed;

@@ -4,7 +4,7 @@ An exercise in what's possible.
 
 ## Renderer Status
 
-![RendererScreenshot](Docs/Img/screenshot.png)
+![RendererScreenshot](Docs/Img/Screenshot.png)
 *Rendered in Engine =)*
 
 ## Development Quick Start
@@ -52,12 +52,16 @@ An exercise in what's possible.
     - [x] IndexBuffer
     - [x] VertexArray
     - [x] Shader
+    - [x] Texture
+      - [x] Texture2D
   - [ ] OpenGL Renderer
     - [x] VertexBuffer
     - [x] VertexBufferLayout
     - [x] IndexBuffer
     - [x] VertexArray
     - [x] Shader
+    - [x] Texture
+      - [x] Texture2D
   - [ ] Camera
     - [x] 2D Orthographic
     - [ ] 3D Orthographic
