@@ -141,7 +141,10 @@ public:
 		    )";
 
         m_TextureShader = Sophon::Shader::Create("TextureShader", textureVertexSrc, textureFragmentSrc);
+
         m_Texture = Sophon::Texture2D::Create("Assets/Textures/Checkerboard.png");
+        m_LogoTexture = Sophon::Texture2D::Create("Assets/Textures/Opengl-logo.png");
+
         m_TextureShader->Bind();
         m_TextureShader->SetInt("u_Texture", 0);
         // TODO: TEMP RENDERING TEST END
@@ -170,13 +173,17 @@ public:
 
         Sophon::Renderer::BeginScene(m_Camera);
 
+        // Draw the checkerboard
         m_Texture->Bind();
         auto squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
-        glm::vec3 squarePos(0.0f, 0.0f, 0.0f);
+        glm::vec3 squarePos(0.0f, 0.0f, 0.0f); // anything below Z=0.0f gets clipped
         Sophon::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), squarePos) * squareScale);
 
-        // Draw the triangle on top
-        Sophon::Renderer::Submit(m_Shader, m_TriangleVertexArray);
+        // Draw the logo on top
+        m_LogoTexture->Bind();
+        auto logoScale = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
+        glm::vec3 logoPos(0.0f, 0.0f, 0.1f); // z-indexed draw order
+        Sophon::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), logoPos) * logoScale);
 
         Sophon::Renderer::EndScene();
         // TODO: TEMP RENDERING TEST END
@@ -194,6 +201,7 @@ private:
     Sophon::Ref<Sophon::Shader> m_SimpleColorShader;
     Sophon::Ref<Sophon::Shader> m_TextureShader;
     Sophon::Ref<Sophon::Texture2D> m_Texture;
+    Sophon::Ref<Sophon::Texture2D> m_LogoTexture;
     Sophon::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;
     float m_CameraSpeed;
