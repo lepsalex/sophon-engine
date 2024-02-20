@@ -38,17 +38,17 @@ namespace Sophon {
 
     OpenGLVertexArray::OpenGLVertexArray()
     {
-        glCreateVertexArrays(1, &m_RendererId);
+        glCreateVertexArrays(1, &m_RendererID);
     }
 
     OpenGLVertexArray::~OpenGLVertexArray()
     {
-        glDeleteVertexArrays(1, &m_RendererId);
+        glDeleteVertexArrays(1, &m_RendererID);
     }
 
     void OpenGLVertexArray::Bind() const
     {
-        glBindVertexArray(m_RendererId);
+        glBindVertexArray(m_RendererID);
     }
 
     void OpenGLVertexArray::Unbind() const
@@ -60,7 +60,7 @@ namespace Sophon {
     {
         SFN_CORE_ASSERT(vertexBuffer->GetLayout().GetElements().size(), "VertexBuffer has no layout!");
 
-        glBindVertexArray(m_RendererId);
+        glBindVertexArray(m_RendererID);
         vertexBuffer->Bind();
 
         const auto& layout = vertexBuffer->GetLayout();
@@ -120,7 +120,7 @@ namespace Sophon {
 
     void OpenGLVertexArray::SetIndexBuffer(const Ref<IndexBuffer>& indexBuffer)
     {
-        glBindVertexArray(m_RendererId);
+        glBindVertexArray(m_RendererID);
         indexBuffer->Bind();
 
         m_IndexBuffer = indexBuffer;

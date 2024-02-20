@@ -9,13 +9,13 @@ namespace Sophon {
     {
         switch (Renderer::GetAPI()) {
         case RendererAPI::API::None:
-            SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
+            SFN_CORE_ASSERT(false, SFN_ERR_RENDER_API_NONE_NOT_SUPPORTED);
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
         }
 
-        SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
+        SFN_CORE_ASSERT(false, SFN_ERR_UNKOWN_RENDER_API);
         return nullptr;
     }
 }
