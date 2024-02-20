@@ -8,6 +8,8 @@ project "Core"
     files {
         "Source/**.h",
         "Source/**.cpp",
+        "Vendor/stb/**.h",
+        "Vendor/stb/**.cpp",
         "Vendor/glm/glm/**.hpp",
         "Vendor/glm/glm/**.inl"
     }
@@ -24,6 +26,7 @@ project "Core"
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
+        "%{IncludeDir.stb}",
         "%{IncludeDir.glm}"
     }
 
