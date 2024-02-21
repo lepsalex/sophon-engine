@@ -10,13 +10,13 @@ namespace Sophon {
     {
         switch (Renderer::GetAPI()) {
         case RendererAPI::API::None:
-            SFN_CORE_ASSERT(false, SFN_ERR_RENDER_API_NONE_NOT_SUPPORTED);
+            SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexBuffer>(size);
         }
 
-        SFN_CORE_ASSERT(false, SFN_ERR_UNKOWN_RENDER_API);
+        SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -24,13 +24,13 @@ namespace Sophon {
     {
         switch (Renderer::GetAPI()) {
         case RendererAPI::API::None:
-            SFN_CORE_ASSERT(false, SFN_ERR_RENDER_API_NONE_NOT_SUPPORTED);
+            SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexBuffer>(vertices, size);
         }
 
-        SFN_CORE_ASSERT(false, SFN_ERR_UNKOWN_RENDER_API);
+        SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 
@@ -38,13 +38,13 @@ namespace Sophon {
     {
         switch (Renderer::GetAPI()) {
         case RendererAPI::API::None:
-            SFN_CORE_ASSERT(false, SFN_ERR_RENDER_API_NONE_NOT_SUPPORTED);
+            SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLIndexBuffer>(indices, size);
         }
 
-        SFN_CORE_ASSERT(false, SFN_ERR_UNKOWN_RENDER_API);
+        SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 }

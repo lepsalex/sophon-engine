@@ -19,10 +19,6 @@
 #define SFN_ASSERT(...) SFN_EXPAND_MACRO(SFN_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_, __VA_ARGS__))
 #define SFN_CORE_ASSERT(...) SFN_EXPAND_MACRO(SFN_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_CORE_, __VA_ARGS__))
 
-// Common Error Messages
-#define SFN_ERR_RENDER_API_NONE_NOT_SUPPORTED "RendererAPI::None is not currently supported!"
-#define SFN_ERR_UNKOWN_RENDER_API "Unknown RendererAPI!"
-
 #else
 #define SFN_ASSERT(...)
 #define SFN_CORE_ASSERT(...)

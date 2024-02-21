@@ -15,7 +15,7 @@ namespace Sophon {
             return CreateRef<OpenGLVertexArray>();
         }
 
-        SFN_CORE_ASSERT(false, SFN_ERR_UNKOWN_RENDER_API);
+        SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
         return nullptr;
     }
 }
