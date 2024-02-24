@@ -22,7 +22,10 @@ namespace Sophon {
         PushOverlay(m_ImGuiLayer);
     }
 
-    Application::~Application() { }
+    Application::~Application()
+    {
+        Renderer::Shutdown();
+    }
 
     void Application::PushLayer(Layer* layer)
     {
@@ -95,6 +98,7 @@ namespace Sophon {
         }
 
         m_Minimized = false;
+        Renderer::OnWindowResize(e.GetWidth(), e.GetHeight());
 
         return false;
     }
