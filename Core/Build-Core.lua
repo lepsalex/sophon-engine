@@ -44,9 +44,6 @@ project "Core"
 
     filter "system:windows"
         systemversion "latest"
-        defines {
-            "SFN_PLATFORM_WINDOWS"
-        }
 
     filter "configurations:Debug"
         defines {"SFN_DEBUG"}

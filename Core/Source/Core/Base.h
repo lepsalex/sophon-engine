@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Core/PlatformDetection.h"
+
 #include <memory>
 
 #ifdef SFN_DEBUG
