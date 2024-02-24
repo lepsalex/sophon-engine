@@ -15,11 +15,13 @@ public:
             0.5f, -0.5f, 0.0f, 0.4f, 0.9f, 0.4f, 1.0f,
             0.0f, 0.5f, 0.0f, 0.4f, 0.4f, 0.9f, 1.0f, // clang-format-ignore
         };
+
         auto triangleVertexBuffer = Sophon::VertexBuffer::Create(triangle_vertices, sizeof(triangle_vertices));
         triangleVertexBuffer->SetLayout(Sophon::BufferLayout {
             { Sophon::BufferElement(Sophon::ShaderDataType::Float3, "a_Position") },
             { Sophon::BufferElement(Sophon::ShaderDataType::Float4, "a_Color") } });
         m_TriangleVertexArray->AddVertexBuffer(triangleVertexBuffer);
+
         uint32_t triangleIndices[3] = { 0, 1, 2 };
         m_TriangleVertexArray->SetIndexBuffer(Sophon::IndexBuffer::Create(triangleIndices, sizeof(triangleIndices) / sizeof(uint32_t)));
 
@@ -30,123 +32,23 @@ public:
             0.5f, 0.5f, 0.0f, 1.0f, 1.0f,
             -0.5f, 0.5f, 0.0f, 0.0f, 1.0f // clang-format-ignore
         };
+
         auto squareVertexBuffer = Sophon::VertexBuffer::Create(square_vertices, sizeof(square_vertices));
         squareVertexBuffer->SetLayout(Sophon::BufferLayout {
             { Sophon::BufferElement(Sophon::ShaderDataType::Float3, "a_Position") },
-            { Sophon::BufferElement(Sophon::ShaderDataType::Float2, "a_TexCoord") }
-        });
+            { Sophon::BufferElement(Sophon::ShaderDataType::Float2, "a_TexCoord") } });
         m_SquareVertexArray->AddVertexBuffer(squareVertexBuffer);
         uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
         m_SquareVertexArray->SetIndexBuffer(Sophon::IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
 
-        std::string vertexSrc = R"(
-			    #version 460 core
-			
-			    layout(location = 0) in vec3 a_Position;
-                layout(location = 1) in vec4 a_Color;
-
-                uniform mat4 u_ViewProjection;
-                uniform mat4 u_Transform;
-			    
-                out vec3 v_Position;
-                out vec4 v_Color;
-			    
-                void main()
-			    {
-				    v_Position = a_Position;
-                    v_Color = a_Color;
-				    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
-			    }
-		    )";
-
-        std::string fragmentSrc = R"(
-			    #version 460 core
-			
-                layout(location = 0) out vec4 color;
-
-			    in vec3 v_Position;
-                in vec4 v_Color;
-
-			    void main()
-			    {
-				    color = v_Color;
-			    }
-		    )";
-
-        m_Shader = Sophon::Shader::Create("Shader", vertexSrc, fragmentSrc);
-
-        std::string simpleColorVertexSrc = R"(
-			    #version 460 core
-			
-			    layout(location = 0) in vec3 a_Position;
-			    
-                uniform mat4 u_ViewProjection;
-                uniform mat4 u_Transform;
-
-                out vec3 v_Position;
-			    
-                void main()
-			    {
-				    v_Position = a_Position;
-				    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
-			    }
-		    )";
-
-        std::string simpleColorFragmentSrc = R"(
-			    #version 460 core
-			
-                layout(location = 0) out vec4 color;
-
-			    in vec3 v_Position;
-
-			    void main()
-			    {
-				    color = vec4(0.2, 0.3, 0.8, 1.0);
-			    }
-		    )";
-
-        m_SimpleColorShader = Sophon::Shader::Create("SimpleColorShader", simpleColorVertexSrc, simpleColorFragmentSrc);
-
-        std::string textureVertexSrc = R"(
-			    #version 460 core
-			
-			    layout(location = 0) in vec3 a_Position;
-                layout(location = 1) in vec2 a_TexCoord;
-			    
-                uniform mat4 u_ViewProjection;
-                uniform mat4 u_Transform;
-
-                out vec2 v_TexCoord;
-			    
-                void main()
-			    {
-				    v_TexCoord = a_TexCoord;
-				    gl_Position = u_ViewProjection * u_Transform * vec4(a_Position, 1.0);	
-			    }
-		    )";
-
-        std::string textureFragmentSrc = R"(
-			    #version 460 core
-			
-                layout(location = 0) out vec4 color;
-
-			    in vec2 v_TexCoord;
-
-                uniform sampler2D u_Texture;
-
-			    void main()
-			    {
-				    color = texture(u_Texture, v_TexCoord);
-			    }
-		    )";
-
-        m_TextureShader = Sophon::Shader::Create("TextureShader", textureVertexSrc, textureFragmentSrc);
+        auto flatColorShader = m_ShaderLibrary.Load("Assets/Shaders/FlatColor.glsl");
+        auto textureShader = m_ShaderLibrary.Load("Assets/Shaders/Texture.glsl");
 
         m_Texture = Sophon::Texture2D::Create("Assets/Textures/Checkerboard.png");
         m_LogoTexture = Sophon::Texture2D::Create("Assets/Textures/Opengl-logo.png");
 
-        m_TextureShader->Bind();
-        m_TextureShader->SetInt("u_Texture", 0);
+        textureShader->Bind();
+        textureShader->SetInt("u_Texture", 0);
         // TODO: TEMP RENDERING TEST END
     }
 
@@ -173,17 +75,28 @@ public:
 
         Sophon::Renderer::BeginScene(m_Camera);
 
+        // Get the shaders
+        auto textureShader = m_ShaderLibrary.Get("Texture");
+        auto flatColorShader = m_ShaderLibrary.Get("FlatColor");
+
         // Draw the checkerboard
         m_Texture->Bind();
         auto squareScale = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
         glm::vec3 squarePos(0.0f, 0.0f, 0.0f); // anything below Z=0.0f gets clipped
-        Sophon::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), squarePos) * squareScale);
+        Sophon::Renderer::Submit(textureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), squarePos) * squareScale);
 
         // Draw the logo on top
         m_LogoTexture->Bind();
         auto logoScale = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
         glm::vec3 logoPos(0.0f, 0.0f, 0.1f); // z-indexed draw order
-        Sophon::Renderer::Submit(m_TextureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), logoPos) * logoScale);
+        Sophon::Renderer::Submit(textureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), logoPos) * logoScale);
+
+        // Draw the triangle with a flat color to the side
+        flatColorShader->Bind();
+        flatColorShader->SetFloat4("u_Color", m_FlatShaderColor);
+        auto triangleScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+        glm::vec3 trianglePos(-0.3f, -0.3f, 0.2f); // z-indexed draw order
+        Sophon::Renderer::Submit(flatColorShader, m_TriangleVertexArray, glm::translate(glm::mat4(1.0f), trianglePos) * triangleScale);
 
         Sophon::Renderer::EndScene();
         // TODO: TEMP RENDERING TEST END
@@ -195,16 +108,14 @@ public:
 
 private:
     // TODO: TEMP RENDERING TEST START
+    Sophon::ShaderLibrary m_ShaderLibrary;
     Sophon::Ref<Sophon::VertexArray> m_TriangleVertexArray;
     Sophon::Ref<Sophon::VertexArray> m_SquareVertexArray;
-    Sophon::Ref<Sophon::Shader> m_Shader;
-    Sophon::Ref<Sophon::Shader> m_SimpleColorShader;
-    Sophon::Ref<Sophon::Shader> m_TextureShader;
-    Sophon::Ref<Sophon::Texture2D> m_Texture;
-    Sophon::Ref<Sophon::Texture2D> m_LogoTexture;
+    Sophon::Ref<Sophon::Texture2D> m_Texture, m_LogoTexture;
     Sophon::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;
     float m_CameraSpeed;
+    glm::vec4 m_FlatShaderColor = { 0.2f, 0.3f, 0.8f, 1.0f };
     // TODO: TEMP RENDERING TEST END
 };
 
