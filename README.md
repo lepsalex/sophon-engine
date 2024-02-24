@@ -4,7 +4,7 @@ An exercise in what's possible.
 
 ## Renderer Status
 
-![RendererScreenshot](Docs/Img/Screenshot.png)
+![RendererScreenshot](./Docs/Img/Renderer.gif)  
 *Rendered in Engine =)*
 
 ## Development Quick Start
@@ -62,10 +62,14 @@ An exercise in what's possible.
     - [x] Shader
     - [x] Texture
       - [x] Texture2D
+  - [ ] Renderer2D
+    - [x] Init/Setup
+    - [x] DrawQuad
   - [ ] Camera
     - [x] 2D Orthographic
     - [ ] 3D Orthographic
     - [ ] 3D Perspective
+    - [x] Basic Camera Controller (2D)
 - [ ] RendererAPI Abstraction
   - [ ] Ability to swap RendererAPI
   - [ ] Generic RendererAPI
