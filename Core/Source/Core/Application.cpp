@@ -74,6 +74,7 @@ namespace Sophon {
         // Dispatch events
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<WindowCloseEvent>(SFN_BIND_EVENT_FN(Application::OnWindowClose));
+        dispatcher.Dispatch<WindowResizeEvent>(SFN_BIND_EVENT_FN(Application::OnWindowResize));
 
         // Propagate event "down" through layers until it is handled
         // (from top to bottom, ex: Overlay -> UI -> Debug -> Scene)
