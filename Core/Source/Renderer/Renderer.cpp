@@ -1,5 +1,6 @@
 #include "sfnpch.h"
 #include "Renderer/Renderer.h"
+#include "Renderer/Renderer2D.h"
 
 namespace Sophon {
     Scope<Renderer::SceneData> Renderer::s_SceneData = CreateScope<Renderer::SceneData>();
@@ -7,6 +8,7 @@ namespace Sophon {
     void Renderer::Init()
     {
         RenderCommand::Init();
+        Renderer2D::Init();
     }
 
     void Renderer::Shutdown()
