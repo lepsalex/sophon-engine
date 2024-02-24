@@ -75,8 +75,9 @@ public:
 
         Sophon::Renderer::BeginScene(m_Camera);
 
-        // Get the texture shader
+        // Get the shaders
         auto textureShader = m_ShaderLibrary.Get("Texture");
+        auto flatColorShader = m_ShaderLibrary.Get("FlatColor");
 
         // Draw the checkerboard
         m_Texture->Bind();
@@ -89,6 +90,13 @@ public:
         auto logoScale = glm::scale(glm::mat4(1.0f), glm::vec3(1.5f));
         glm::vec3 logoPos(0.0f, 0.0f, 0.1f); // z-indexed draw order
         Sophon::Renderer::Submit(textureShader, m_SquareVertexArray, glm::translate(glm::mat4(1.0f), logoPos) * logoScale);
+
+        // Draw the triangle with a flat color to the side
+        flatColorShader->Bind();
+        flatColorShader->SetFloat4("u_Color", m_FlatShaderColor);
+        auto triangleScale = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+        glm::vec3 trianglePos(-0.3f, -0.3f, 0.2f); // z-indexed draw order
+        Sophon::Renderer::Submit(flatColorShader, m_TriangleVertexArray, glm::translate(glm::mat4(1.0f), trianglePos) * triangleScale);
 
         Sophon::Renderer::EndScene();
         // TODO: TEMP RENDERING TEST END
@@ -107,6 +115,7 @@ private:
     Sophon::OrthographicCamera m_Camera;
     glm::vec3 m_CameraPosition;
     float m_CameraSpeed;
+    glm::vec4 m_FlatShaderColor = { 0.2f, 0.3f, 0.8f, 1.0f };
     // TODO: TEMP RENDERING TEST END
 };
 
