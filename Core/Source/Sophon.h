@@ -28,8 +28,5 @@
 #include "Renderer/VertexArray.h"
 
 #include "Renderer/OrthographicCamera.h"
-// ----------------------------------
-
-// ---Entry Point--------------------
-#include "Core/EntryPoint.h"
+#include "Renderer/OrthographicCameraController.h"
 // ----------------------------------
