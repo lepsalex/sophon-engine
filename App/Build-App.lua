@@ -7,7 +7,8 @@ project "App"
 
     files {
         "Source/**.h",
-        "Source/**.cpp"
+        "Source/**.cpp",
+        "Assets/**.glsl"
     }
 
     defines {
