@@ -34,7 +34,12 @@ project "App"
         systemversion "latest"
 
     filter "configurations:Debug"
-        defines {"DEBUG"}
+        defines {"SFN_DEBUG"}
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:DebugProfile"
+        defines {"SFN_DEBUG", "SFN_PROFILE"}
         runtime "Debug"
         symbols "On"
 

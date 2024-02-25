@@ -26,6 +26,8 @@
 
 #include "Core/Log.h"
 
+#include "Debug/Instrumentor.h"
+
 #ifdef SFN_PLATFORM_WINDOWS
 #include <Windows.h>
 #endif

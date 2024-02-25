@@ -50,6 +50,11 @@ project "Core"
         runtime "Debug"
         symbols "On"
 
+    filter "configurations:DebugProfile"
+        defines {"SFN_DEBUG", "SFN_PROFILE"}
+        runtime "Debug"
+        symbols "On"
+
     filter "configurations:Release"
         defines {"RELEASE"}
         runtime "Release"

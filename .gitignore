@@ -15,3 +15,6 @@ Makefile
 
 # Exclude
 !Vendor/Binaries
+
+# Profiler Data
+Sophon-Profiler-Data-*.json

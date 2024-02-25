@@ -194,7 +194,7 @@ namespace Sophon {
     }
 }
 
-#define SFN_PROFILE 0
+//#define SFN_PROFILE 0 // Enable Profiler Directly Here!
 #if SFN_PROFILE
 // Resolve which function signature macro will be used. Note that this only
 // is resolved when the (pre)compiler starts, so the syntax highlighting
