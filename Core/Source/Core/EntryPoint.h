@@ -1,6 +1,7 @@
 #pragma once
 
-#include "Base.h"
+#include "Core/Base.h"
+#include "Debug/Instrumentor.h"
 
 #ifdef SFN_PLATFORM_WINDOWS
 
@@ -8,14 +9,19 @@ extern Sophon::Application* Sophon::CreateApplication();
 
 int main()
 {
-    // todo: temp will be moved
     Sophon::Log::Init();
-    SFN_CORE_WARN("Init Log!");
-    SFN_CLIENT_INFO("Other Log!");
 
+    SFN_PROFILE_BEGIN_SESSION("Startup", "Sophon-Profiler-Data-Startup.json");
     auto app = Sophon::CreateApplication();
+    SFN_PROFILE_END_SESSION();
+
+    SFN_PROFILE_BEGIN_SESSION("Runtime", "Sophon-Profiler-Data-Runtime.json");
     app->Run();
+    SFN_PROFILE_END_SESSION();
+
+    SFN_PROFILE_BEGIN_SESSION("Shutdown", "Sophon-Profiler-Data-Shutdown.json");
     delete app;
+    SFN_PROFILE_END_SESSION();
 }
 
 #else

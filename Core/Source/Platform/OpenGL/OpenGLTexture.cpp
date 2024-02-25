@@ -62,6 +62,8 @@ namespace Sophon {
     OpenGLTexture2D::OpenGLTexture2D(const TextureSpecification& specification, const TextureOptions& options)
         : m_Specification(specification)
     {
+        SFN_PROFILE_FUNCTION();
+
         m_Width = specification.Width;
         m_Height = specification.Height;
 
@@ -85,10 +87,13 @@ namespace Sophon {
     OpenGLTexture2D::OpenGLTexture2D(const std::string& path, const TextureOptions& options)
         : m_Path(path)
     {
+        SFN_PROFILE_FUNCTION();
+
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
         stbi_uc* data = nullptr;
         {
+            SFN_PROFILE_SCOPE("stbi_load - OpenGLTexture2D::OpenGLTexture2D(const std::string& path, const TextureOptions& options)");
             data = stbi_load(path.c_str(), &width, &height, &channels, 0);
         }
 
@@ -133,11 +138,15 @@ namespace Sophon {
 
     OpenGLTexture2D::~OpenGLTexture2D()
     {
+        SFN_PROFILE_FUNCTION();
+
         glDeleteTextures(1, &m_RendererID);
     }
 
     void OpenGLTexture2D::SetData(void* data, uint32_t size)
     {
+        SFN_PROFILE_FUNCTION();
+
         uint32_t bpp = m_DataFormat == GL_RGBA ? 4 : 3;
         SFN_CORE_ASSERT(size == m_Width * m_Height * bpp, "Data must be entire texture!");
         glTextureSubImage2D(m_RendererID, 0, 0, 0, m_Width, m_Height, m_DataFormat, GL_UNSIGNED_BYTE, data);
@@ -145,6 +154,8 @@ namespace Sophon {
 
     void OpenGLTexture2D::Bind(uint32_t slot) const
     {
+        SFN_PROFILE_FUNCTION();
+
         glBindTextureUnit(slot, m_RendererID);
     }
 }

@@ -85,14 +85,27 @@ An exercise in what's possible.
     - [x] DrawCall (DrawIndexed)
     - [ ] Renderer Submission
 - [ ] Debugging Support
-	- [x] logging
-	- [x] basic ImGui
-	- [ ] useful ImGui
-	- [ ] other ImGui platforms?
+	- [x] Logging
+  - [x] Instrumented Profiling (Chrome)
+	- [x] Basic ImGui Support
 - [ ] Scripting Language - C#, Lua, ???
 - [ ] Memory - allocator, tracking, etc
 - [ ] Entity Component System (ECS)
 - [ ] Physics
-- [ ] File I/O / VFS
+- [ ] File IO / VFS
 - [ ] Build System / Custom File Format
 	- [x] PreMake
+
+## Application Profiling
+Sophon Engine can be profiled by enabling the `SFN_PROFILE` flag. The Premake generated DebugProfile configuration will set this for you or you can manually enable it in the `Debug/Instrumentor.h` file. When enabled, execution times will be recorded for many of the core functions. The "client" app can also use the same macros to debug it's own methods:
+* `SFN_PROFILE_SCOPE(name)` - enables the capturing of metrics for all code executing within the current scope `{}`
+* `SFN_PROFILE_FUNCTION()` - enables the capturing of metrics for all code executing within the functions scope `fn() {}`
+
+Running the application with the profiler enabled will generate JSON files for startup, runtime, and shutdown, which can be read via the Chrome Tracing to visualize the application performance and easily identify potential bottlenecks.
+1. Open Chrome to: `chrome://tracing/`
+2. Drag or Load the file you want to visualize, example: `Sophon-Profiler-Data-Runtime.json`
+3. You can use `W` and `S` to zoom in and out, mouse left-click and drag to pan the timeline
+4. Happy Profiling!
+
+![RendererScreenshot](./Docs/Img/intrumentor-profiling.png)  
+*Example Runtime Profiling*

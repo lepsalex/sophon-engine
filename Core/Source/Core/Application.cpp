@@ -10,6 +10,8 @@ namespace Sophon {
 
     Application::Application()
     {
+        SFN_PROFILE_FUNCTION();
+
         SFN_CORE_ASSERT(!s_Instance, "Application already exists!");
         s_Instance = this;
 
@@ -24,38 +26,52 @@ namespace Sophon {
 
     Application::~Application()
     {
+        SFN_PROFILE_FUNCTION();
+
         Renderer::Shutdown();
     }
 
     void Application::PushLayer(Layer* layer)
     {
+        SFN_PROFILE_FUNCTION();
+
         m_LayerStack.PushLayer(layer);
         layer->OnAttach();
     }
 
     void Application::PushOverlay(Layer* layer)
     {
+        SFN_PROFILE_FUNCTION();
+
         m_LayerStack.PushOverlay(layer);
         layer->OnAttach();
     }
 
     void Application::Run()
     {
+        SFN_PROFILE_FUNCTION();
+
         while (m_Running) {
+            SFN_PROFILE_SCOPE("RunLoop");
 
             float time = Time::GetTime();
             Timestep ts = time - m_LastFrameTime;
             m_LastFrameTime = time;
 
             if (!m_Minimized) {
-                // call update on every layer (from bottom to top)
-                for (Layer* layer : m_LayerStack)
-                    layer->OnUpdate(ts);
+                {
+                    SFN_PROFILE_SCOPE("LayerStack OnUpdate");
+                    // call update on every layer (from bottom to top)
+                    for (Layer* layer : m_LayerStack)
+                        layer->OnUpdate(ts);
+                }
 
                 m_ImGuiLayer->Begin();
-
-                for (Layer* layer : m_LayerStack)
-                    layer->OnImGuiRender();
+                {
+                    SFN_PROFILE_SCOPE("LayerStack OnImGuiRender");
+                    for (Layer* layer : m_LayerStack)
+                        layer->OnImGuiRender();
+                }
 
                 m_ImGuiLayer->End();
             }
@@ -71,6 +87,8 @@ namespace Sophon {
 
     void Application::OnEvent(Event& e)
     {
+        SFN_PROFILE_FUNCTION();
+
         // Dispatch events
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<WindowCloseEvent>(SFN_BIND_EVENT_FN(Application::OnWindowClose));
@@ -93,6 +111,8 @@ namespace Sophon {
 
     bool Application::OnWindowResize(WindowResizeEvent& e)
     {
+        SFN_PROFILE_FUNCTION();
+
         if (e.GetWidth() == 0 || e.GetHeight() == 0) {
             m_Minimized = true;
             return false;

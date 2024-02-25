@@ -20,6 +20,7 @@ workspace "Sophon Engine"
 
   configurations {
     "Debug",
+    "DebugProfile",
     "Release",
     "Dist"
   }
