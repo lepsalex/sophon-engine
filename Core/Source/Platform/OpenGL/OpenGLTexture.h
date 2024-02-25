@@ -7,8 +7,8 @@
 namespace Sophon {
     class OpenGLTexture2D : public Texture2D {
     public:
-        OpenGLTexture2D(uint32_t width, uint32_t height);
-        OpenGLTexture2D(const std::string& path);
+        OpenGLTexture2D(const TextureSpecification& specification, const TextureOptions& options);
+        OpenGLTexture2D(const std::string& path, const TextureOptions& options);
         virtual ~OpenGLTexture2D();
 
         virtual uint32_t GetWidth() const override { return m_Width; }
@@ -29,6 +29,7 @@ namespace Sophon {
         }
 
     private:
+        TextureSpecification m_Specification;
         std::string m_Path;
         bool m_IsLoaded = false;
         uint32_t m_Width, m_Height;

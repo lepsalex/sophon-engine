@@ -8,8 +8,15 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
-    m_CheckerboardTexture = Sophon::Texture2D::Create("Assets/Textures/Checkerboard.png");
-    m_LogoTexture = Sophon::Texture2D::Create("Assets/Textures/Opengl-logo.png");
+    auto textureOptions = Sophon::TextureOptions {
+        Sophon::MinMagFilter::NEAREST,
+        Sophon::MinMagFilter::NEAREST,
+        Sophon::WrapOption::REPEAT,
+        Sophon::WrapOption::REPEAT,
+    };
+
+    m_CheckerboardTexture = Sophon::Texture2D::Create("Assets/Textures/Checkerboard.png", textureOptions);
+    m_LogoTexture = Sophon::Texture2D::Create("Assets/Textures/Opengl-logo.png", textureOptions);
 }
 
 void Sandbox2D::OnDetach()

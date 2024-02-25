@@ -9,6 +9,31 @@ namespace Sophon {
         RGBA32F
     };
 
+    // Only supporting linear/nearest for minifying for now
+    enum class MinMagFilter {
+        LINEAR = 0,
+        NEAREST,
+    };
+
+    // Only supporting repeat/mirrored-repeat for now
+    enum class WrapOption {
+        REPEAT = 0,
+        MIRRORED_REPEAT,
+    };
+
+    struct TextureSpecification {
+        uint32_t Width = 1;
+        uint32_t Height = 1;
+        ImageFormat Format = ImageFormat::RGBA8;
+    };
+
+    struct TextureOptions {
+        MinMagFilter MinFilter = MinMagFilter::LINEAR;
+        MinMagFilter MagFilter = MinMagFilter::LINEAR;
+        WrapOption WrapS = WrapOption::REPEAT;
+        WrapOption WrapT = WrapOption::REPEAT;
+    };
+
     class Texture {
     public:
         virtual ~Texture() = default;
@@ -30,7 +55,20 @@ namespace Sophon {
 
     class Texture2D : public Texture {
     public:
-        static Ref<Texture2D> Create(uint32_t width, uint32_t height);
-        static Ref<Texture2D> Create(const std::string& path);
+        static Ref<Texture2D> Create(const TextureSpecification& specification, const TextureOptions& options);
+        static Ref<Texture2D> Create(const TextureSpecification& specification)
+        {
+            return Create(specification, TextureOptions());
+        }
+        static Ref<Texture2D> Create()
+        {
+            return Create(TextureSpecification());
+        };
+
+        static Ref<Texture2D> Create(const std::string& path, const TextureOptions& options);
+        static Ref<Texture2D> Create(const std::string& path)
+        {
+            return Create(path, TextureOptions());
+        };
     };
 }
