@@ -31,3 +31,7 @@
 #include "Renderer/OrthographicCamera.h"
 #include "Renderer/OrthographicCameraController.h"
 // ----------------------------------
+
+// ---Debug/Profiling----------------
+#include "Debug/Instrumentor.h"
+// ----------------------------------

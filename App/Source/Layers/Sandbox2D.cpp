@@ -29,9 +29,14 @@ void Sandbox2D::OnUpdate(Sophon::Timestep ts)
     m_CameraController.OnUpdate(ts);
 
     // RENDER
-    Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-    Sophon::RenderCommand::Clear();
+    {
+        SFN_PROFILE_SCOPE("Render Prep");
+        Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+        Sophon::RenderCommand::Clear();
+    }
 
+
+    SFN_PROFILE_SCOPE("Render Draw");
     Sophon::Renderer2D::BeginScene(m_CameraController.GetCamera());
     Sophon::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
     Sophon::Renderer2D::DrawQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, { 0.2f, 0.3f, 0.8f, 1.0f });
