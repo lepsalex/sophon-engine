@@ -8,6 +8,8 @@ Sandbox2D::Sandbox2D()
 
 void Sandbox2D::OnAttach()
 {
+    SFN_PROFILE_FUNCTION();
+
     auto textureOptions = Sophon::TextureOptions {
         Sophon::MinMagFilter::NEAREST,
         Sophon::MinMagFilter::NEAREST,
@@ -25,6 +27,8 @@ void Sandbox2D::OnDetach()
 
 void Sandbox2D::OnUpdate(Sophon::Timestep ts)
 {
+    SFN_PROFILE_FUNCTION();
+
     // UPDATE
     m_CameraController.OnUpdate(ts);
 

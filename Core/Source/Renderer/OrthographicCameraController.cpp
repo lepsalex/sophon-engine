@@ -15,6 +15,8 @@ namespace Sophon {
 
     void OrthographicCameraController::OnUpdate(Timestep ts)
     {
+        SFN_PROFILE_FUNCTION();
+
         if (Input::IsKeyPressed(Key::A)) {
             m_CameraPosition.x -= cos(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
             m_CameraPosition.y -= sin(glm::radians(m_CameraRotation)) * m_CameraTranslationSpeed * ts;
@@ -52,6 +54,8 @@ namespace Sophon {
 
     void OrthographicCameraController::OnEvent(Event& e)
     {
+        SFN_PROFILE_FUNCTION();
+
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<MouseScrolledEvent>(SFN_BIND_EVENT_FN(OrthographicCameraController::OnMouseScrolled));
         dispatcher.Dispatch<WindowResizeEvent>(SFN_BIND_EVENT_FN(OrthographicCameraController::OnWindowResized));
@@ -65,6 +69,8 @@ namespace Sophon {
 
     bool OrthographicCameraController::OnMouseScrolled(MouseScrolledEvent& e)
     {
+        SFN_PROFILE_FUNCTION();
+
         m_ZoomLevel -= e.GetYOffset() * 0.25f;
         m_ZoomLevel = std::max(m_ZoomLevel, 0.25f);
         m_Camera.SetProjection(-m_AspectRatio * m_ZoomLevel, m_AspectRatio * m_ZoomLevel, -m_ZoomLevel, m_ZoomLevel);
@@ -73,6 +79,8 @@ namespace Sophon {
 
     bool OrthographicCameraController::OnWindowResized(WindowResizeEvent& e)
     {
+        SFN_PROFILE_FUNCTION();
+
         OnResize((float)e.GetWidth(), (float)e.GetHeight());
         return false;
     }

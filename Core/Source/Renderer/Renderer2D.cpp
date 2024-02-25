@@ -19,6 +19,8 @@ namespace Sophon {
 
     void Renderer2D::Init()
     {
+        SFN_PROFILE_FUNCTION();
+
         s_Data.QuadVertexArray = VertexArray::Create();
 
         float square_vertices[5 * 4] = {
@@ -53,6 +55,8 @@ namespace Sophon {
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
     {
+        SFN_PROFILE_FUNCTION();
+
         s_Data.QuadShader->Bind();
         s_Data.QuadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
     }
@@ -68,6 +72,8 @@ namespace Sophon {
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
     {
+        SFN_PROFILE_FUNCTION();
+
         s_Data.QuadShader->SetFloat4("u_Color", color);
         s_Data.WhiteTexture->Bind();
 
@@ -87,6 +93,8 @@ namespace Sophon {
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture)
     {
+        SFN_PROFILE_FUNCTION();
+
         s_Data.QuadShader->SetFloat4("u_Color", glm::vec4(1.0f));
         texture->Bind();
 

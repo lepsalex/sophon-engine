@@ -13,6 +13,8 @@ namespace Sophon {
     }
     void OpenGLContext::Init()
     {
+        SFN_PROFILE_FUNCTION();
+
         glfwMakeContextCurrent(m_WindowHandle);
         int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         SFN_CORE_ASSERT(status, "OpenGLContext::Init: Failed to initialize Glad!");
@@ -26,6 +28,8 @@ namespace Sophon {
     }
     void OpenGLContext::SwapBuffers()
     {
+        SFN_PROFILE_FUNCTION();
+
         glfwSwapBuffers(m_WindowHandle);
     }
 }

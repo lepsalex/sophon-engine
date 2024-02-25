@@ -34,6 +34,8 @@ namespace Sophon {
 
     void OpenGLRendererAPI::Init()
     {
+        SFN_PROFILE_FUNCTION();
+
 #ifdef SFN_DEBUG
         glEnable(GL_DEBUG_OUTPUT);
         glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);

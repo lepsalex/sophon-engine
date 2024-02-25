@@ -7,6 +7,8 @@ namespace Sophon {
 
     void Renderer::Init()
     {
+        SFN_PROFILE_FUNCTION();
+
         RenderCommand::Init();
         Renderer2D::Init();
     }
@@ -31,6 +33,8 @@ namespace Sophon {
 
     void Renderer::Submit(const Ref<Shader>& shader, const Ref<VertexArray>& vertexArray, const glm::mat4& transform)
     {
+        SFN_PROFILE_FUNCTION();
+
         shader->Bind();
         shader->SetMat4("u_ViewProjection", s_SceneData->ViewProjectionMatrix);
         shader->SetMat4("u_Transform", transform);
