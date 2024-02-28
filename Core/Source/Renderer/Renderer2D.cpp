@@ -88,8 +88,8 @@ namespace Sophon {
         for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
             samplers[i] = i;
 
-        // TODO: Rename shader and move to somewhere more appropriate
-        s_Data.QuadShader = Shader::Create("Assets/Shaders/Texture.glsl");
+        // TODO: move to somewhere more appropriate
+        s_Data.QuadShader = Shader::Create("Assets/Shaders/Renderer2D_Quad.glsl");
         s_Data.QuadShader->Bind();
         s_Data.QuadShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
 
