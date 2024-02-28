@@ -19,8 +19,8 @@ namespace Sophon {
 
     struct Renderer2DData {
         static const uint32_t MaxQuads = 20000;
-        static const uint32_t MaxVertices = MaxQuads * 4;
-        static const uint32_t MaxIndices = MaxQuads * 6;
+        static const uint32_t MaxVertices = MaxQuads * 4; // 4 verticies in a square
+        static const uint32_t MaxIndices = MaxQuads * 6; // draw 2 triangles will 4 verticies [0, 1, 2, 2, 3, 0]
         static const uint32_t MaxTextureSlots = 32; // TODO: Get this from the GPU?
 
         Ref<VertexArray> QuadVertexArray;
@@ -29,11 +29,11 @@ namespace Sophon {
         Ref<Texture2D> WhiteTexture;
 
         uint32_t QuadIndexCount = 0;
-        QuadVertex* QuadVertexBufferBase = nullptr;
-        QuadVertex* QuadVertexBufferPtr = nullptr;
+        QuadVertex* QuadVertexBufferBase = nullptr; // all quad verticies
+        QuadVertex* QuadVertexBufferPtr = nullptr; // current quad vertex
 
-        std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots;
-        uint32_t TextureSlotIndex = 1; // 0 = white texture
+        std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots; // array holding used texture slots in their index
+        uint32_t TextureSlotIndex = 1; // 0 = white texture, new textures get added stating at index 1
 
         glm::vec4 QuadVertexPositions[4];
     };
@@ -58,10 +58,11 @@ namespace Sophon {
 
         s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
+        // Base QuadVertex array (the vertexes we are drawing)
         s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
 
+        // Init and fill index array for QuadVertex buffer (the order we are drawing the verticies)
         uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
-
         uint32_t offset = 0;
         for (uint32_t i = 0; i < s_Data.MaxIndices; i += 6) {
             quadIndices[i + 0] = offset + 0;
@@ -75,6 +76,7 @@ namespace Sophon {
             offset += 4;
         }
 
+        // Set the IB and the delete the raw heap allocated quadIndices
         Ref<IndexBuffer> quadIB = IndexBuffer::Create(quadIndices, s_Data.MaxIndices);
         s_Data.QuadVertexArray->SetIndexBuffer(quadIB);
         delete[] quadIndices;
@@ -84,11 +86,13 @@ namespace Sophon {
         uint32_t whiteTextureData = 0xffffffff;
         s_Data.WhiteTexture->SetData(&whiteTextureData, sizeof(uint32_t));
 
+        // Setup the texture sampler (size should be GPU dependent)
         int32_t samplers[s_Data.MaxTextureSlots];
         for (uint32_t i = 0; i < s_Data.MaxTextureSlots; i++)
             samplers[i] = i;
 
-        // TODO: move to somewhere more appropriate
+        // Create and bind the Quad shader for this renderer
+        // TODO: move shader somewhere more appropriate
         s_Data.QuadShader = Shader::Create("Assets/Shaders/Renderer2D_Quad.glsl");
         s_Data.QuadShader->Bind();
         s_Data.QuadShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
@@ -96,6 +100,7 @@ namespace Sophon {
         // Set first texture slot to 0
         s_Data.TextureSlots[0] = s_Data.WhiteTexture;
 
+        // Quad verticies are always the same to start
         s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
         s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
         s_Data.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
@@ -106,6 +111,7 @@ namespace Sophon {
     {
         SFN_PROFILE_FUNCTION();
 
+        // RAII cleanup
         delete[] s_Data.QuadVertexBufferBase;
     }
 
@@ -119,13 +125,10 @@ namespace Sophon {
         StartBatch();
     }
 
-    void Renderer2D::EndScene()
-    {
-        Flush();
-    }
-
     void Renderer2D::Flush()
     {
+        // Draw the buffer
+
         if (s_Data.QuadIndexCount == 0)
             return; // Nothing to draw
 
@@ -139,6 +142,25 @@ namespace Sophon {
         RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
     }
 
+    void Renderer2D::EndScene()
+    {
+        Flush();
+    }
+
+    void Renderer2D::StartBatch()
+    {
+        // Reset Renderer2D state for new batch
+        s_Data.QuadIndexCount = 0;
+        s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+        s_Data.TextureSlotIndex = 1;
+    }
+
+    void Renderer2D::NextBatch()
+    {
+        Flush();
+        StartBatch();
+    }
+
     void Renderer2D::DrawQuad(const glm::vec2& position, const glm::vec2& size, const glm::vec4& color)
     {
         DrawQuad({ position.x, position.y, 0.0f }, size, color);
@@ -146,8 +168,6 @@ namespace Sophon {
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const glm::vec4& color)
     {
-        SFN_PROFILE_FUNCTION();
-
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
@@ -161,8 +181,6 @@ namespace Sophon {
 
     void Renderer2D::DrawQuad(const glm::vec3& position, const glm::vec2& size, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
-        SFN_PROFILE_FUNCTION();
-
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
@@ -174,13 +192,15 @@ namespace Sophon {
         SFN_PROFILE_FUNCTION();
 
         constexpr size_t quadVertexCount = 4;
-        const float textureIndex = 0.0f; // white texture
+        constexpr float textureIndex = 0.0f; // white texture
         constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
-        const float tilingFactor = 1.0f;
+        constexpr float tilingFactor = 1.0f;
 
+        // flush and reset buffer if we've reached Renderer2DData::MaxIndices
         if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
             NextBatch();
 
+        // record vertex data for this quad
         for (size_t i = 0; i < quadVertexCount; i++) {
             s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
             s_Data.QuadVertexBufferPtr->Color = color;
@@ -190,6 +210,7 @@ namespace Sophon {
             s_Data.QuadVertexBufferPtr++;
         }
 
+        // advance the quad index for the next quad
         s_Data.QuadIndexCount += 6;
     }
 
@@ -200,9 +221,11 @@ namespace Sophon {
         constexpr size_t quadVertexCount = 4;
         constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
 
+        // flush and reset buffer if we've reached Renderer2DData::MaxIndices
         if (s_Data.QuadIndexCount >= Renderer2DData::MaxIndices)
             NextBatch();
 
+        // check if an texture slot already exists for this texture
         float textureIndex = 0.0f;
         for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
             if (*s_Data.TextureSlots[i] == *texture) {
@@ -211,15 +234,18 @@ namespace Sophon {
             }
         }
 
+        // texture was not in a slot already ...
         if (textureIndex == 0.0f) {
+            // flush and reset buffer if we've reached Renderer2DData::MaxTextureSlots
             if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
                 NextBatch();
 
-            textureIndex = (float)s_Data.TextureSlotIndex;
+            textureIndex = static_cast<float>(s_Data.TextureSlotIndex);
             s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
             s_Data.TextureSlotIndex++;
         }
 
+        // record vertex data for this quad
         for (size_t i = 0; i < quadVertexCount; i++) {
             s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
             s_Data.QuadVertexBufferPtr->Color = tintColor;
@@ -229,6 +255,7 @@ namespace Sophon {
             s_Data.QuadVertexBufferPtr++;
         }
 
+        // advance the quad index for the next quad
         s_Data.QuadIndexCount += 6;
     }
 
@@ -239,8 +266,6 @@ namespace Sophon {
 
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const glm::vec4& color)
     {
-        SFN_PROFILE_FUNCTION();
-
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
@@ -255,26 +280,10 @@ namespace Sophon {
 
     void Renderer2D::DrawRotatedQuad(const glm::vec3& position, const glm::vec2& size, float rotation, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
     {
-        SFN_PROFILE_FUNCTION();
-
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), position)
             * glm::rotate(glm::mat4(1.0f), glm::radians(rotation), { 0.0f, 0.0f, 1.0f })
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         DrawQuad(transform, texture, tilingFactor, tintColor);
-    }
-
-    void Renderer2D::StartBatch()
-    {
-        s_Data.QuadIndexCount = 0;
-        s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
-
-        s_Data.TextureSlotIndex = 1;
-    }
-
-    void Renderer2D::NextBatch()
-    {
-        Flush();
-        StartBatch();
     }
 }
