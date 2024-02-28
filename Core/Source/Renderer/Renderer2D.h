@@ -30,5 +30,8 @@ namespace Sophon {
     private:
         static void StartBatch();
         static void NextBatch();
+
+    private:
+        static const uint32_t WHITE_TEXTURE_INDEX = 0;
     };
 }

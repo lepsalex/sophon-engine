@@ -28,6 +28,14 @@ namespace Sophon {
             return GL_INT;
         case ShaderDataType::Int4:
             return GL_INT;
+        case ShaderDataType::UInt:
+            return GL_UNSIGNED_INT;
+        case ShaderDataType::UInt2:
+            return GL_UNSIGNED_INT;
+        case ShaderDataType::UInt3:
+            return GL_UNSIGNED_INT;
+        case ShaderDataType::UInt4:
+            return GL_UNSIGNED_INT;
         case ShaderDataType::Bool:
             return GL_BOOL;
         }
@@ -94,6 +102,10 @@ namespace Sophon {
             case ShaderDataType::Int2:
             case ShaderDataType::Int3:
             case ShaderDataType::Int4:
+            case ShaderDataType::UInt:
+            case ShaderDataType::UInt2:
+            case ShaderDataType::UInt3:
+            case ShaderDataType::UInt4:
             case ShaderDataType::Bool: {
                 glEnableVertexAttribArray(m_VertexBufferIndex);
                 glVertexAttribIPointer(m_VertexBufferIndex,
