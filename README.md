@@ -65,6 +65,10 @@ An exercise in what's possible.
   - [ ] Renderer2D
     - [x] Init/Setup
     - [x] DrawQuad
+    - [x] Batching
+  - [ ] Renderer (3D)
+    - [x] Init/Setup
+    - [ ] Batching
   - [ ] Camera
     - [x] 2D Orthographic
     - [ ] 3D Orthographic

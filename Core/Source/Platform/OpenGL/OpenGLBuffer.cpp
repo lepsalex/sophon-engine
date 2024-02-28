@@ -47,6 +47,14 @@ namespace Sophon {
         glBindBuffer(GL_ARRAY_BUFFER, 0);
     }
 
+    void OpenGLVertexBuffer::SetData(const void* data, uint32_t size)
+    {
+        SFN_PROFILE_FUNCTION();
+
+        glBindBuffer(GL_ARRAY_BUFFER, m_RendererID);
+        glBufferSubData(GL_ARRAY_BUFFER, 0, size, data);
+    }
+
     /////////////////////////////////////////////////////////////////////////////
     // IndexBuffer //////////////////////////////////////////////////////////////
     /////////////////////////////////////////////////////////////////////////////
