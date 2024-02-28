@@ -13,6 +13,10 @@ namespace Sophon {
         Int2,
         Int3,
         Int4,
+        UInt,
+        UInt2,
+        UInt3,
+        UInt4,
         Bool
     };
 
@@ -38,6 +42,14 @@ namespace Sophon {
         case ShaderDataType::Int3:
             return 4 * 3;
         case ShaderDataType::Int4:
+            return 4 * 4;
+        case ShaderDataType::UInt:
+            return 4;
+        case ShaderDataType::UInt2:
+            return 4 * 2;
+        case ShaderDataType::UInt3:
+            return 4 * 3;
+        case ShaderDataType::UInt4:
             return 4 * 4;
         case ShaderDataType::Bool:
             return 1;
@@ -87,6 +99,14 @@ namespace Sophon {
             case ShaderDataType::Int3:
                 return 3;
             case ShaderDataType::Int4:
+                return 4;
+            case ShaderDataType::UInt:
+                return 1;
+            case ShaderDataType::UInt2:
+                return 2;
+            case ShaderDataType::UInt3:
+                return 3;
+            case ShaderDataType::UInt4:
                 return 4;
             case ShaderDataType::Bool:
                 return 1;

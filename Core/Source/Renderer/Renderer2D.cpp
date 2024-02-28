@@ -13,14 +13,14 @@ namespace Sophon {
         glm::vec3 Position;
         glm::vec4 Color;
         glm::vec2 TexCoord;
-        float TexIndex;
+        uint32_t TexIndex;
         float TilingFactor;
     };
 
     struct Renderer2DData {
         static const uint32_t MaxQuads = 20000;
-        static const uint32_t MaxVertices = MaxQuads * 4; // 4 verticies in a square
-        static const uint32_t MaxIndices = MaxQuads * 6; // draw 2 triangles will 4 verticies [0, 1, 2, 2, 3, 0]
+        static const uint32_t MaxVertices = MaxQuads * 4; // 4 vertices in a square
+        static const uint32_t MaxIndices = MaxQuads * 6; // draw 2 triangles will 4 vertices [0, 1, 2, 2, 3, 0]
         static const uint32_t MaxTextureSlots = 32; // TODO: Get this from the GPU?
 
         Ref<VertexArray> QuadVertexArray;
@@ -29,13 +29,13 @@ namespace Sophon {
         Ref<Texture2D> WhiteTexture;
 
         uint32_t QuadIndexCount = 0;
-        QuadVertex* QuadVertexBufferBase = nullptr; // all quad verticies
+        std::array<QuadVertex, MaxVertices> QuadVertexBufferBase; // all quad vertices
         QuadVertex* QuadVertexBufferPtr = nullptr; // current quad vertex
 
         std::array<Ref<Texture2D>, MaxTextureSlots> TextureSlots; // array holding used texture slots in their index
         uint32_t TextureSlotIndex = 1; // 0 = white texture, new textures get added stating at index 1
 
-        glm::vec4 QuadVertexPositions[4];
+        std::array<glm::vec4, 4> QuadVertexPositions;
     };
 
     static Renderer2DData s_Data;
@@ -52,16 +52,13 @@ namespace Sophon {
             { ShaderDataType::Float3, "a_Position" },
             { ShaderDataType::Float4, "a_Color" },
             { ShaderDataType::Float2, "a_TexCoord" },
-            { ShaderDataType::Float, "a_TexIndex" },
+            { ShaderDataType::UInt, "a_TexIndex" },
             { ShaderDataType::Float, "a_TilingFactor" },
         });
 
         s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
 
-        // Base QuadVertex array (the vertexes we are drawing)
-        s_Data.QuadVertexBufferBase = new QuadVertex[s_Data.MaxVertices];
-
-        // Init and fill index array for QuadVertex buffer (the order we are drawing the verticies)
+        // Init and fill index array for QuadVertex buffer (the order we are drawing the vertices)
         uint32_t* quadIndices = new uint32_t[s_Data.MaxIndices];
         uint32_t offset = 0;
         for (uint32_t i = 0; i < s_Data.MaxIndices; i += 6) {
@@ -97,10 +94,10 @@ namespace Sophon {
         s_Data.QuadShader->Bind();
         s_Data.QuadShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
 
-        // Set first texture slot to 0
-        s_Data.TextureSlots[0] = s_Data.WhiteTexture;
+        // Set white texture slot to WHITE_TEXTURE_INDEX (0)
+        s_Data.TextureSlots[WHITE_TEXTURE_INDEX] = s_Data.WhiteTexture;
 
-        // Quad verticies are always the same to start
+        // Quad vertices are always the same to start
         s_Data.QuadVertexPositions[0] = { -0.5f, -0.5f, 0.0f, 1.0f };
         s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
         s_Data.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
@@ -110,9 +107,6 @@ namespace Sophon {
     void Renderer2D::Shutdown()
     {
         SFN_PROFILE_FUNCTION();
-
-        // RAII cleanup
-        delete[] s_Data.QuadVertexBufferBase;
     }
 
     void Renderer2D::BeginScene(const OrthographicCamera& camera)
@@ -132,8 +126,9 @@ namespace Sophon {
         if (s_Data.QuadIndexCount == 0)
             return; // Nothing to draw
 
-        uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase);
-        s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase, dataSize);
+        // Get data in the buffer up to where we wrote to during this pass
+        uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase.data());
+        s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase.data(), dataSize);
 
         // Bind textures
         for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
@@ -151,7 +146,7 @@ namespace Sophon {
     {
         // Reset Renderer2D state for new batch
         s_Data.QuadIndexCount = 0;
-        s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase;
+        s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase.data();
         s_Data.TextureSlotIndex = 1;
     }
 
@@ -192,7 +187,6 @@ namespace Sophon {
         SFN_PROFILE_FUNCTION();
 
         constexpr size_t quadVertexCount = 4;
-        constexpr float textureIndex = 0.0f; // white texture
         constexpr glm::vec2 textureCoords[] = { { 0.0f, 0.0f }, { 1.0f, 0.0f }, { 1.0f, 1.0f }, { 0.0f, 1.0f } };
         constexpr float tilingFactor = 1.0f;
 
@@ -205,7 +199,7 @@ namespace Sophon {
             s_Data.QuadVertexBufferPtr->Position = transform * s_Data.QuadVertexPositions[i];
             s_Data.QuadVertexBufferPtr->Color = color;
             s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
-            s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
+            s_Data.QuadVertexBufferPtr->TexIndex = WHITE_TEXTURE_INDEX;
             s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
             s_Data.QuadVertexBufferPtr++;
         }
@@ -226,21 +220,21 @@ namespace Sophon {
             NextBatch();
 
         // check if an texture slot already exists for this texture
-        float textureIndex = 0.0f;
+        uint32_t textureIndex = 0;
         for (uint32_t i = 1; i < s_Data.TextureSlotIndex; i++) {
             if (*s_Data.TextureSlots[i] == *texture) {
-                textureIndex = (float)i;
+                textureIndex = i;
                 break;
             }
         }
 
         // texture was not in a slot already ...
-        if (textureIndex == 0.0f) {
+        if (textureIndex == 0) {
             // flush and reset buffer if we've reached Renderer2DData::MaxTextureSlots
             if (s_Data.TextureSlotIndex >= Renderer2DData::MaxTextureSlots)
                 NextBatch();
 
-            textureIndex = static_cast<float>(s_Data.TextureSlotIndex);
+            textureIndex = s_Data.TextureSlotIndex;
             s_Data.TextureSlots[s_Data.TextureSlotIndex] = texture;
             s_Data.TextureSlotIndex++;
         }
