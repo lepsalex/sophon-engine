@@ -19,6 +19,7 @@ project "Editor"
         -- Vendor
         "%{IncludeDir.SPDLOG}",
         "%{IncludeDir.glm}",
+        "%{IncludeDir.ImGui}",
         
         -- Core
         "%{wks.location}/Core/Source"

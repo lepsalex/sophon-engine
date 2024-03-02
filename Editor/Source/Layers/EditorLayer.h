@@ -16,8 +16,16 @@ namespace Sophon {
         void OnEvent(Sophon::Event& e) override;
 
     private:
-       OrthographicCameraController m_CameraController;
-       Ref<Sophon::Texture2D> m_CheckerboardTexture, m_LogoTexture;
+        bool OnKeyPressed(KeyPressedEvent& e);
+        bool OnMouseButtonPressed(MouseButtonPressedEvent& e);
+
+    private:
+        OrthographicCameraController m_CameraController;
+        Ref<Sophon::Texture2D> m_CheckerboardTexture, m_LogoTexture;
+
+        Ref<Framebuffer> m_Framebuffer;
+        bool m_ViewportFocused = false, m_ViewportHovered = false;
+        glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
+        glm::vec2 m_ViewportBounds[2];
     };
 }
-
