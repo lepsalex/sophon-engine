@@ -36,6 +36,8 @@ namespace Sophon {
         uint32_t TextureSlotIndex = 1; // 0 = white texture, new textures get added stating at index 1
 
         std::array<glm::vec4, 4> QuadVertexPositions;
+
+        Renderer2D::Statistics Stats;
     };
 
     static Renderer2DData s_Data;
@@ -135,6 +137,9 @@ namespace Sophon {
             s_Data.TextureSlots[i]->Bind(i);
 
         RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
+
+        // Recored draw call to stats
+        s_Data.Stats.DrawCalls++;
     }
 
     void Renderer2D::EndScene()
@@ -206,6 +211,9 @@ namespace Sophon {
 
         // advance the quad index for the next quad
         s_Data.QuadIndexCount += 6;
+
+        // increment stats quad count
+        s_Data.Stats.QuadCount++;
     }
 
     void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
@@ -251,6 +259,9 @@ namespace Sophon {
 
         // advance the quad index for the next quad
         s_Data.QuadIndexCount += 6;
+
+        // increment stats quad count
+        s_Data.Stats.QuadCount++;
     }
 
     void Renderer2D::DrawRotatedQuad(const glm::vec2& position, const glm::vec2& size, float rotation, const glm::vec4& color)
@@ -279,5 +290,15 @@ namespace Sophon {
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         DrawQuad(transform, texture, tilingFactor, tintColor);
+    }
+
+    void Renderer2D::ResetStats()
+    {
+        memset(&s_Data.Stats, 0, sizeof(Statistics));
+    }
+
+    Renderer2D::Statistics Renderer2D::GetStats()
+    {
+        return s_Data.Stats;
     }
 }

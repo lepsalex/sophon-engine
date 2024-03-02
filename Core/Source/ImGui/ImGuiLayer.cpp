@@ -1,6 +1,5 @@
 #include "sfnpch.h"
-
-#include "ImGuiLayer.h"
+#include "ImGui/ImGuiLayer.h"
 
 #include <imgui.h>
 #include <imgui_internal.h>
@@ -86,11 +85,8 @@ namespace Sophon {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
-
-        bool show_demo_window = true;
-        if (show_demo_window)
-            ImGui::ShowDemoWindow(&show_demo_window);
     }
+
     void ImGuiLayer::End()
     {
         SFN_PROFILE_FUNCTION();
@@ -145,8 +141,9 @@ namespace Sophon {
         colors[ImGuiCol_TitleBgActive] = ImVec4 { 0.15f, 0.1505f, 0.151f, 1.0f };
         colors[ImGuiCol_TitleBgCollapsed] = ImVec4 { 0.15f, 0.1505f, 0.151f, 1.0f };
     }
+
     uint32_t ImGuiLayer::GetActiveWidgetID() const
     {
-        return 0;
+        return GImGui->ActiveId;
     }
 }

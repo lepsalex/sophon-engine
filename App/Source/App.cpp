@@ -5,7 +5,8 @@
 
 class App : public Sophon::Application {
 public:
-    App()
+    App(const Sophon::ApplicationSpecification& specification)
+        : Sophon::Application(specification)
     {
         PushLayer(new Sandbox2D());
     }
@@ -15,7 +16,12 @@ public:
     }
 };
 
-Sophon::Application* Sophon::CreateApplication()
+Sophon::Application* Sophon::CreateApplication(Sophon::ApplicationCommandLineArgs args)
 {
-    return new App();
+    ApplicationSpecification spec;
+    spec.Name = "Sandbox App";
+    spec.WorkingDirectory = "../Editor";
+    spec.CommandLineArgs = args;
+
+    return new App(spec);
 }
