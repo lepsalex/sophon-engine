@@ -5,14 +5,14 @@
 
 #ifdef SFN_PLATFORM_WINDOWS
 
-extern Sophon::Application* Sophon::CreateApplication();
+extern Sophon::Application* Sophon::CreateApplication(ApplicationCommandLineArgs args);
 
-int main()
+int main(int argc, char** argv)
 {
     Sophon::Log::Init();
 
     SFN_PROFILE_BEGIN_SESSION("Startup", "Sophon-Profiler-Data-Startup.json");
-    auto app = Sophon::CreateApplication();
+    auto app = Sophon::CreateApplication({ argc, argv });
     SFN_PROFILE_END_SESSION();
 
     SFN_PROFILE_BEGIN_SESSION("Runtime", "Sophon-Profiler-Data-Runtime.json");

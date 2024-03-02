@@ -8,14 +8,19 @@ namespace Sophon {
 
     Application* Application::s_Instance = nullptr;
 
-    Application::Application()
+    Application::Application(const ApplicationSpecification& specification)
+        : m_Specification(specification)
     {
         SFN_PROFILE_FUNCTION();
 
         SFN_CORE_ASSERT(!s_Instance, "Application already exists!");
         s_Instance = this;
 
-        m_Window = Window::Create();
+        // Set working directory here
+        if (!m_Specification.WorkingDirectory.empty())
+            std::filesystem::current_path(m_Specification.WorkingDirectory);
+
+        m_Window = Window::Create(WindowProps(m_Specification.Name));
         m_Window->SetEventCallback(SFN_BIND_EVENT_FN(Application::OnEvent));
 
         Renderer::Init();
@@ -45,6 +50,11 @@ namespace Sophon {
 
         m_LayerStack.PushOverlay(layer);
         layer->OnAttach();
+    }
+
+    void Application::Close()
+    {
+        m_Running = false;
     }
 
     void Application::Run()
@@ -78,11 +88,6 @@ namespace Sophon {
 
             m_Window->OnUpdate();
         }
-    }
-
-    void Application::Close()
-    {
-        m_Running = false;
     }
 
     void Application::OnEvent(Event& e)

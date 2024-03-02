@@ -6,7 +6,8 @@
 namespace Sophon {
     class EditorApp : public Application {
     public:
-        EditorApp()
+        EditorApp(const ApplicationSpecification& spec)
+            : Application(spec)
         {
             PushLayer(new EditorLayer());
         }
@@ -16,8 +17,12 @@ namespace Sophon {
         }
     };
 
-    Application* CreateApplication()
+    Application* CreateApplication(ApplicationCommandLineArgs args)
     {
-        return new EditorApp();
+        ApplicationSpecification spec;
+        spec.Name = "Editor";
+        spec.CommandLineArgs = args;
+
+        return new EditorApp(spec);
     }
 }
