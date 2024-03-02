@@ -3,7 +3,7 @@ include "Dependencies.lua"
 
 workspace "Sophon Engine"
   architecture "x64"
-  startproject "App"
+  startproject "Editor"
 
   solutionitems {
     "README.md",
@@ -14,7 +14,9 @@ workspace "Sophon Engine"
       "./Build.lua",
       "./Dependencies.lua",
       "./Core/Build-Core.lua",
+      "./Editor/Build-Editor.lua",
       "./App/Build-App.lua",
+      "./SolutionItems.lua",
     }
   }
 
@@ -43,6 +45,7 @@ group ""
 
 group "Engine"
   include "Core/Build-Core.lua"
+  include "Editor/Build-Editor.lua"
 group ""
 
 include "App/Build-App.lua"
