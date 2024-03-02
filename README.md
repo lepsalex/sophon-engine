@@ -66,9 +66,12 @@ An exercise in what's possible.
     - [x] Init/Setup
     - [x] DrawQuad
     - [x] Batching
+    - [x] Basic Stats
   - [ ] Renderer (3D)
     - [x] Init/Setup
     - [ ] Batching
+  - [ ] Framebuffer
+    - [x] Bind/unbind as render target
   - [ ] Camera
     - [x] 2D Orthographic
     - [ ] 3D Orthographic
@@ -88,10 +91,15 @@ An exercise in what's possible.
     - [x] Clear
     - [x] DrawCall (DrawIndexed)
     - [ ] Renderer Submission
+- [ ] Editor
+  - [x] Editor "App"
+  - [x] ImGui dockspace setup (renderer base)
+  - [x] Viewport for main render target
 - [ ] Debugging Support
 	- [x] Logging
   - [x] Instrumented Profiling (Chrome)
 	- [x] Basic ImGui Support
+  - [x] Editor RenderStats panel
 - [ ] Scripting Language - C#, Lua, ???
 - [ ] Memory - allocator, tracking, etc
 - [ ] Entity Component System (ECS)
