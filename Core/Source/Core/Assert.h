@@ -1,5 +1,9 @@
 #pragma once
 
+#include "Core/Base.h"
+#include "Core/Log.h"
+#include <filesystem>
+
 #ifdef SFN_ENABLE_ASSERTS
 
 #define SFN_INTERNAL_ASSERT_IMPL(type, check, msg, ...) \
@@ -18,7 +22,6 @@
 // Currently accepts at least the condition and one additional parameter (the message) being optional
 #define SFN_ASSERT(...) SFN_EXPAND_MACRO(SFN_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_, __VA_ARGS__))
 #define SFN_CORE_ASSERT(...) SFN_EXPAND_MACRO(SFN_INTERNAL_ASSERT_GET_MACRO(__VA_ARGS__)(_CORE_, __VA_ARGS__))
-
 #else
 #define SFN_ASSERT(...)
 #define SFN_CORE_ASSERT(...)
