@@ -5,7 +5,6 @@
 namespace Sophon {
     EditorLayer::EditorLayer()
         : Layer("EditorLayer")
-        , m_CameraController(1280.0f / 720.0f)
     {
     }
 
@@ -21,6 +20,8 @@ namespace Sophon {
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
         m_Framebuffer = Framebuffer::Create(fbSpec);
+
+        m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
     }
 
     void EditorLayer::OnDetach()
@@ -36,12 +37,12 @@ namespace Sophon {
             m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
             (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
             m_Framebuffer->Resize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
-            m_CameraController.OnResize(m_ViewportSize.x, m_ViewportSize.y);
+            m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
         }
 
         // UPDATE
         if (m_ViewportBounds)
-            m_CameraController.OnUpdate(ts);
+            m_EditorCamera.OnUpdate(ts);
 
         // RENDER
         Renderer2D::ResetStats();
@@ -56,7 +57,7 @@ namespace Sophon {
             SFN_PROFILE_SCOPE("Render Draw");
 
             // Draw Textures and Shapes
-            Sophon::Renderer2D::BeginScene(m_CameraController.GetCamera());
+            Sophon::Renderer2D::BeginScene(m_EditorCamera);
             Sophon::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
             Sophon::Renderer2D::DrawRotatedQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, 45.0f, { 0.2f, 0.3f, 0.8f, 1.0f });
             Sophon::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.0f }, { 1.0f, 1.0f }, m_CheckerboardTexture, 5.0f, { 0.9f, 0.8f, 0.7f, 1.0f });
@@ -64,7 +65,7 @@ namespace Sophon {
             Sophon::Renderer2D::EndScene();
 
             // Draw Tiles
-            Sophon::Renderer2D::BeginScene(m_CameraController.GetCamera());
+            Sophon::Renderer2D::BeginScene(m_EditorCamera);
             for (float y = -5.0f; y < 5.0f; y += 0.5f) {
                 for (float x = -5.0f; x < 5.0f; x += 0.5f) {
                     glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
@@ -178,7 +179,7 @@ namespace Sophon {
 
     void EditorLayer::OnEvent(Sophon::Event& e)
     {
-        m_CameraController.OnEvent(e);
+        m_EditorCamera.OnEvent(e);
 
         EventDispatcher dispatcher(e);
         dispatcher.Dispatch<KeyPressedEvent>(SFN_BIND_EVENT_FN(EditorLayer::OnKeyPressed));

@@ -18,8 +18,6 @@
 #include "Events/KeyEvent.h"
 #include "Events/MouseEvent.h"
 
-#include "Renderer/OrthographicCameraController.h"
-
 #include "ImGui/ImGuiLayer.h"
 
 // ---Renderer-----------------------
@@ -32,8 +30,6 @@
 #include "Renderer/Framebuffer.h"
 #include "Renderer/Texture.h"
 #include "Renderer/VertexArray.h"
-
-#include "Renderer/OrthographicCamera.h"
 // ----------------------------------
 
 // ---Debug/Profiling----------------

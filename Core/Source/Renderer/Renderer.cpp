@@ -22,9 +22,9 @@ namespace Sophon {
         RenderCommand::SetViewport(0, 0, width, height);
     }
 
-    void Renderer::BeginScene(const OrthographicCamera& camera)
+    void Renderer::BeginScene(const Camera& camera)
     {
-        s_SceneData->ViewProjectionMatrix = camera.GetViewProjectionMatrix();
+        s_SceneData->ViewProjectionMatrix = camera.GetProjection();
     }
 
     void Renderer::EndScene()
