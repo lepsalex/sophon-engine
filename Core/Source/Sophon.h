@@ -2,6 +2,8 @@
 
 // For Sophon Application Use
 
+#include "Core/Base.h"
+
 #include "Core/Application.h"
 #include "Core/Layer.h"
 #include "Core/Log.h"
@@ -28,9 +30,6 @@
 #include "Renderer/Framebuffer.h"
 #include "Renderer/Texture.h"
 #include "Renderer/VertexArray.h"
-
-#include "Renderer/OrthographicCamera.h"
-#include "Renderer/OrthographicCameraController.h"
 // ----------------------------------
 
 // ---Debug/Profiling----------------

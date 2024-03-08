@@ -3,6 +3,7 @@
 
 #include "Renderer/VertexArray.h"
 #include "Renderer/Shader.h"
+#include "Renderer/UniformBuffer.h"
 #include "Renderer/RenderCommand.h"
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -38,6 +39,12 @@ namespace Sophon {
         std::array<glm::vec4, 4> QuadVertexPositions;
 
         Renderer2D::Statistics Stats;
+
+        struct CameraData {
+            glm::mat4 ViewProjection;
+        };
+        CameraData CameraBuffer;
+        Ref<UniformBuffer> CameraUniformBuffer;
     };
 
     static Renderer2DData s_Data;
@@ -93,8 +100,6 @@ namespace Sophon {
         // Create and bind the Quad shader for this renderer
         // TODO: move shader somewhere more appropriate
         s_Data.QuadShader = Shader::Create("Assets/Shaders/Renderer2D_Quad.glsl");
-        s_Data.QuadShader->Bind();
-        s_Data.QuadShader->SetIntArray("u_Textures", samplers, s_Data.MaxTextureSlots);
 
         // Set white texture slot to WHITE_TEXTURE_INDEX (0)
         s_Data.TextureSlots[WHITE_TEXTURE_INDEX] = s_Data.WhiteTexture;
@@ -104,6 +109,9 @@ namespace Sophon {
         s_Data.QuadVertexPositions[1] = { 0.5f, -0.5f, 0.0f, 1.0f };
         s_Data.QuadVertexPositions[2] = { 0.5f, 0.5f, 0.0f, 1.0f };
         s_Data.QuadVertexPositions[3] = { -0.5f, 0.5f, 0.0f, 1.0f };
+
+        // Create Camera Uniform Buffer
+        s_Data.CameraUniformBuffer = UniformBuffer::Create(sizeof(Renderer2DData::CameraData), 0);
     }
 
     void Renderer2D::Shutdown()
@@ -111,12 +119,22 @@ namespace Sophon {
         SFN_PROFILE_FUNCTION();
     }
 
-    void Renderer2D::BeginScene(const OrthographicCamera& camera)
+    void Renderer2D::BeginScene(const Camera& camera, const glm::mat4& transform)
     {
         SFN_PROFILE_FUNCTION();
 
-        s_Data.QuadShader->Bind();
-        s_Data.QuadShader->SetMat4("u_ViewProjection", camera.GetViewProjectionMatrix());
+        s_Data.CameraBuffer.ViewProjection = camera.GetProjection() * glm::inverse(transform);
+        s_Data.CameraUniformBuffer->SetData(&s_Data.CameraBuffer, sizeof(Renderer2DData::CameraData));
+
+        StartBatch();
+    }
+
+    void Renderer2D::BeginScene(const EditorCamera& camera)
+    {
+        SFN_PROFILE_FUNCTION();
+
+        s_Data.CameraBuffer.ViewProjection = camera.GetViewProjection();
+        s_Data.CameraUniformBuffer->SetData(&s_Data.CameraBuffer, sizeof(Renderer2DData::CameraData));
 
         StartBatch();
     }
@@ -125,21 +143,21 @@ namespace Sophon {
     {
         // Draw the buffer
 
-        if (s_Data.QuadIndexCount == 0)
-            return; // Nothing to draw
+        if (s_Data.QuadIndexCount) {
+            // Get data in the buffer up to where we wrote to during this pass
+            uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase.data());
+            s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase.data(), dataSize);
 
-        // Get data in the buffer up to where we wrote to during this pass
-        uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.QuadVertexBufferPtr - (uint8_t*)s_Data.QuadVertexBufferBase.data());
-        s_Data.QuadVertexBuffer->SetData(s_Data.QuadVertexBufferBase.data(), dataSize);
+            // Bind textures
+            for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
+                s_Data.TextureSlots[i]->Bind(i);
 
-        // Bind textures
-        for (uint32_t i = 0; i < s_Data.TextureSlotIndex; i++)
-            s_Data.TextureSlots[i]->Bind(i);
+            s_Data.QuadShader->Bind();
+            RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
 
-        RenderCommand::DrawIndexed(s_Data.QuadVertexArray, s_Data.QuadIndexCount);
-
-        // Recored draw call to stats
-        s_Data.Stats.DrawCalls++;
+            // Record draw call to stats
+            s_Data.Stats.DrawCalls++;
+        }
     }
 
     void Renderer2D::EndScene()
@@ -149,9 +167,9 @@ namespace Sophon {
 
     void Renderer2D::StartBatch()
     {
-        // Reset Renderer2D state for new batch
         s_Data.QuadIndexCount = 0;
         s_Data.QuadVertexBufferPtr = s_Data.QuadVertexBufferBase.data();
+
         s_Data.TextureSlotIndex = 1;
     }
 

@@ -8,12 +8,11 @@ An exercise in what's possible.
 *Rendered in Engine =)*
 
 ## Development Quick Start
-***Note: Only the Windows platform is really supported ATM but Linux supportshouldn't be to much of an issue if/when that need arises***
+***Note: Only the Windows platform is really supported ATM but Linux support shouldn't be to much of an issue if/when that need arises***
 1. Clone the repo
-2. Init/Update the submodules
-3. Run the Premake script for your platform (/Scripts/Setup-#PLATFORM#.ext]
-4. Open the VisualStudio Project
-5. Profit (or just build/run)
+2. Run either `/Scripts/Setup.bat` or `/Scripts/Setup.sh` depending on your plaform (Python3 required)
+3. Open the VisualStudio Project
+4. Profit (or just build/run)
 
 ## Project Goals
 - [x] Entry-point - launch the engine from a client
@@ -73,10 +72,10 @@ An exercise in what's possible.
   - [ ] Framebuffer
     - [x] Bind/unbind as render target
   - [ ] Camera
-    - [x] 2D Orthographic
+    - [x] Base Camera
+    - [x] Editor Camera
     - [ ] 3D Orthographic
     - [ ] 3D Perspective
-    - [x] Basic Camera Controller (2D)
 - [ ] RendererAPI Abstraction
   - [ ] Ability to swap RendererAPI
   - [ ] Generic RendererAPI
@@ -104,7 +103,10 @@ An exercise in what's possible.
 - [ ] Memory - allocator, tracking, etc
 - [ ] Entity Component System (ECS)
 - [ ] Physics
-- [ ] File IO / VFS
+- [ ] Shader Compilation
+  - [x] SPIR-V Cross
+  - [x] Vulkan GLSL -> OpenGL GLSL
+  - [ ] Vulkan GLSL -> Metal MSL
 - [ ] Build System / Custom File Format
 	- [x] PreMake
 

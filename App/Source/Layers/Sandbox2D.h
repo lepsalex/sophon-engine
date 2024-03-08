@@ -13,8 +13,4 @@ public:
     void OnUpdate(Sophon::Timestep ts) override;
     virtual void OnImGuiRender() override;
     void OnEvent(Sophon::Event& e) override;
-
-private:
-    Sophon::OrthographicCameraController m_CameraController;
-    Sophon::Ref<Sophon::Texture2D> m_CheckerboardTexture, m_LogoTexture;
 };
