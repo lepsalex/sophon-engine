@@ -72,10 +72,10 @@ An exercise in what's possible.
   - [ ] Framebuffer
     - [x] Bind/unbind as render target
   - [ ] Camera
-    - [x] 2D Orthographic
+    - [x] Base Camera
+    - [x] Editor Camera
     - [ ] 3D Orthographic
     - [ ] 3D Perspective
-    - [x] Basic Camera Controller (2D)
 - [ ] RendererAPI Abstraction
   - [ ] Ability to swap RendererAPI
   - [ ] Generic RendererAPI
@@ -103,7 +103,10 @@ An exercise in what's possible.
 - [ ] Memory - allocator, tracking, etc
 - [ ] Entity Component System (ECS)
 - [ ] Physics
-- [ ] File IO / VFS
+- [ ] Shader Compilation
+  - [x] SPIR-V Cross
+  - [x] Vulkan GLSL -> OpenGL GLSL
+  - [ ] Vulkan GLSL -> Metal MSL
 - [ ] Build System / Custom File Format
 	- [x] PreMake
 
