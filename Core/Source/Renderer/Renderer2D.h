@@ -4,12 +4,17 @@
 
 #include "Renderer/Texture.h"
 
+#include "Renderer/Camera.h"
+#include "Renderer/EditorCamera.h"
+
 namespace Sophon {
     class Renderer2D {
     public:
         static void Init();
         static void Shutdown();
 
+        static void BeginScene(const Camera& camera, const glm::mat4& transform);
+        static void BeginScene(const EditorCamera& camera);
         static void BeginScene(const OrthographicCamera& camera);
         static void Flush();
         static void EndScene();
