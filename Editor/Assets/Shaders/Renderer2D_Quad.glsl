@@ -6,7 +6,7 @@
 layout(location = 0) in vec3 a_Position;
 layout(location = 1) in vec4 a_Color;
 layout(location = 2) in vec2 a_TexCoord;
-layout(location = 3) in float a_TexIndex;
+layout(location = 3) in uint a_TexIndex;
 layout(location = 4) in float a_TilingFactor;
 
 layout(std140, binding = 0) uniform Camera
@@ -22,7 +22,7 @@ struct VertexOutput
 };
 
 layout (location = 0) out VertexOutput Output;
-layout (location = 3) out flat float v_TexIndex;
+layout (location = 3) out flat uint v_TexIndex;
 
 void main()
 {
@@ -47,7 +47,7 @@ struct VertexOutput
 };
 
 layout (location = 0) in VertexOutput Input;
-layout (location = 3) in flat float v_TexIndex;
+layout (location = 3) in flat uint v_TexIndex;
 
 layout (binding = 0) uniform sampler2D u_Textures[32];
 
@@ -55,7 +55,7 @@ void main()
 {
 	vec4 texColor = Input.Color;
 
-	switch(int(v_TexIndex))
+	switch(v_TexIndex)
 	{
 		case  0: texColor *= texture(u_Textures[ 0], Input.TexCoord * Input.TilingFactor); break;
 		case  1: texColor *= texture(u_Textures[ 1], Input.TexCoord * Input.TilingFactor); break;
