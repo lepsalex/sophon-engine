@@ -66,6 +66,10 @@ namespace Sophon {
             : Color(color)
         {
         }
+        SpriteRendererComponent(Ref<Texture2D> texture)
+            : Texture(texture)
+        {
+        }
     };
 
     struct CameraComponent {

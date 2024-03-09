@@ -12,27 +12,80 @@ namespace Sophon {
     {
         SFN_PROFILE_FUNCTION();
 
-        m_CheckerboardTexture = Sophon::Texture2D::Create("Assets/Textures/Checkerboard.png");
-        m_LogoTexture = Sophon::Texture2D::Create("Assets/Textures/Opengl-logo.png");
+        // Load textures
+        m_CheckerboardTexture = Texture2D::Create("Assets/Textures/Checkerboard.png");
+        m_LogoTexture = Texture2D::Create("Assets/Textures/Opengl-logo.png");
 
+        // Setup Framebuffer
         FramebufferSpecification fbSpec;
         fbSpec.Attachments = { FramebufferTextureFormat::RGBA8, FramebufferTextureFormat::RED_INTEGER, FramebufferTextureFormat::Depth };
         fbSpec.Width = 1280;
         fbSpec.Height = 720;
         m_Framebuffer = Framebuffer::Create(fbSpec);
 
+        m_EditorScene = CreateRef<Scene>();
+        m_ActiveScene = m_EditorScene;
+
         m_EditorCamera = EditorCamera(30.0f, 1.778f, 0.1f, 1000.0f);
+
+        // TEMP ENTITY CREATION TESTING
+
+        // Random shape sprites...
+        auto redSquare = m_ActiveScene->CreateEntity("Red Square");
+        auto& redSquareTransform = redSquare.GetComponent<TransformComponent>();
+        redSquareTransform.Translation = { -1.0f, 0.0f, 0.1f };
+        redSquareTransform.Scale = { 0.8f, 0.8f, 1.0f };
+        SpriteRendererComponent redSquareSpriteRenderer { { 0.8f, 0.2f, 0.3f, 1.0f } };
+        redSquare.AddComponent<SpriteRendererComponent>(redSquareSpriteRenderer);
+
+        auto rotatedBlueSquare = m_ActiveScene->CreateEntity("Rotated Blue Square");
+        auto& rotatedBlueSquareTransform = rotatedBlueSquare.GetComponent<TransformComponent>();
+        rotatedBlueSquareTransform.Translation = { 0.5f, -0.5f, 0.1f };
+        rotatedBlueSquareTransform.Scale = { 0.5f, 0.75f, 1.0f };
+        rotatedBlueSquareTransform.Rotation = { 0.0f, 0.0f, 45.0f };
+        SpriteRendererComponent rotatedBlueSquareSpriteRenderer { { 0.2f, 0.3f, 0.8f, 1.0f } };
+        rotatedBlueSquare.AddComponent<SpriteRendererComponent>(rotatedBlueSquareSpriteRenderer);
+
+        auto checkerBoard = m_ActiveScene->CreateEntity("Checkerboard");
+        auto& checkerBoardTransform = checkerBoard.GetComponent<TransformComponent>();
+        checkerBoardTransform.Translation = { 0.0f, 0.0f, 0.0f };
+        checkerBoardTransform.Scale = { 5.0f, 5.0f, 1.0f };
+        SpriteRendererComponent checkerBoardRenderer { { 0.9f, 0.8f, 0.7f, 1.0f } };
+        checkerBoardRenderer.Texture = m_CheckerboardTexture;
+        checkerBoardRenderer.TilingFactor = 5.0f;
+        checkerBoard.AddComponent<SpriteRendererComponent>(checkerBoardRenderer);
+
+        auto logo = m_ActiveScene->CreateEntity("Logo");
+        auto& logoTransform = logo.GetComponent<TransformComponent>();
+        logoTransform.Translation = { 0.0f, 0.0f, 0.2f };
+        SpriteRendererComponent logoRenderer { m_LogoTexture };
+        logo.AddComponent<SpriteRendererComponent>(logoRenderer);
+
+        // Tile sprites ...
+        for (float y = -5.0f; y < 5.0f; y += 0.5f) {
+            for (float x = -5.0f; x < 5.0f; x += 0.5f) {
+                auto tile = m_ActiveScene->CreateEntity(std::format("Tile {}:{}", x, y));
+                auto& tileTransform = tile.GetComponent<TransformComponent>();
+                tileTransform.Translation = { x, y, -0.1f };
+                tileTransform.Scale = { 0.45f, 0.45f, 1.0f };
+                SpriteRendererComponent tileRenderer { { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f } };
+                tile.AddComponent<SpriteRendererComponent>(tileRenderer);
+            }
+        }
+        //  END TEMP ENTITY CREATION TESTING
     }
 
     void EditorLayer::OnDetach()
     {
     }
 
-    void EditorLayer::OnUpdate(Sophon::Timestep ts)
+    void EditorLayer::OnUpdate(Timestep ts)
     {
         SFN_PROFILE_FUNCTION();
 
-        // RESIZE
+        // Handle Window Resizing
+        m_ActiveScene->OnViewportResize((uint32_t)m_ViewportSize.x, (uint32_t)m_ViewportSize.y);
+
         if (FramebufferSpecification spec = m_Framebuffer->GetSpecification();
             m_ViewportSize.x > 0.0f && m_ViewportSize.y > 0.0f && // zero sized framebuffer is invalid
             (spec.Width != m_ViewportSize.x || spec.Height != m_ViewportSize.y)) {
@@ -40,45 +93,20 @@ namespace Sophon {
             m_EditorCamera.SetViewportSize(m_ViewportSize.x, m_ViewportSize.y);
         }
 
-        // UPDATE
-        if (m_ViewportBounds)
-            m_EditorCamera.OnUpdate(ts);
-
-        // RENDER
+        // Reset the Renderer
         Renderer2D::ResetStats();
-        {
-            SFN_PROFILE_SCOPE("Render Prep");
-            m_Framebuffer->Bind();
-            Sophon::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-            Sophon::RenderCommand::Clear();
-        }
+        m_Framebuffer->Bind();
+        RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+        RenderCommand::Clear();
 
-        {
-            SFN_PROFILE_SCOPE("Render Draw");
+        // Clear our entityID attachment to -1
+        m_Framebuffer->ClearAttachment(1, -1);
 
-            // Draw Textures and Shapes
-            Sophon::Renderer2D::BeginScene(m_EditorCamera);
-            Sophon::Renderer2D::DrawQuad({ -1.0f, 0.0f }, { 0.8f, 0.8f }, { 0.8f, 0.2f, 0.3f, 1.0f });
-            Sophon::Renderer2D::DrawRotatedQuad({ 0.5f, -0.5f }, { 0.5f, 0.75f }, 45.0f, { 0.2f, 0.3f, 0.8f, 1.0f });
-            Sophon::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.2f }, { 1.0f, 1.0f }, m_CheckerboardTexture, 5.0f, { 0.9f, 0.8f, 0.7f, 1.0f });
-            Sophon::Renderer2D::DrawQuad({ 0.0f, 0.0f, 0.3f }, { 1.0f, 1.0f }, m_LogoTexture);
-            Sophon::Renderer2D::EndScene();
+        // Run update/draw loops
+        m_EditorCamera.OnUpdate(ts);
+        m_ActiveScene->OnUpdateEditor(ts, m_EditorCamera);
 
-            // Draw Tiles
-            Sophon::Renderer2D::BeginScene(m_EditorCamera);
-            for (float y = -5.0f; y < 5.0f; y += 0.5f) {
-                for (float x = -5.0f; x < 5.0f; x += 0.5f) {
-                    glm::vec4 color = { (x + 5.0f) / 10.0f, 0.4f, (y + 5.0f) / 10.0f, 0.7f };
-                    Renderer2D::DrawQuad({ x, y, -0.1f }, { 0.45f, 0.45f }, color);
-                }
-            }
-            Renderer2D::EndScene();
-        }
-
-        {
-            SFN_PROFILE_SCOPE("Render Cleanup");
-            m_Framebuffer->Unbind();
-        }
+        m_Framebuffer->Unbind();
     }
 
     void EditorLayer::OnImGuiRender()
@@ -177,7 +205,7 @@ namespace Sophon {
         ImGui::End();
     }
 
-    void EditorLayer::OnEvent(Sophon::Event& e)
+    void EditorLayer::OnEvent(Event& e)
     {
         m_EditorCamera.OnEvent(e);
 
