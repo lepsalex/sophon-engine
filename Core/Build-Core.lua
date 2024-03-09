@@ -28,6 +28,7 @@ project "Core"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.glm}",
+        "%{IncludeDir.entt}",
         "%{IncludeDir.VulkanSDK}"
     }
 

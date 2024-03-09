@@ -20,5 +20,5 @@ Makefile
 Sophon-Profiler-Data-*.json
 
 # Caches
-Scripts/__pycache__
+__pycache__
 Editor/Assets/Cache

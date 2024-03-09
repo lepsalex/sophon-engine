@@ -66,6 +66,7 @@ An exercise in what's possible.
     - [x] DrawQuad
     - [x] Batching
     - [x] Basic Stats
+    - [x] Draw Sprites (ECS)
   - [ ] Renderer (3D)
     - [x] Init/Setup
     - [ ] Batching
@@ -74,6 +75,7 @@ An exercise in what's possible.
   - [ ] Camera
     - [x] Base Camera
     - [x] Editor Camera
+    - [x] Scene Camera (ECS Managed)
     - [ ] 3D Orthographic
     - [ ] 3D Perspective
 - [ ] RendererAPI Abstraction
@@ -99,9 +101,17 @@ An exercise in what's possible.
   - [x] Instrumented Profiling (Chrome)
 	- [x] Basic ImGui Support
   - [x] Editor RenderStats panel
+- [ ] Entity Component System (ECS)
+  - [x] Entity
+  - [x] Basic Components
+- [ ] Scenes
+  - [x] Entity API
+  - [x] Copy API
+  - [x] OnUpdateRuntime
+  - [x] OnUpdateEditor
+  - [x] Pause/Step ECS
 - [ ] Scripting Language - C#, Lua, ???
 - [ ] Memory - allocator, tracking, etc
-- [ ] Entity Component System (ECS)
 - [ ] Physics
 - [ ] Shader Compilation
   - [x] SPIR-V Cross

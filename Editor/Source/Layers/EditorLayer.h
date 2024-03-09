@@ -22,8 +22,11 @@ namespace Sophon {
     private:
         Ref<Sophon::Texture2D> m_CheckerboardTexture, m_LogoTexture;
 
+        Ref<Scene> m_ActiveScene, m_EditorScene;
+
         EditorCamera m_EditorCamera;
         Ref<Framebuffer> m_Framebuffer;
+
         bool m_ViewportFocused = false, m_ViewportHovered = false;
         glm::vec2 m_ViewportSize = { 0.0f, 0.0f };
         glm::vec2 m_ViewportBounds[2];
