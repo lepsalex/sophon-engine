@@ -4,7 +4,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 
 namespace Sophon {
-
     SceneCamera::SceneCamera()
     {
         RecalculateProjection();
@@ -49,5 +48,4 @@ namespace Sophon {
                 orthoBottom, orthoTop, m_OrthographicNear, m_OrthographicFar);
         }
     }
-
 }

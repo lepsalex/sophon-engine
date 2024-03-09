@@ -7,7 +7,6 @@
 #include "entt.hpp"
 
 namespace Sophon {
-
     class Entity;
 
     class Scene {
@@ -65,5 +64,4 @@ namespace Sophon {
 
         friend class Entity;
     };
-
 }

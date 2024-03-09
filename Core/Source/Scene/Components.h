@@ -11,7 +11,6 @@
 #include <glm/gtx/quaternion.hpp>
 
 namespace Sophon {
-
     struct IDComponent {
         UUID ID;
 

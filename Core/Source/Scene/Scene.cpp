@@ -9,7 +9,6 @@
 #include <glm/glm.hpp>
 
 namespace Sophon {
-
     Scene::Scene()
     {
     }

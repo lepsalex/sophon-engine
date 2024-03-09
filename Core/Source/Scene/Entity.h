@@ -7,7 +7,6 @@
 #include "entt.hpp"
 
 namespace Sophon {
-
     class Entity {
     public:
         Entity() = default;
@@ -72,5 +71,4 @@ namespace Sophon {
         entt::entity m_EntityHandle { entt::null };
         Scene* m_Scene = nullptr;
     };
-
 }

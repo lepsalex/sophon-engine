@@ -3,7 +3,6 @@
 #include "Renderer/Camera.h"
 
 namespace Sophon {
-
     class SceneCamera : public Camera {
     public:
         enum class ProjectionType { Perspective = 0,
@@ -77,5 +76,4 @@ namespace Sophon {
 
         float m_AspectRatio = 0.0f;
     };
-
 }
