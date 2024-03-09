@@ -16,6 +16,9 @@ namespace Sophon {
         glm::vec2 TexCoord;
         uint32_t TexIndex;
         float TilingFactor;
+
+        // Editor-only
+        int EntityID;
     };
 
     struct Renderer2DData {
@@ -63,6 +66,7 @@ namespace Sophon {
             { ShaderDataType::Float2, "a_TexCoord" },
             { ShaderDataType::UInt, "a_TexIndex" },
             { ShaderDataType::Float, "a_TilingFactor" },
+            { ShaderDataType::Int, "a_EntityID" }
         });
 
         s_Data.QuadVertexArray->AddVertexBuffer(s_Data.QuadVertexBuffer);
@@ -205,7 +209,7 @@ namespace Sophon {
         DrawQuad(transform, texture, tilingFactor, tintColor);
     }
 
-    void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color)
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const glm::vec4& color, int entityID)
     {
         SFN_PROFILE_FUNCTION();
 
@@ -224,6 +228,7 @@ namespace Sophon {
             s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
             s_Data.QuadVertexBufferPtr->TexIndex = WHITE_TEXTURE_INDEX;
             s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+            s_Data.QuadVertexBufferPtr->EntityID = entityID;
             s_Data.QuadVertexBufferPtr++;
         }
 
@@ -234,7 +239,7 @@ namespace Sophon {
         s_Data.Stats.QuadCount++;
     }
 
-    void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor)
+    void Renderer2D::DrawQuad(const glm::mat4& transform, const Ref<Texture2D>& texture, float tilingFactor, const glm::vec4& tintColor, int entityID)
     {
         SFN_PROFILE_FUNCTION();
 
@@ -272,6 +277,7 @@ namespace Sophon {
             s_Data.QuadVertexBufferPtr->TexCoord = textureCoords[i];
             s_Data.QuadVertexBufferPtr->TexIndex = textureIndex;
             s_Data.QuadVertexBufferPtr->TilingFactor = tilingFactor;
+            s_Data.QuadVertexBufferPtr->EntityID = entityID;
             s_Data.QuadVertexBufferPtr++;
         }
 
@@ -308,6 +314,14 @@ namespace Sophon {
             * glm::scale(glm::mat4(1.0f), { size.x, size.y, 1.0f });
 
         DrawQuad(transform, texture, tilingFactor, tintColor);
+    }
+
+    void Renderer2D::DrawSprite(const glm::mat4& transform, SpriteRendererComponent& src, int entityID)
+    {
+        if (src.Texture)
+            DrawQuad(transform, src.Texture, src.TilingFactor, src.Color, entityID);
+        else
+            DrawQuad(transform, src.Color, entityID);
     }
 
     void Renderer2D::ResetStats()
