@@ -7,7 +7,7 @@ workspace "Sophon Engine"
 
   solutionitems {
     "README.md",
-		".editorconfig",
+	".editorconfig",
     ".gitignore",
     ".clang-format",
     ["Premake"] = {
