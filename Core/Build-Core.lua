@@ -43,17 +43,19 @@ project "Core"
     targetdir("../Binaries/" .. OutputDir .. "/%{prj.name}")
     objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
-    pchheader "Source/sfnpch.h"
-    pchsource "Source/sfnpch.cpp"
-
     filter "system:windows"
         systemversion "latest"
+
+        pchheader "sfnpch.h"
+        pchsource "Source/sfnpch.cpp"
 
         externalincludedirs {
             "%{IncludeDir.VulkanSDK}",
         }
 
     filter "system:macosx"
+        pchheader "Source/sfnpch.h"
+
         files {
             "Vendor/metal-cpp/**.hpp"
         }
