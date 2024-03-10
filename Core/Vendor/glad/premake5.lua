@@ -2,7 +2,7 @@ project "Glad"
     kind "StaticLib"
     language "C"
     staticruntime "off"
-    
+
     targetdir ("bin/" .. OutputDir .. "/%{prj.name}")
     objdir ("bin-int/" .. OutputDir .. "/%{prj.name}")
 
@@ -12,12 +12,21 @@ project "Glad"
         "src/glad.c"
     }
 
-    includedirs {
+    externalincludedirs {
         "include"
     }
-    
+
     filter "system:windows"
         systemversion "latest"
+
+   	filter "system:linux"
+		pic "On"
+		systemversion "latest"
+		cppdialect "C++17"
+
+	filter "system:macsox"
+		pic "On"
+		cppdialect "C++17"
 
     filter "configurations:Debug"
         runtime "Debug"
