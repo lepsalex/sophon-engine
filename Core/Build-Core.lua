@@ -28,8 +28,7 @@ project "Core"
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.stb}",
         "%{IncludeDir.glm}",
-        "%{IncludeDir.entt}",
-        "%{IncludeDir.VulkanSDK}"
+        "%{IncludeDir.entt}"
     }
 
     links {
@@ -47,27 +46,51 @@ project "Core"
     filter "system:windows"
         systemversion "latest"
 
+        includedirs {
+            "%{IncludeDir.VulkanSDK}",
+        }
+
+    filter "system:macosx"
+        files {
+            "Vendor/metal-cpp/**.hpp"
+        }
+
+        includedirs {
+            "%{IncludeDir.VulkanSDKmacOS}",
+            "%{IncludeDir.metalCPP}",
+        }
+
+        links {
+            "%{LibraryMacOS.Vulkan}",
+		    "%{LibraryMacOS.ShaderC}",
+		    "%{LibraryMacOS.SPIRV_Cross}",
+		    "%{LibraryMacOS.SPIRV_Tools}"
+	    }
+
+
     filter "configurations:Debug"
         defines {"SFN_DEBUG"}
         runtime "Debug"
         symbols "On"
 
+    filter {"configurations:Debug", "system:windows"}
         links {
-			    "%{Library.ShaderC_Debug}",
-			    "%{Library.SPIRV_Cross_Debug}",
-			    "%{Library.SPIRV_Cross_GLSL_Debug}"
-		    }
+		    "%{Library.ShaderC_Debug}",
+		    "%{Library.SPIRV_Cross_Debug}",
+		    "%{Library.SPIRV_Cross_GLSL_Debug}"
+	    }
 
     filter "configurations:DebugProfile"
         defines {"SFN_DEBUG", "SFN_PROFILE"}
         runtime "Debug"
         symbols "On"
 
+    filter {"configurations:DebugProfile", "system:windows"}
         links {
-			    "%{Library.ShaderC_Debug}",
-			    "%{Library.SPIRV_Cross_Debug}",
-			    "%{Library.SPIRV_Cross_GLSL_Debug}"
-		    }
+		    "%{Library.ShaderC_Debug}",
+		    "%{Library.SPIRV_Cross_Debug}",
+		    "%{Library.SPIRV_Cross_GLSL_Debug}"
+	    }
 
     filter "configurations:Release"
         defines {"RELEASE"}
@@ -75,11 +98,12 @@ project "Core"
         optimize "On"
         symbols "On"
 
+    filter {"configurations:Release", "system:windows"}
         links	{
-			    "%{Library.ShaderC_Release}",
-			    "%{Library.SPIRV_Cross_Release}",
-			    "%{Library.SPIRV_Cross_GLSL_Release}"
-		    }
+		    "%{Library.ShaderC_Release}",
+		    "%{Library.SPIRV_Cross_Release}",
+		    "%{Library.SPIRV_Cross_GLSL_Release}"
+	    }
 
     filter "configurations:Dist"
         defines {"DIST"}
@@ -87,8 +111,9 @@ project "Core"
         optimize "On"
         symbols "Off"
 
+    filter {"configurations:Dist", "system:windows"}
         links	{
-			    "%{Library.ShaderC_Release}",
-			    "%{Library.SPIRV_Cross_Release}",
-			    "%{Library.SPIRV_Cross_GLSL_Release}"
-		    }
+		    "%{Library.ShaderC_Release}",
+		    "%{Library.SPIRV_Cross_Release}",
+		    "%{Library.SPIRV_Cross_GLSL_Release}"
+	    }

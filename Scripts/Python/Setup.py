@@ -11,17 +11,17 @@ print("\nUpdating submodules...")
 subprocess.call(["git", "submodule", "update", "--init", "--recursive"])
 
 
-def getPremakeSetupBat(system):
-    print(f"Getting Premake script for system: {system}")
+def getPremakeSetupBat(platform):
+    print(f"Getting Premake script for system: {platform}")
 
-    if system == "Windows":
+    if platform == "Windows":
         return "Setup-Windows.bat"
-    elif system == "Linux":
+    elif platform == "Linux":
         return "Setup-Linux.bat"
-    elif system == "Darwin":
+    elif platform == "Darwin":
         return "Setup-macOS.zsh"
     else:
-        raise Exception("Unknown Platform: {platform}")
+        raise Exception(f"Unknown Platform: {platform}")
 
 
 scriptPath = os.path.abspath(

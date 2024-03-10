@@ -1,5 +1,6 @@
 import os
 import sys
+import platform
 import subprocess
 from pathlib import Path
 
@@ -16,7 +17,7 @@ class VulkanConfiguration:
         if (not cls.CheckVulkanSDK()):
             print("Vulkan SDK not installed correctly.")
             return
-            
+
         if (not cls.CheckVulkanSDKDebugLibs()):
             print("\nNo Vulkan SDK debug libs found. Install Vulkan SDK with debug libs.")
             print("Debug configuration disabled.")
@@ -33,16 +34,29 @@ class VulkanConfiguration:
         if (cls.requiredVulkanVersion not in vulkanSDK):
             print(f"You don't have the correct Vulkan SDK version! Please install from https://vulkan.lunarg.com/sdk/home (Engine requires {cls.requiredVulkanVersion})")
             return False
-    
+
         print(f"Correct Vulkan SDK located at {vulkanSDK}")
         return True
 
     @classmethod
     def CheckVulkanSDKDebugLibs(cls):
         vulkanSDK = os.environ.get("VULKAN_SDK")
-        shadercdLib = Path(f"{vulkanSDK}/Lib/shaderc_sharedd.lib")
-        
+        shadercdLib = Path(f"{vulkanSDK}/{cls.GetVulkanLibDirForPlatform(platform.system())}")
+
+        print(f"Checking for SDK Debug Libs at {shadercdLib}")
+
         return shadercdLib.exists()
+
+    @classmethod
+    def GetVulkanLibDirForPlatform(cls, platform):
+        if platform == "Windows":
+            return "Lib/shaderc_sharedd.lib"
+        elif platform == "Linux":
+            return "lib/shaderc_sharedd.lib"
+        elif platform == "Darwin":
+            return "lib/libshaderc_shared.dylib"
+        else:
+            raise Exception(f"Unknown Platform: {platform}")
 
 if __name__ == "__main__":
     VulkanConfiguration.Validate()
