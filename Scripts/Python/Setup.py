@@ -19,7 +19,7 @@ def getPremakeSetupBat(system):
     elif system == "Linux":
         return "Setup-Linux.bat"
     elif system == "Darwin":
-        return "Setup-macOS.sh"
+        return "Setup-macOS.zsh"
     else:
         raise Exception("Unknown Platform: {platform}")
 

@@ -12,6 +12,10 @@ Intermediates/
 *.sln
 *.log
 Makefile
+*.xcworkspacedata
+*.pbxproj
+*.plist
+*.xcuserstate
 
 # Exclude
 !Vendor/Binaries
