@@ -21,16 +21,16 @@ project "Core"
     }
 
     includedirs {
-        "Source"
+        "Source",
     }
 
     externalincludedirs {
+        "%{IncludeDir.stb}",
+        "%{IncludeDir.glm}",
         "%{IncludeDir.SPDLOG}",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
         "%{IncludeDir.ImGui}",
-        "%{IncludeDir.stb}",
-        "%{IncludeDir.glm}",
         "%{IncludeDir.entt}"
     }
 
@@ -69,7 +69,6 @@ project "Core"
 		    "%{LibraryMacOS.SPIRV_Cross}",
 		    "%{LibraryMacOS.SPIRV_Tools}"
 	    }
-
 
     filter "configurations:Debug"
         defines {"SFN_DEBUG"}

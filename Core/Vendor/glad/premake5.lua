@@ -24,7 +24,7 @@ project "Glad"
 		systemversion "latest"
 		cppdialect "C++17"
 
-	filter "system:macsox"
+	filter "system:macosx"
 		pic "On"
 		cppdialect "C++17"
 

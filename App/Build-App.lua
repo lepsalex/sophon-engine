@@ -15,11 +15,8 @@ project "App"
         "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS"
     }
 
-    includedirs {
-        "%{wks.location}/Core/Source"
-    }
-
     externalincludedirs {
+        "%{wks.location}/Core/Source",
         "%{IncludeDir.SPDLOG}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.entt}",
