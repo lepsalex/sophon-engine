@@ -27,9 +27,9 @@ workspace "Sophon Engine"
     "Dist"
   }
 
-	flags {
-		"MultiProcessorCompile"
-	}
+  flags {
+    "MultiProcessorCompile"
+  }
 
   -- Workspace-wide build options for MSVC
   filter "system:windows"

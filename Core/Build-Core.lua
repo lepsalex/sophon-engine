@@ -40,7 +40,7 @@ project "Core"
     targetdir("../Binaries/" .. OutputDir .. "/%{prj.name}")
     objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
-    pchheader "sfnpch.h"
+    pchheader "Source/sfnpch.h"
     pchsource "Source/sfnpch.cpp"
 
     filter "system:windows"
