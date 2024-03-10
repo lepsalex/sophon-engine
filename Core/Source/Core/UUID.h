@@ -14,15 +14,10 @@ namespace Sophon {
     };
 }
 
-namespace std {
-    template <typename T>
-    struct hash;
-
-    template <>
-    struct hash<Sophon::UUID> {
-        std::size_t operator()(const Sophon::UUID& uuid) const
-        {
-            return (uint64_t)uuid;
-        }
-    };
-}
+template <>
+struct std::hash<Sophon::UUID> {
+    std::size_t operator()(const Sophon::UUID& uuid) const
+    {
+        return (uint64_t)uuid;
+    }
+};
