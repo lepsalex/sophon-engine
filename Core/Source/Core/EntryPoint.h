@@ -3,7 +3,7 @@
 #include "Core/Base.h"
 #include "Debug/Instrumentor.h"
 
-#ifdef defined(SFN_PLATFORM_WINDOWS) || defined(SFN_PLATFORM_MACOS)
+#if defined(SFN_PLATFORM_WINDOWS) || defined(SFN_PLATFORM_MACOS)
 
 extern Sophon::Application* Sophon::CreateApplication(ApplicationCommandLineArgs args);
 

@@ -21,7 +21,10 @@ project "Core"
     }
 
     includedirs {
-        "Source",
+        "Source"
+    }
+
+    externalincludedirs {
         "%{IncludeDir.SPDLOG}",
         "%{IncludeDir.GLFW}",
         "%{IncludeDir.Glad}",
@@ -46,7 +49,7 @@ project "Core"
     filter "system:windows"
         systemversion "latest"
 
-        includedirs {
+        externalincludedirs {
             "%{IncludeDir.VulkanSDK}",
         }
 
@@ -55,7 +58,7 @@ project "Core"
             "Vendor/metal-cpp/**.hpp"
         }
 
-        includedirs {
+        externalincludedirs {
             "%{IncludeDir.VulkanSDKmacOS}",
             "%{IncludeDir.metalCPP}",
         }

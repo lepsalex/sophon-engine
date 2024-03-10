@@ -16,13 +16,13 @@ project "App"
     }
 
     includedirs {
-        -- Vendor
+        "%{wks.location}/Core/Source"
+    }
+
+    externalincludedirs {
         "%{IncludeDir.SPDLOG}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.entt}",
-        
-        -- Core
-        "%{wks.location}/Core/Source"
     }
 
     links {

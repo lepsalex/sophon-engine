@@ -7,7 +7,7 @@
 #ifdef SFN_DEBUG
 #if defined(SFN_PLATFORM_WINDOWS)
 #define SFN_DEBUGBREAK() __debugbreak()
-#elif defined(SFN_PLATFORM_LINUX)
+#elif defined(SFN_PLATFORM_LINUX) || defined(SFN_PLATFORM_MACOS)
 #include <signal.h>
 #define SFN_DEBUGBREAK() raise(SIGTRAP)
 #else

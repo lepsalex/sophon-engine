@@ -16,14 +16,14 @@ project "Editor"
     }
 
     includedirs {
-        -- Vendor
+        "%{wks.location}/Core/Source"
+    }
+
+    externalincludedirs {
         "%{IncludeDir.SPDLOG}",
         "%{IncludeDir.glm}",
         "%{IncludeDir.ImGui}",
         "%{IncludeDir.entt}",
-        
-        -- Core
-        "%{wks.location}/Core/Source"
     }
 
     links {
