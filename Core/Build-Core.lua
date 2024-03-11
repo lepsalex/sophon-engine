@@ -7,6 +7,7 @@ staticruntime "off"
 
 files {
   "Source/**.h",
+  "Source/**.hpp",
   "Source/**.cpp",
   "Vendor/stb/**.h",
   "Vendor/stb/**.cpp",
@@ -55,26 +56,41 @@ filter "system:windows"
 
 filter "system:macosx"
 
-  pchheader "Source/sfnpch.h"
+    pchheader "Source/sfnpch.h"
 
-  files {
-    "Vendor/metal-cpp/**.hpp"
-  }
+    files {
+        "Source/**.mm",
+    }
 
-  externalincludedirs {
-    "%{IncludeDir.VulkanSDKmacOS}",
-    "%{IncludeDir.metalCPP}",
-  }
+    externalincludedirs {
+        "%{IncludeDir.VulkanSDKmacOS}",
+        "%{IncludeDir.metalCPP}",
+    }
 
-  links {
-    "Foundation.framework",
-    "Metal.framework",
-    "QuartzCore.framework",
-    "%{LibraryMacOS.Vulkan}",
-	"%{LibraryMacOS.ShaderC}",
-	"%{LibraryMacOS.SPIRV_Cross}",
-	"%{LibraryMacOS.SPIRV_Tools}"
-  }
+    links {
+        "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework",
+        "%{LibraryMacOS.ShaderC}",
+        "%{LibraryMacOS.SPIRV_Cross}",
+    }
+
+    sysincludedirs {
+        "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework/Headers", -- need to explicitly add path to framework headers
+    }
+
+    frameworkdirs {
+        "%{LibraryDirMacOS.VulkanFramework}",
+    }
+
+    embedAndSign {
+        "vulkan.framework" -- bundle the framework into the built .app and sign with your certificate
+    }
+
+    xcodebuildsettings {
+        ["MACOSX_DEPLOYMENT_TARGET"] = "14.4",
+        ["PRODUCT_BUNDLE_IDENTIFIER"] = 'com.projectsophon.sophonengine',
+        ["CODE_SIGN_STYLE"] = "Automatic",
+        ["LD_RUNPATH_SEARCH_PATHS"] = "$(inherited) @executable_path/../Frameworks", -- tell the executable where to find the frameworks. Path is relative to executable location inside .app bundle
+    }
 
 filter "Debug"
   defines {"SFN_DEBUG"}

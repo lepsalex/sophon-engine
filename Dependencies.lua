@@ -36,6 +36,7 @@ Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.
 LibraryDirMacOS = {}
 
 LibraryDirMacOS["VulkanSDK"] = "%{VULKAN_SDK}/lib"
+LibraryDirMacOS["VulkanFramework"] = "%{VULKAN_SDK}/Frameworks"
 
 LibraryMacOS = {}
 
@@ -45,4 +46,4 @@ LibraryMacOS["VulkanUtilsScreenshot"]   = "%{LibraryDirMacOS}/libVkLayer_screens
 
 LibraryMacOS["ShaderC"] = "%{LibraryDirMacOS.VulkanSDK}/libshaderc_shared.dylib"
 LibraryMacOS["SPIRV_Cross"] = "%{LibraryDirMacOS.VulkanSDK}/libspirv-cross-c-shared.dylib"
-LibraryMacOS["SPIRV_Cross_GLSL"] = "%{LibraryDirMacOS.VulkanSDK}/libSPIRV-Tools-shared.dylib"
+LibraryMacOS["SPIRV_Tools"] = "%{LibraryDirMacOS.VulkanSDK}/libSPIRV-Tools-shared.dylib"

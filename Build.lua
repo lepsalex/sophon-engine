@@ -36,7 +36,15 @@ workspace "Sophon Engine"
     buildoptions {"/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus"}
 
   filter "system:macosx"
-    architecture "universal"
+    architecture "ARM64"
+
+    links {
+        "Foundation.framework",
+        "Metal.framework",
+        "QuartzCore.framework",
+        "Cocoa.framework",
+        "IOKit.framework"
+    }
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
