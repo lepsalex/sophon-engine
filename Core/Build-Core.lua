@@ -55,26 +55,20 @@ filter "system:windows"
   }
 
 filter "system:macosx"
-
     pchheader "Source/sfnpch.h"
 
     files {
         "Source/**.mm",
     }
 
-    externalincludedirs {
-        "%{IncludeDir.VulkanSDKmacOS}",
-        "%{IncludeDir.metalCPP}",
-    }
-
     links {
-        "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework",
-        "%{LibraryMacOS.ShaderC}",
-        "%{LibraryMacOS.SPIRV_Cross}",
+        "${LibraryMacOS.MoltenVK}",
+        "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework"
     }
 
-    sysincludedirs {
-        "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework/Headers", -- need to explicitly add path to framework headers
+    externalincludedirs {
+        "%{IncludeDir.metalCPP}",
+        "%{IncludeDir.VulkanSDKmacOS}" -- need to explicitly add path to framework headers
     }
 
     frameworkdirs {

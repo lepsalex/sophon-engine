@@ -41,9 +41,16 @@ LibraryDirMacOS["VulkanFramework"] = "%{VULKAN_SDK}/Frameworks"
 LibraryMacOS = {}
 
 LibraryMacOS["Vulkan"]                  = "%{LibraryDirMacOS.VulkanSDK}/libvulkan.1.3.275.dylib"
-LibraryMacOS["VulkanUtilsApiDump"]      = "%{LibraryDirMacOS}/libVkLayer_api_dump.dylib"
-LibraryMacOS["VulkanUtilsScreenshot"]   = "%{LibraryDirMacOS}/libVkLayer_screenshot.dylib"
+LibraryMacOS["MoltenVK"]                = "%{LibraryDirMacOS.VulkanSDK}/libMoltenVK.dylib"
 
-LibraryMacOS["ShaderC"] = "%{LibraryDirMacOS.VulkanSDK}/libshaderc_shared.dylib"
-LibraryMacOS["SPIRV_Cross"] = "%{LibraryDirMacOS.VulkanSDK}/libspirv-cross-c-shared.dylib"
-LibraryMacOS["SPIRV_Tools"] = "%{LibraryDirMacOS.VulkanSDK}/libSPIRV-Tools-shared.dylib"
+LibraryMacOS["ShaderC"] = "%{LibraryDirMacOS.VulkanSDK}/libshaderc.a"
+LibraryMacOS["SPIRV_Cross"] = "%{LibraryDirMacOS.VulkanSDK}/libspirv-cross-core.a"
+LibraryMacOS["SPIRV_Cross_GLSL"] = "%{LibraryDirMacOS.VulkanSDK}/libspirv-cross-glsl.a"
+LibraryMacOS["SPIRV_Tools"] = "%{LibraryDirMacOS.VulkanSDK}/libSPIRV-Tools.a"
+
+LibraryMacOS["VulkanUtilsApiDump"]      = "%{LibraryDirMacOS}/libVkLayer_api_dump.dylib"
+LibraryMacOS["VulkanUtilsProfiles"]     = "%{LibraryDirMacOS}/libVkLayer_khronos_profiles.dylib"
+LibraryMacOS["VulkanUtilsShaderObject"] = "%{LibraryDirMacOS}/libVkLayer_khronos_shader_object.dylib"
+LibraryMacOS["VulkanUtilsSync"]         = "%{LibraryDirMacOS}/libVkLayer_khronos_synchronization2.dylib"
+LibraryMacOS["VulkanUtilsValidation"]   = "%{LibraryDirMacOS}/libVkLayer_khronos_validation.dylib"
+LibraryMacOS["VulkanUtilsScreenshot"]   = "%{LibraryDirMacOS}/libVkLayer_screenshot.dylib"
