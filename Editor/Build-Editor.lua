@@ -33,23 +33,23 @@ project "Editor"
     filter "system:windows"
         systemversion "latest"
 
-    filter "configurations:Debug"
+    filter "Debug"
         defines {"SFN_DEBUG"}
         runtime "Debug"
         symbols "On"
 
-    filter "configurations:DebugProfile"
+    filter "DebugProfile"
         defines {"SFN_DEBUG", "SFN_PROFILE"}
         runtime "Debug"
         symbols "On"
 
-    filter "configurations:Release"
+    filter "Release"
         defines {"RELEASE"}
         runtime "Release"
         optimize "On"
         symbols "On"
 
-    filter "configurations:Dist"
+    filter "Dist"
         defines {"DIST"}
         runtime "Release"
         optimize "On"
