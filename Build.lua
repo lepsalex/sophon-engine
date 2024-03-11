@@ -2,7 +2,6 @@ include "SolutionItems.lua"
 include "Dependencies.lua"
 
 workspace "Sophon Engine"
-  architecture "x64"
   startproject "Editor"
 
   solutionitems {
@@ -33,7 +32,11 @@ workspace "Sophon Engine"
 
   -- Workspace-wide build options for MSVC
   filter "system:windows"
+    architecture "x64"
     buildoptions {"/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus"}
+
+  filter "system:macosx"
+    architecture "universal"
 
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 

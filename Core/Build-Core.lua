@@ -43,11 +43,10 @@ links {
 targetdir("../Binaries/" .. OutputDir .. "/%{prj.name}")
 objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
-pchheader "sfnpch.h"
-
 filter "system:windows"
   systemversion "latest"
 
+  pchheader "sfnpch.h"
   pchsource "Source/sfnpch.cpp"
 
   externalincludedirs {
@@ -55,6 +54,9 @@ filter "system:windows"
   }
 
 filter "system:macosx"
+
+  pchheader "Source/sfnpch.h"
+
   files {
     "Vendor/metal-cpp/**.hpp"
   }
@@ -65,11 +67,14 @@ filter "system:macosx"
   }
 
   links {
+    "Foundation.framework",
+    "Metal.framework",
+    "QuartzCore.framework",
     "%{LibraryMacOS.Vulkan}",
-		"%{LibraryMacOS.ShaderC}",
-		"%{LibraryMacOS.SPIRV_Cross}",
-		"%{LibraryMacOS.SPIRV_Tools}"
-	}
+	"%{LibraryMacOS.ShaderC}",
+	"%{LibraryMacOS.SPIRV_Cross}",
+	"%{LibraryMacOS.SPIRV_Tools}"
+  }
 
 filter "Debug"
   defines {"SFN_DEBUG"}

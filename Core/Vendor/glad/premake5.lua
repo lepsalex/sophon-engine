@@ -22,11 +22,11 @@ project "Glad"
    	filter "system:linux"
 		pic "On"
 		systemversion "latest"
-		cppdialect "C++17"
+		cppdialect "C++20"
 
 	filter "system:macosx"
 		pic "On"
-		cppdialect "C++17"
+		cppdialect "C++20"
 
     filter "configurations:Debug"
         runtime "Debug"
