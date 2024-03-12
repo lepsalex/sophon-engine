@@ -54,7 +54,7 @@ class VulkanConfiguration:
         elif platform == "Linux":
             return "lib/shaderc_sharedd.lib"
         elif platform == "Darwin":
-            return "lib/libshaderc_shared.dylib"
+            return "Frameworks/vulkan.framework"
         else:
             raise Exception(f"Unknown Platform: {platform}")
 
