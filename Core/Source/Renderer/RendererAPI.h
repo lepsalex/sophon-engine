@@ -9,7 +9,8 @@ namespace Sophon {
     public:
         enum class API {
             None = 0,
-            OpenGL = 1
+            OpenGL = 1,
+            Metal = 2
         };
 
     public:

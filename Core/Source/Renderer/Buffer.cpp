@@ -14,6 +14,8 @@ namespace Sophon {
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexBuffer>(size);
+        case RendererAPI::API::Metal:
+            return nullptr;
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -28,6 +30,8 @@ namespace Sophon {
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexBuffer>(vertices, size);
+        case RendererAPI::API::Metal:
+            return nullptr;
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -42,6 +46,8 @@ namespace Sophon {
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLIndexBuffer>(indices, size);
+        case RendererAPI::API::Metal:
+            return nullptr;
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

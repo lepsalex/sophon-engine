@@ -14,6 +14,8 @@ namespace Sophon {
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLTexture2D>(specification, options);
+        case RendererAPI::API::Metal:
+            return nullptr;
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -28,6 +30,8 @@ namespace Sophon {
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLTexture2D>(path, options);
+        case RendererAPI::API::Metal:
+            return nullptr;
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

@@ -25,5 +25,5 @@ int main(int argc, char** argv)
 }
 
 #else
-#error Sophon only supports Windows!
+#error Sophon only supports Windows and macOS!
 #endif
