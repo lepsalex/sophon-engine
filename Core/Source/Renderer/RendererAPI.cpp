@@ -28,6 +28,7 @@ namespace Sophon {
         case RendererAPI::API::Metal:
 #ifdef SFN_PLATFORM_MACOS
             return CreateScope<MetalRendererAPI>();
+#else
             SFN_CORE_ASSERT(false, "RendererAPI::Metal is only supported on MacOS!");
             return nullptr;
 #endif
