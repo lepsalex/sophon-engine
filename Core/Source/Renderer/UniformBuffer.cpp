@@ -14,6 +14,8 @@ namespace Sophon {
             return nullptr;
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLUniformBuffer>(size, binding);
+        case RendererAPI::API::Metal:
+            return nullptr;
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

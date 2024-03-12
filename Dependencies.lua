@@ -10,12 +10,13 @@ IncludeDir["ImGui"] = "%{wks.location}/Core/Vendor/imgui"
 IncludeDir["glm"] = "%{wks.location}/Core/Vendor/glm"
 IncludeDir["entt"] = "%{wks.location}/Core/Vendor/entt/include"
 IncludeDir["VulkanSDK"] = "%{VULKAN_SDK}/Include"
+IncludeDir["VulkanSDKmacOS"] = "%{VULKAN_SDK}/include"
+IncludeDir["metalCPP"] = "%{wks.location}/Core/Vendor/metal-cpp"
 
 
 LibraryDir = {}
 
 LibraryDir["VulkanSDK"] = "%{VULKAN_SDK}/Lib"
-
 
 Library = {}
 
@@ -30,3 +31,9 @@ Library["SPIRV_Tools_Debug"] = "%{LibraryDir.VulkanSDK}/SPIRV-Toolsd.lib"
 Library["ShaderC_Release"] = "%{LibraryDir.VulkanSDK}/shaderc_shared.lib"
 Library["SPIRV_Cross_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-core.lib"
 Library["SPIRV_Cross_GLSL_Release"] = "%{LibraryDir.VulkanSDK}/spirv-cross-glsl.lib"
+
+
+LibraryDirMacOS = {}
+
+LibraryDirMacOS["VulkanSDK"] = "%{VULKAN_SDK}/lib"
+LibraryDirMacOS["VulkanFramework"] = "%{VULKAN_SDK}/Frameworks"

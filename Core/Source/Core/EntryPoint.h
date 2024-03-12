@@ -3,7 +3,7 @@
 #include "Core/Base.h"
 #include "Debug/Instrumentor.h"
 
-#ifdef SFN_PLATFORM_WINDOWS
+#if defined(SFN_PLATFORM_WINDOWS) || defined(SFN_PLATFORM_MACOS)
 
 extern Sophon::Application* Sophon::CreateApplication(ApplicationCommandLineArgs args);
 
@@ -25,5 +25,5 @@ int main(int argc, char** argv)
 }
 
 #else
-#error Sophon only supports Windows!
+#error Sophon only supports Windows and macOS!
 #endif

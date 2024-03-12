@@ -1,94 +1,137 @@
 project "Core"
-    kind "StaticLib"
-    language "C++"
-    cppdialect "C++20"
-    targetdir "Binaries/%{cfg.buildcfg}"
-    staticruntime "off"
+kind "StaticLib"
+language "C++"
+cppdialect "C++20"
+targetdir "Binaries/%{cfg.buildcfg}"
+staticruntime "off"
 
-    files {
-        "Source/**.h",
-        "Source/**.cpp",
-        "Vendor/stb/**.h",
-        "Vendor/stb/**.cpp",
-        "Vendor/glm/glm/**.hpp",
-        "Vendor/glm/glm/**.inl"
-    }
+files {
+    "Source/**.h",
+    "Source/**.hpp",
+    "Source/**.cpp",
+    "Vendor/stb/**.h",
+    "Vendor/stb/**.cpp",
+    "Vendor/glm/glm/**.hpp",
+    "Vendor/glm/glm/**.inl"
+}
 
-    defines {
-        "_CRT_SECURE_NO_WARNINGS",
-        "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
-        "GLFW_INCLUDE_NONE"
-    }
+defines {
+    "_CRT_SECURE_NO_WARNINGS",
+    "_SILENCE_ALL_MS_EXT_DEPRECATION_WARNINGS",
+    "GLFW_INCLUDE_NONE"
+}
 
-    includedirs {
-        "Source",
-        "%{IncludeDir.SPDLOG}",
-        "%{IncludeDir.GLFW}",
-        "%{IncludeDir.Glad}",
-        "%{IncludeDir.ImGui}",
-        "%{IncludeDir.stb}",
-        "%{IncludeDir.glm}",
-        "%{IncludeDir.entt}",
-        "%{IncludeDir.VulkanSDK}"
-    }
+includedirs {
+    "Source",
+}
 
-    links {
-        "GLFW",
-        "Glad",
-        "ImGui"
-    }
+externalincludedirs {
+    "%{IncludeDir.stb}",
+    "%{IncludeDir.glm}",
+    "%{IncludeDir.SPDLOG}",
+    "%{IncludeDir.GLFW}",
+    "%{IncludeDir.Glad}",
+    "%{IncludeDir.ImGui}",
+    "%{IncludeDir.entt}"
+}
 
-    targetdir("../Binaries/" .. OutputDir .. "/%{prj.name}")
-    objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+links {
+    "GLFW",
+    "Glad",
+    "ImGui"
+}
 
-    pchheader "sfnpch.h"
-    pchsource "Source/sfnpch.cpp"
+targetdir("../Binaries/" .. OutputDir .. "/%{prj.name}")
+objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
-    filter "system:windows"
-        systemversion "latest"
+filter "system:windows"
+systemversion "latest"
 
-    filter "configurations:Debug"
-        defines {"SFN_DEBUG"}
-        runtime "Debug"
-        symbols "On"
+pchheader "sfnpch.h"
+pchsource "Source/sfnpch.cpp"
 
-        links {
-			    "%{Library.ShaderC_Debug}",
-			    "%{Library.SPIRV_Cross_Debug}",
-			    "%{Library.SPIRV_Cross_GLSL_Debug}"
-		    }
+externalincludedirs {
+    "%{IncludeDir.VulkanSDK}",
+}
 
-    filter "configurations:DebugProfile"
-        defines {"SFN_DEBUG", "SFN_PROFILE"}
-        runtime "Debug"
-        symbols "On"
+filter "system:macosx"
+pchheader "Source/sfnpch.h"
 
-        links {
-			    "%{Library.ShaderC_Debug}",
-			    "%{Library.SPIRV_Cross_Debug}",
-			    "%{Library.SPIRV_Cross_GLSL_Debug}"
-		    }
+files {
+    "Source/**.mm",
+}
 
-    filter "configurations:Release"
-        defines {"RELEASE"}
-        runtime "Release"
-        optimize "On"
-        symbols "On"
+links {
+    "${LibraryMacOS.MoltenVK}",
+    "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework"
+}
 
-        links	{
-			    "%{Library.ShaderC_Release}",
-			    "%{Library.SPIRV_Cross_Release}",
-			    "%{Library.SPIRV_Cross_GLSL_Release}"
-		    }
+externalincludedirs {
+    "%{IncludeDir.metalCPP}",
+    "%{IncludeDir.VulkanSDKmacOS}"     -- need to explicitly add path to framework headers
+}
 
-    filter "configurations:Dist"
-        defines {"DIST"}
-        runtime "Release"
-        optimize "On"
-        symbols "Off"
+frameworkdirs {
+    "%{LibraryDirMacOS.VulkanFramework}",
+}
 
-        links	{
-			    "%{Library.ShaderC_Release}",
-			    "%{Library.SPIRV_Cross_Release}",
-			    "%{Library.SPIRV_Cross_GLSL_Release}"
-		    }
+embedAndSign {
+    "vulkan.framework"     -- bundle the framework into the built .app and sign with your certificate
+}
+
+xcodebuildsettings {
+    ["MACOSX_DEPLOYMENT_TARGET"] = "14.4",
+    ["PRODUCT_BUNDLE_IDENTIFIER"] = 'com.projectsophon.sophonengine',
+    ["CODE_SIGN_STYLE"] = "Automatic",
+    ["LD_RUNPATH_SEARCH_PATHS"] = "$(inherited) @executable_path/../Frameworks",     -- tell the executable where to find the frameworks. Path is relative to executable location inside .app bundle
+}
+
+filter "Debug"
+defines { "SFN_DEBUG" }
+runtime "Debug"
+symbols "On"
+
+filter { "Debug", "system:windows" }
+links {
+    "%{Library.ShaderC_Debug}",
+    "%{Library.SPIRV_Cross_Debug}",
+    "%{Library.SPIRV_Cross_GLSL_Debug}"
+}
+
+filter "DebugProfile"
+defines { "SFN_DEBUG", "SFN_PROFILE" }
+runtime "Debug"
+symbols "On"
+
+filter { "DebugProfile", "system:windows" }
+links {
+    "%{Library.ShaderC_Debug}",
+    "%{Library.SPIRV_Cross_Debug}",
+    "%{Library.SPIRV_Cross_GLSL_Debug}"
+}
+
+filter "Release"
+defines { "RELEASE" }
+runtime "Release"
+optimize "On"
+symbols "On"
+
+filter { "Release", "system:windows" }
+links {
+    "%{Library.ShaderC_Release}",
+    "%{Library.SPIRV_Cross_Release}",
+    "%{Library.SPIRV_Cross_GLSL_Release}"
+}
+
+filter "Dist"
+defines { "DIST" }
+runtime "Release"
+optimize "On"
+symbols "Off"
+
+filter { "Dist", "system:windows" }
+links {
+    "%{Library.ShaderC_Release}",
+    "%{Library.SPIRV_Cross_Release}",
+    "%{Library.SPIRV_Cross_GLSL_Release}"
+}

@@ -12,7 +12,19 @@ namespace Sophon {
             SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
+            #ifndef SFN_PLATFORM_MACOS
             return CreateRef<OpenGLShader>(filepath);
+            #else
+            SFN_CORE_ASSERT(false, "RendererAPI::OpenGL is not supported on MacOS!");
+            return nullptr;
+            #endif
+        case RendererAPI::API::Metal:
+            #ifdef SFN_PLATFORM_MACOS
+            return nullptr;
+            #else
+            SFN_CORE_ASSERT(false, "RendererAPI::Metal is only supported on MacOS!");
+            return nullptr;
+            #endif
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -26,7 +38,19 @@ namespace Sophon {
             SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
+            #ifndef SFN_PLATFORM_MACOS
             return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
+            #else
+            SFN_CORE_ASSERT(false, "RendererAPI::OpenGL is not supported on MacOS!");
+            return nullptr;
+            #endif
+        case RendererAPI::API::Metal:
+            #ifdef SFN_PLATFORM_MACOS
+            return nullptr;
+            #else
+            SFN_CORE_ASSERT(false, "RendererAPI::Metal is only supported on MacOS!");
+            return nullptr;
+            #endif
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

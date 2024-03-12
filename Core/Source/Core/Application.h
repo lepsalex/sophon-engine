@@ -6,9 +6,9 @@
 #include "Core/LayerStack.h"
 #include "Core/Timestep.h"
 #include "Events/ApplicationEvent.h"
+#include "ImGui/ImGuiLayer.h"
 
 #include <filesystem>
-#include <ImGui/ImGuiLayer.h>
 
 int main(int argc, char** argv);
 

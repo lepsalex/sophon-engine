@@ -6,6 +6,7 @@ Intermediates/
 
 # Project Files
 .vs/
+.zed/
 *.vcxproj
 *.vcxproj.user
 *.vcxproj.filters
@@ -26,3 +27,6 @@ Sophon-Profiler-Data-*.json
 # Caches
 __pycache__
 Editor/Assets/Cache
+
+# macOS
+.DS_Store
