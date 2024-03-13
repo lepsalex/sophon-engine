@@ -16,7 +16,7 @@ namespace Sophon {
 #if defined(SFN_PLATFORM_WINDOWS)
         return CreateScope<WindowsWindow>(props);
 #elif defined(SFN_PLATFORM_MACOS)
-        return nullptr;
+        return CreateScope<MacOSWindow>(props);
 #else
         SFN_CORE_ASSERT(false, "Unknown platform!");
         return nullptr;

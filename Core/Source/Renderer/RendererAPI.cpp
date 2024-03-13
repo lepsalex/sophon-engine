@@ -1,8 +1,8 @@
 #include "sfnpch.h"
 #include "RendererAPI.h"
 
-#include "Platform/Metal/MetalRendererAPI.hpp"
 #include "Platform/OpenGL/OpenGLRendererAPI.h"
+#include "Platform/Metal/MetalRendererAPI.hpp"
 
 namespace Sophon {
 

@@ -3,6 +3,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLTexture.h"
+#include "Platform/Metal/MetalTexture.hpp"
 
 namespace Sophon {
 
@@ -15,7 +16,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLTexture2D>(specification, options);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalTexture2D>(specification, options);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -31,7 +32,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLTexture2D>(path, options);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalTexture2D>(path, options);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

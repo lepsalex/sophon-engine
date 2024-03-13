@@ -3,6 +3,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLFramebuffer.h"
+#include "Platform/Metal/MetalFramebuffer.hpp"
 
 namespace Sophon {
     Ref<Framebuffer> Framebuffer::Create(const FramebufferSpecification& spec)
@@ -14,7 +15,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLFramebuffer>(spec);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalFramebuffer>(spec);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

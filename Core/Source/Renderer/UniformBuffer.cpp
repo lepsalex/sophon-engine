@@ -3,6 +3,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLUniformBuffer.h"
+#include "Platform/Metal/MetalUniformBuffer.hpp"
 
 namespace Sophon {
 
@@ -15,7 +16,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLUniformBuffer>(size, binding);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalUniformBuffer>(size, binding);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

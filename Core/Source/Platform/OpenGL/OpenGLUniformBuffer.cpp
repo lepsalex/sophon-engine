@@ -4,7 +4,6 @@
 #include <glad/glad.h>
 
 namespace Sophon {
-
     OpenGLUniformBuffer::OpenGLUniformBuffer(uint32_t size, uint32_t binding)
     {
         glCreateBuffers(1, &m_RendererID);
@@ -21,5 +20,4 @@ namespace Sophon {
     {
         glNamedBufferSubData(m_RendererID, offset, size, data);
     }
-
 }

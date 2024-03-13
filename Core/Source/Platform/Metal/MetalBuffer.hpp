@@ -3,11 +3,11 @@
 #include "Renderer/Buffer.h"
 
 namespace Sophon {
-    class OpenGLVertexBuffer : public VertexBuffer {
+    class MetalVertexBuffer : public VertexBuffer {
     public:
-        OpenGLVertexBuffer(uint32_t size);
-        OpenGLVertexBuffer(float* vertices, uint32_t size);
-        virtual ~OpenGLVertexBuffer();
+        MetalVertexBuffer(uint32_t size);
+        MetalVertexBuffer(float* vertices, uint32_t size);
+        virtual ~MetalVertexBuffer();
 
         virtual void Bind() const override;
         virtual void Unbind() const override;
@@ -22,10 +22,10 @@ namespace Sophon {
         BufferLayout m_Layout;
     };
 
-    class OpenGLIndexBuffer : public IndexBuffer {
+    class MetalIndexBuffer : public IndexBuffer {
     public:
-        OpenGLIndexBuffer(uint32_t* indices, uint32_t count);
-        virtual ~OpenGLIndexBuffer();
+        MetalIndexBuffer(uint32_t* indices, uint32_t count);
+        virtual ~MetalIndexBuffer();
 
         virtual void Bind() const override;
         virtual void Unbind() const override;

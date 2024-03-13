@@ -4,6 +4,7 @@
 #include "Renderer/Renderer.h"
 
 #include "Platform/OpenGL/OpenGLBuffer.h"
+#include "Platform/Metal/MetalBuffer.hpp"
 
 namespace Sophon {
     Ref<VertexBuffer> VertexBuffer::Create(uint32_t size)
@@ -15,7 +16,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexBuffer>(size);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalVertexBuffer>(size);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -31,7 +32,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexBuffer>(vertices, size);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalVertexBuffer>(vertices, size);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -47,7 +48,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLIndexBuffer>(indices, size);
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalIndexBuffer>(indices, size);
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

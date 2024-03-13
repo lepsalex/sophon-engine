@@ -3,10 +3,10 @@
 #include "Renderer/VertexArray.h"
 
 namespace Sophon {
-    class OpenGLVertexArray : public VertexArray {
+    class MetalVertexArray : public VertexArray {
     public:
-        OpenGLVertexArray();
-        virtual ~OpenGLVertexArray();
+        MetalVertexArray();
+        virtual ~MetalVertexArray();
 
         virtual void Bind() const override;
         virtual void Unbind() const override;

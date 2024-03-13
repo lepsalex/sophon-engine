@@ -3,6 +3,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLShader.h"
+#include "Platform/Metal/MetalShader.hpp"
 
 namespace Sophon {
     Ref<Shader> Shader::Create(const std::string& filepath)
@@ -12,19 +13,19 @@ namespace Sophon {
             SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
-            #ifndef SFN_PLATFORM_MACOS
+#ifndef SFN_PLATFORM_MACOS
             return CreateRef<OpenGLShader>(filepath);
-            #else
+#else
             SFN_CORE_ASSERT(false, "RendererAPI::OpenGL is not supported on MacOS!");
             return nullptr;
-            #endif
+#endif
         case RendererAPI::API::Metal:
-            #ifdef SFN_PLATFORM_MACOS
-            return nullptr;
-            #else
+#ifdef SFN_PLATFORM_MACOS
+            return CreateRef<MetalShader>(filepath);
+#else
             SFN_CORE_ASSERT(false, "RendererAPI::Metal is only supported on MacOS!");
             return nullptr;
-            #endif
+#endif
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
@@ -38,19 +39,19 @@ namespace Sophon {
             SFN_CORE_ASSERT(false, "RendererAPI::None is not currently supported!");
             return nullptr;
         case RendererAPI::API::OpenGL:
-            #ifndef SFN_PLATFORM_MACOS
+#ifndef SFN_PLATFORM_MACOS
             return CreateRef<OpenGLShader>(name, vertexSrc, fragmentSrc);
-            #else
+#else
             SFN_CORE_ASSERT(false, "RendererAPI::OpenGL is not supported on MacOS!");
             return nullptr;
-            #endif
+#endif
         case RendererAPI::API::Metal:
-            #ifdef SFN_PLATFORM_MACOS
-            return nullptr;
-            #else
+#ifdef SFN_PLATFORM_MACOS
+            return CreateRef<MetalShader>(name, vertexSrc, fragmentSrc);
+#else
             SFN_CORE_ASSERT(false, "RendererAPI::Metal is only supported on MacOS!");
             return nullptr;
-            #endif
+#endif
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");

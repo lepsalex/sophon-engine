@@ -3,6 +3,7 @@
 
 #include "Renderer/Renderer.h"
 #include "Platform/OpenGL/OpenGLVertexArray.h"
+#include "Platform/Metal/MetalVertexArray.hpp"
 
 namespace Sophon {
     Ref<VertexArray> VertexArray::Create()
@@ -14,7 +15,7 @@ namespace Sophon {
         case RendererAPI::API::OpenGL:
             return CreateRef<OpenGLVertexArray>();
         case RendererAPI::API::Metal:
-            return nullptr;
+            return CreateRef<MetalVertexArray>();
         }
 
         SFN_CORE_ASSERT(false, "Unknown RendererAPI!");
