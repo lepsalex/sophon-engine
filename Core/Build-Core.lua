@@ -9,6 +9,7 @@ files {
     "Source/**.h",
     "Source/**.hpp",
     "Source/**.cpp",
+    "Source/**.mm",
     "Vendor/stb/**.h",
     "Vendor/stb/**.cpp",
     "Vendor/glm/glm/**.hpp",
@@ -76,14 +77,14 @@ frameworkdirs {
 }
 
 embedAndSign {
-    "vulkan.framework"     -- bundle the framework into the built .app and sign with your certificate
+    "vulkan.framework" -- bundle the framework into the built .app and sign with your certificate
 }
 
 xcodebuildsettings {
     ["MACOSX_DEPLOYMENT_TARGET"] = "14.4",
     ["PRODUCT_BUNDLE_IDENTIFIER"] = 'com.projectsophon.sophonengine',
     ["CODE_SIGN_STYLE"] = "Automatic",
-    ["LD_RUNPATH_SEARCH_PATHS"] = "$(inherited) @executable_path/../Frameworks",     -- tell the executable where to find the frameworks. Path is relative to executable location inside .app bundle
+    ["LD_RUNPATH_SEARCH_PATHS"] = "$(inherited) @executable_path/../Frameworks", -- tell the executable where to find the frameworks. Path is relative to executable location inside .app bundle
 }
 
 filter "Debug"
