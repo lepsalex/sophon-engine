@@ -76,14 +76,15 @@ namespace Sophon {
                         layer->OnUpdate(ts);
                 }
 
-                m_ImGuiLayer->Begin();
-                {
-                    SFN_PROFILE_SCOPE("LayerStack OnImGuiRender");
-                    for (Layer* layer : m_LayerStack)
-                        layer->OnImGuiRender();
-                }
-
-                m_ImGuiLayer->End();
+//                TEMP DISABLED
+//                m_ImGuiLayer->Begin();
+//                {
+//                    SFN_PROFILE_SCOPE("LayerStack OnImGuiRender");
+//                    for (Layer* layer : m_LayerStack)
+//                        layer->OnImGuiRender();
+//                }
+//
+//                m_ImGuiLayer->End();
             }
 
             m_Window->OnUpdate();
