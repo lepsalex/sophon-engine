@@ -30,6 +30,8 @@ flags {
     "MultiProcessorCompile"
 }
 
+OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
+
 -- Workspace-wide build options for MSVC
 filter "system:windows"
 architecture "x64"
@@ -38,7 +40,6 @@ buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }
 -- Workspace-wide build options for MacOS Xcode
 filter "system:macosx"
 architecture "universal"
-
 links {
     "Foundation.framework",
     "Metal.framework",
@@ -46,8 +47,6 @@ links {
     "Cocoa.framework",
     "IOKit.framework"
 }
-
-OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "Dependencies"
 include "Core/Vendor/GLFW"

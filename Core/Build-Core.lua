@@ -47,39 +47,31 @@ objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
 filter "system:windows"
 systemversion "latest"
-
 pchheader "sfnpch.h"
 pchsource "Source/sfnpch.cpp"
-
 externalincludedirs {
     "%{IncludeDir.VulkanSDK}",
 }
 
 filter "system:macosx"
 pchheader "Source/sfnpch.h"
-
 files {
     "Source/**.mm",
 }
-
 links {
     "${LibraryMacOS.MoltenVK}",
     "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework"
 }
-
 externalincludedirs {
     "%{IncludeDir.metalCPP}",
     "%{IncludeDir.VulkanSDKmacOS}"     -- need to explicitly add path to framework headers
 }
-
 frameworkdirs {
     "%{LibraryDirMacOS.VulkanFramework}",
 }
-
 embedAndSign {
     "vulkan.framework" -- bundle the framework into the built .app and sign with your certificate
 }
-
 xcodebuildsettings {
     ["MACOSX_DEPLOYMENT_TARGET"] = "14.4",
     ["PRODUCT_BUNDLE_IDENTIFIER"] = 'com.projectsophon.sophonengine',
