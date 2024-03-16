@@ -5,11 +5,15 @@
 
 #include <GLFW/glfw3.h>
 
+#ifdef SFN_PLATFORM_MACOS
+#define GLFW_EXPOSE_NATIVE_COCOA
+#endif
+
 namespace Sophon {
-    class MacOSWindow : public Window {
+    class GLFWWindow : public Window {
     public:
-        MacOSWindow(const WindowProps& props);
-        virtual ~MacOSWindow();
+        GLFWWindow(const WindowProps& props);
+        virtual ~GLFWWindow();
 
         void OnUpdate() override;
 

@@ -1,5 +1,5 @@
 #include "sfnpch.h"
-#include "MacOSWindow.h"
+#include "GLFWWindow.h"
 
 #include "Events/ApplicationEvent.h"
 #include "Events/KeyEvent.h"
@@ -17,21 +17,21 @@ namespace Sophon {
         SFN_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
     }
 
-    MacOSWindow::MacOSWindow(const WindowProps& props)
+    GLFWWindow::GLFWWindow(const WindowProps& props)
     {
         SFN_PROFILE_FUNCTION();
 
         Init(props);
     }
 
-    MacOSWindow::~MacOSWindow()
+    GLFWWindow::~GLFWWindow()
     {
         SFN_PROFILE_FUNCTION();
 
         Shutdown();
     }
 
-    void MacOSWindow::Init(const WindowProps& props)
+    void GLFWWindow::Init(const WindowProps& props)
     {
         SFN_PROFILE_FUNCTION();
 
@@ -149,7 +149,7 @@ namespace Sophon {
         });
     }
 
-    void MacOSWindow::Shutdown()
+    void GLFWWindow::Shutdown()
     {
         SFN_PROFILE_FUNCTION();
 
@@ -161,7 +161,7 @@ namespace Sophon {
         }
     }
 
-    void MacOSWindow::OnUpdate()
+    void GLFWWindow::OnUpdate()
     {
         SFN_PROFILE_FUNCTION();
 
@@ -169,7 +169,7 @@ namespace Sophon {
         m_Context->SwapBuffers();
     }
 
-    void MacOSWindow::SetVSync(bool enabled)
+    void GLFWWindow::SetVSync(bool enabled)
     {
         SFN_PROFILE_FUNCTION();
 
@@ -181,7 +181,7 @@ namespace Sophon {
         m_Data.VSync = enabled;
     }
 
-    bool MacOSWindow::IsVSync() const
+    bool GLFWWindow::IsVSync() const
     {
         return m_Data.VSync;
     }
