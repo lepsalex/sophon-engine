@@ -65,10 +65,9 @@ namespace Sophon {
     {
         SFN_PROFILE_FUNCTION();
 
-//        TEMP DISABLE
-//        ImGui_ImplOpenGL3_Shutdown();
-//        ImGui_ImplGlfw_Shutdown();
-//        ImGui::DestroyContext();
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
     }
 
     void ImGuiLayer::OnEvent(Event& e)

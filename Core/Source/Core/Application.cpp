@@ -25,8 +25,9 @@ namespace Sophon {
 
         Renderer::Init();
 
-        m_ImGuiLayer = new ImGuiLayer();
-        PushOverlay(m_ImGuiLayer);
+        // TODO: TEMP DISABLE
+        //        m_ImGuiLayer = new ImGuiLayer();
+        //        PushOverlay(m_ImGuiLayer);
     }
 
     Application::~Application()
