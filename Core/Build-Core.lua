@@ -59,12 +59,17 @@ files {
     "Source/**.mm",
 }
 links {
+    "Foundation.framework",
+    "Metal.framework",
+    "QuartzCore.framework",
+    "Cocoa.framework",
+    "IOKit.framework",
     "${LibraryMacOS.MoltenVK}",
     "%{LibraryDirMacOS.VulkanFramework}/vulkan.framework"
 }
 externalincludedirs {
     "%{IncludeDir.metalCPP}",
-    "%{IncludeDir.VulkanSDKmacOS}"     -- need to explicitly add path to framework headers
+    "%{IncludeDir.VulkanSDKmacOS}" -- need to explicitly add path to framework headers
 }
 frameworkdirs {
     "%{LibraryDirMacOS.VulkanFramework}",

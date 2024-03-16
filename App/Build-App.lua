@@ -32,6 +32,15 @@ objdir("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 filter "system:windows"
 systemversion "latest"
 
+filter "system:macosx"
+links {
+    "Foundation.framework",
+    "Metal.framework",
+    "QuartzCore.framework",
+    "Cocoa.framework",
+    "IOKit.framework"
+}
+
 filter "Debug"
 defines { "SFN_DEBUG" }
 runtime "Debug"

@@ -39,14 +39,7 @@ buildoptions { "/EHsc", "/Zc:preprocessor", "/Zc:__cplusplus" }
 
 -- Workspace-wide build options for MacOS Xcode
 filter "system:macosx"
-architecture "universal"
-links {
-    "Foundation.framework",
-    "Metal.framework",
-    "QuartzCore.framework",
-    "Cocoa.framework",
-    "IOKit.framework"
-}
+architecture "ARM64"
 
 group "Dependencies"
 include "Core/Vendor/GLFW"
