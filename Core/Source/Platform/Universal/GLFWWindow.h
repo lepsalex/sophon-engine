@@ -5,10 +5,6 @@
 
 #include <GLFW/glfw3.h>
 
-#ifdef SFN_PLATFORM_MACOS
-#define GLFW_EXPOSE_NATIVE_COCOA
-#endif
-
 namespace Sophon {
     class GLFWWindow : public Window {
     public:
