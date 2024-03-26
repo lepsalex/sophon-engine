@@ -18,6 +18,7 @@ Makefile
 *.pbxproj
 *.plist
 *.xcuserstate
+*.xcbkptlist
 
 # Exclude
 !Vendor/Binaries
